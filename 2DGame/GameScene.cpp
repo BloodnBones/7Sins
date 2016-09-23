@@ -2,25 +2,41 @@
 #include "Utils.h"
 #include "SpriteRenderer.h"
 #include "GameObject.h"
+#include "Menu.h"
 
 
 // Game-related State data
 SpriteRenderer  *Renderer;
 GameObject      *Player;
+TextLabel		*Test;
 
-
+/*
+* @brief
+* @param
+* @return
+*/
 GameScene::GameScene(GLuint width, GLuint height)
 	: State(GAME_ACTIVE), Keys(), Width(width), Height(height)
 {
 
 }
 
+/*
+* @brief
+* @param
+* @return
+*/
 GameScene::~GameScene()
 {
 	delete Renderer;
 	delete Player;
 }
 
+/*
+* @brief
+* @param
+* @return
+*/
 void GameScene::Init()
 {
 
@@ -52,17 +68,41 @@ void GameScene::Init()
 	Player = new GameObject(playerPos, PLAYER_SIZE, Utils::GetTexture("paddle"));
 	
 	PhysicsObjects.push_back(Player);
+
+	std::vector<std::string> Choices;
+	Choices.push_back("Hello");
+
+	Menu Start;
+	Start.Init(Width, Height, "Assets/Fonts/arial.ttf", Choices, COL_MIDDLE, ROW_MIDDLE, glm::vec3(1.0f, 1.0f, 1.0f));
+	Menus.insert(std::pair<std::string, Menu>("Start", Start));
+
+	Test = new TextLabel("Testing", "Assets/Fonts/arial.ttf");
+	Test->setColor(glm::vec3(1.0f, 1.0f, 1.0f));
+	Test->setPosition(glm::vec2(30.0f, 320.0f));
 }
 
+/*
+* @brief
+* @param
+* @return
+*/
 void GameScene::Update(GLfloat dt)
 {
 }
 
-
+/*
+* @brief	Checks for input and call the correct functions in response
+* @param	GLfloat of delta time
+* @return	None
+*/
 void GameScene::ProcessInput(GLfloat dt)
 {
-	if (this->State == GAME_ACTIVE)
+	//Respond to input based on game state
+	switch (this->State)
 	{
+	case  GAME_ACTIVE:
+	{
+
 		GLfloat velocity = PLAYER_VELOCITY * dt;
 		// Move playerboard
 		if (this->Keys[GLFW_KEY_A])
@@ -85,13 +125,42 @@ void GameScene::ProcessInput(GLfloat dt)
 			if (Player->Position.y <= this->Height - Player->Size.y)
 				Player->Position.y += velocity;
 		}
+		if (this->Keys[GLFW_KEY_ESCAPE])
+		{
+			State = GAME_PAUSE;
+		}
+	}break;
+
+	case GAME_MENU:
+	{
+		if (this->Keys[GLFW_KEY_S])
+		{
+			State = GAME_ACTIVE;
+		}
+	}break;
+
+	case GAME_WIN:
+	{
+
+	}break;
+
+	case GAME_PAUSE:
+	{
+
+	}break;
 	}
 }
 
+/*
+* @brief	Calls the render functions for each element in current game state
+* @param	None
+* @return	None
+*/
 void GameScene::Render()
-{
+{	//Switch based on game state to render correct scene
 	switch (this->State)
 	{
+		//Render game active objects
 	case  GAME_ACTIVE:
 	{
 		// Draw background
@@ -99,17 +168,24 @@ void GameScene::Render()
 		// Draw level
 		this->Levels[this->Level].Draw(*Renderer);
 		// Draw player
-		Player->Draw(*Renderer);
+		Player->Draw(*Renderer);		
 	}break;
 
+	//Render menu objects
 	case GAME_MENU:
 	{
-
+		Menus["Start"].Draw();
 	}break;
 
 	case GAME_WIN:
 	{
 
 	}break;
+
+	case GAME_PAUSE:
+	{
+
+	}break;
 	}
+
 }

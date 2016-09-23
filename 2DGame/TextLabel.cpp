@@ -9,12 +9,12 @@ TextLabel::TextLabel(std::string text, std::string font)
 	this->scale = 1.0;
 	this->setPosition(position);
 
-	Shader shaderLoader = Utils::LoadShader("Assets/Shaders/VAO_Text.vs", "Assets/Shaders/VAO_Text.fs", nullptr, "text");
+	Shader shaderLoader = Utils::LoadShader("Shaders/VAO_Text.vs", "Shaders/VAO_Text.fs", nullptr, "text");
 
 	program = shaderLoader.ID;
 
-	glm::mat4 projection = glm::ortho(0.0f,	static_cast<GLfloat>(1500), 0.0f,
-		static_cast<GLfloat>(800));
+	glm::mat4 projection = glm::ortho(0.0f,	static_cast<GLfloat>(800), 0.0f,
+		static_cast<GLfloat>(600));
 
 	glUseProgram(program);
 	glUniformMatrix4fv(glGetUniformLocation(program, "projection"),	1, GL_FALSE, glm::value_ptr(projection));

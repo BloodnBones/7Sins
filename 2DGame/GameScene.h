@@ -7,13 +7,15 @@
 #include <GLFW/glfw3.h>
 
 #include "GameLevel.h"
+#include "Menu.h"
 
 
 // Represents the current state of the game
 enum GameState {
 	GAME_ACTIVE,
 	GAME_MENU,
-	GAME_WIN
+	GAME_WIN,
+	GAME_PAUSE
 };
 
 // Initial size of the player paddle
@@ -29,12 +31,13 @@ class GameScene
 {
 public:
 	// Game state
-	GameState              State;
-	GLboolean              Keys[1024];
-	GLuint                 Width, Height;
-	std::vector<GameLevel> Levels;
-	GLuint                 Level;
-	std::vector<GameObject *> PhysicsObjects;
+	GameState					State;
+	GLboolean					Keys[1024];
+	GLuint						Width, Height;
+	std::vector<GameLevel>		Levels;
+	GLuint						Level;
+	std::vector<GameObject *>	PhysicsObjects;
+	std::map<std::string, Menu> Menus;
 	// Constructor/Destructor
 	GameScene(GLuint width, GLuint height);
 	~GameScene();

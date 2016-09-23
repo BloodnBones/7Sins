@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	glGetError(); // Call it once to catch glewInit() bug, all other errors are now from our application.
 
 	glfwSetKeyCallback(window, key_callback);
-
+	
 
 	// OpenGL configuration
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
