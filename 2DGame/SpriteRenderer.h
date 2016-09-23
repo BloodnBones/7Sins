@@ -1,9 +1,9 @@
 #ifndef SPRITE_RENDERER_H
 #define SPRITE_RENDERER_H
 
-#include "Dependencies\include\GL\glew.h"
-#include "Dependencies\include\glm\glm.hpp"
-#include  "Dependencies\include\glm\gtc\matrix_transform.hpp"
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "Texture.h"
 #include "Shader.h"

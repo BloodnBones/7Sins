@@ -2,9 +2,8 @@
 #define GAMELEVEL_H
 #include <vector>
 
-#include "Dependencies\include\GL\glew.h"
-#include "Dependencies\include\glm\glm.hpp"
-
+#include <GL/glew.h>
+#include <glm/glm.hpp>
 #include "GameObject.h"
 #include "SpriteRenderer.h"
 #include "Utils.h"

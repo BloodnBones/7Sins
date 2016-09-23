@@ -4,12 +4,17 @@
 #include <map>
 #include <string>
 
-#include "Dependencies\include\GL\glew.h"
+#include <GL/glew.h>
 
 #include "texture.h"
 #include "shader.h"
 
 
+// A static singleton ResourceManager class that hosts several
+// functions to load Textures and Shaders. Each loaded texture
+// and/or shader is also stored for future reference by string
+// handles. All functions and resources are static and no 
+// public constructor is defined.
 class Utils
 {
 public:

@@ -3,7 +3,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "Dependencies\soil\SOIL.h"
+#include <SOIL.h>
 
 // Instantiate static variables
 std::map<std::string, Texture2D>    Utils::Textures;

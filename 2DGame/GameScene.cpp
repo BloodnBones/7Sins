@@ -23,6 +23,7 @@ GameScene::~GameScene()
 
 void GameScene::Init()
 {
+
 	// Load shaders
 	Utils::LoadShader("Shaders/SpriteVertex.vs", "Shaders/SpriteFragment.fs", nullptr, "sprite");
 	// Configure shaders
@@ -41,14 +42,20 @@ void GameScene::Init()
 	GameLevel one; one.Load("Assets/TileMaps/TileMap.lvl", this->Width, this->Height * 0.5);
 	this->Levels.push_back(one);
 	this->Level = 0;
+	for (size_t i = 0; i < one.Bricks.size() -1; i++)
+	{
+		PhysicsObjects.push_back(&one.Bricks[i]);
+	}
+
 	// Configure game objects
 	glm::vec2 playerPos = glm::vec2(this->Width / 2 - PLAYER_SIZE.x / 2, this->Height - PLAYER_SIZE.y);
 	Player = new GameObject(playerPos, PLAYER_SIZE, Utils::GetTexture("paddle"));
+	
+	PhysicsObjects.push_back(Player);
 }
 
 void GameScene::Update(GLfloat dt)
 {
-
 }
 
 
@@ -83,7 +90,9 @@ void GameScene::ProcessInput(GLfloat dt)
 
 void GameScene::Render()
 {
-	if (this->State == GAME_ACTIVE)
+	switch (this->State)
+	{
+	case  GAME_ACTIVE:
 	{
 		// Draw background
 		Renderer->DrawSprite(Utils::GetTexture("background"), glm::vec2(0, 0), glm::vec2(this->Width, this->Height), 0.0f);
@@ -91,5 +100,16 @@ void GameScene::Render()
 		this->Levels[this->Level].Draw(*Renderer);
 		// Draw player
 		Player->Draw(*Renderer);
+	}break;
+
+	case GAME_MENU:
+	{
+
+	}break;
+
+	case GAME_WIN:
+	{
+
+	}break;
 	}
 }

@@ -3,8 +3,8 @@
 #define GAME_H
 #include <vector>
 
-#include "Dependencies\include\GL\glew.h"
-#include "Dependencies\include\GLFW\glfw3.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include "GameLevel.h"
 
@@ -34,6 +34,7 @@ public:
 	GLuint                 Width, Height;
 	std::vector<GameLevel> Levels;
 	GLuint                 Level;
+	std::vector<GameObject *> PhysicsObjects;
 	// Constructor/Destructor
 	GameScene(GLuint width, GLuint height);
 	~GameScene();
@@ -43,6 +44,7 @@ public:
 	void ProcessInput(GLfloat dt);
 	void Update(GLfloat dt);
 	void Render();
+	
 };
 
 #endif

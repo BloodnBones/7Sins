@@ -1,8 +1,8 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include "Dependencies\include\GL\glew.h"
-#include "Dependencies\include\glm\glm.hpp"
+#include <GL/glew.h>
+#include <glm/glm.hpp>
 
 #include "Texture.h"
 #include "SpriteRenderer.h"
