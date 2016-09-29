@@ -31,9 +31,9 @@ Game::~Game()
 }
 
 /*
-* @brief
-* @param
-* @return
+* @brief	Load the games textures into the texture manager.
+* @param	None
+* @return	None
 */
 void
 Game::loadTextures()
@@ -73,7 +73,7 @@ Game::popState()
 
 /*
 * @brief	returns the pointer to the current state to be used
-* @param	The keyb value to find the game state
+* @param	The key value to find the game state
 * @return	Pointer to the current game state
 */
 GameState*
@@ -98,7 +98,7 @@ void
 Game::gameLoop()
 {
 	sf::Clock clock;
-
+	float frameRate = 0;
 	while (window.isOpen())
 	{
 		sf::Time timeElapsed = clock.restart();
@@ -106,11 +106,7 @@ Game::gameLoop()
 
 		GameState* Scene;
 
-		/*if (currentState() == nullptr)
-		{
-			continue;
-		}*/
-		//Switch what scene point to based on game state
+		//Switch what scene pointed to based on game state
 		switch (m_CurrentState)
 		{
 		case GAME_PLAY:
@@ -131,18 +127,23 @@ Game::gameLoop()
 		}break;
 		default:
 		{
-			continue;
+			continue;	//Exit game if no states exist
 		}
 		}
+		
+		if (frameRate > StepRate)				//Regulate update rate to that of physics world
+		{
+			Scene->handleInput();
+			Scene->update(timeDelta);
 
-		Scene->handleInput();
-		Scene->update(timeDelta);
+			window.clear();
 
-		window.clear();
+			Scene->draw(timeDelta);
 
-		Scene->draw(timeDelta);
-
-		window.display();
+			window.display();
+			frameRate = 0;						//Reset time since last sweep
+		}
+		frameRate += timeDelta;
 	}
 }
 

@@ -1,7 +1,11 @@
 #include "MainGame.h"
 
 
-
+/*
+* @brief
+* @param
+* @return
+*/
 MainGame::MainGame(Game* game)
 {
 	this->game = game;
@@ -15,9 +19,16 @@ MainGame::MainGame(Game* game)
 	_Background.setTexture(this->game->textureManager.getRef("gameBackGround"));
 	_Background.setPosition(0, 0);
 	_Background.setScale(sf::Vector2f(0.75f, 0.8f));
+
+	m_World = new b2World(Gravity);									//Start the physics world
+
 }
 
-
+/*
+* @brief
+* @param
+* @return
+*/
 void
 MainGame::draw(const float dt)
 {
@@ -26,12 +37,22 @@ MainGame::draw(const float dt)
 
 }
 
+/*
+* @brief
+* @param
+* @return
+*/
 void
 MainGame::update(const float dt)
 {
-
+	m_World->Step(StepRate, velIterations, posIterations);
 }
 
+/*
+* @brief
+* @param
+* @return
+*/
 void
 MainGame::handleInput()
 {
@@ -55,6 +76,11 @@ MainGame::handleInput()
 	}
 }
 
+/*
+* @brief
+* @param
+* @return
+*/
 void
 MainGame::PauseGame()
 {

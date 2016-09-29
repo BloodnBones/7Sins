@@ -17,6 +17,9 @@ private:
 	sf::View gameView;
 	sf::View hudView;
 	sf::Sprite _Background;
+	b2World *m_World;
+
+
 
 	void PauseGame();
 

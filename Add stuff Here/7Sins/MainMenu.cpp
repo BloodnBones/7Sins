@@ -5,6 +5,11 @@
 #include <iostream>
 #include <cmath>
 
+/*
+* @brief
+* @param
+* @return
+*/
 MainMenu::MainMenu(Game* gameState)
 {
 	this->game = gameState;
@@ -18,7 +23,11 @@ MainMenu::MainMenu(Game* gameState)
 	startPrompt.setPosition(380, 500);
 }
 
-
+/*
+* @brief
+* @param
+* @return
+*/
 void
 MainMenu::handleInput()
 {
@@ -42,6 +51,11 @@ MainMenu::handleInput()
 	}
 }
 
+/*
+* @brief
+* @param
+* @return
+*/
 void
 MainMenu::update(const float dt)
 {
@@ -58,12 +72,22 @@ MainMenu::update(const float dt)
 	}*/
 }
 
+/*
+* @brief
+* @param
+* @return
+*/
 void
 MainMenu::draw(const float dt)
 {
 	game->window.draw(startPrompt);
 }
 
+/*
+* @brief
+* @param
+* @return
+*/
 void
 MainMenu::startGame()
 {

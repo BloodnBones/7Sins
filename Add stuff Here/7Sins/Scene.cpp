@@ -568,7 +568,7 @@
 //		f_Score += (int)deltaEnergy;
 //
 //		deltaEnergy = 0;
-//		if (bodyDataB && !bodyDataB->isDead)
+//		if(bodyDataB && !bodyDataB->isDead)
 //		{
 //			deltaEnergy = maxImpulse * (float)0.1;
 //			bodyDataB->HP -= deltaEnergy * 10;

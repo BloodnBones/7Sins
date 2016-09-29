@@ -10,6 +10,10 @@ static const int SCREEN_HEIGHT = 768;
 static const int SCREEN_BPP = 32;
 static const int gameTime = 10;
 static const int RATIO = 30;
+static const b2Vec2 Gravity(0.f, 9.8f);
+static const float StepRate = 1 / 60.0f;
+static const int velIterations = 8;
+static const int posIterations = 5;
 #define UNRATIO (1.0F/RATIO)
 //extern sf::RenderWindow window;
 
