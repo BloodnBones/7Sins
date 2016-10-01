@@ -1,9 +1,9 @@
 #pragma once
 //pre-defined headers
 #include "include\Box2D\Box2D.h"
-#include "SFML/Graphics.hpp"
+#include "include\SFML\Graphics.hpp"
 #include "TextureManager.h"
-#include <SFML/Audio.hpp>
+#include "include\SFML\Audio.hpp"
 
 static const int SCREEN_WIDTH = 1024;
 static const int SCREEN_HEIGHT = 768;

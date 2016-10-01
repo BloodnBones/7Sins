@@ -1,5 +1,5 @@
 #include <iostream>
-#include "SFML\Graphics.hpp"
+#include "include\SFML\Graphics.hpp"
 
 
 #pragma once

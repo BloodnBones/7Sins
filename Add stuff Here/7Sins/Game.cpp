@@ -1,8 +1,6 @@
 #include "Game.h"
 #include "GameState.h"
 
-#include <SFML\Graphics.hpp>
-
 /*
 * @brief
 * @param

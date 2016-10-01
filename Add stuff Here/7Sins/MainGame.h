@@ -1,8 +1,11 @@
 #pragma once
 
-#include <SFML\Graphics.hpp>
+#include "include\SFML\Graphics.hpp"
 
 #include "GameState.h"
+#include "PhysicsWorld.h"
+#include "Scene.h"
+#include "GameObject.h"
 
 class MainGame : public GameState
 {
@@ -17,7 +20,12 @@ private:
 	sf::View gameView;
 	sf::View hudView;
 	sf::Sprite _Background;
-	b2World *m_World;
+	PhysicsWorld * m_world;
+	GameObject *GameObject1;
+	GameObject *GameObject2;
+	std::vector<GameObject *> GameObjectList;
+	Scene* CurrentLevel; 
+	int lvlindex = 1;
 
 
 

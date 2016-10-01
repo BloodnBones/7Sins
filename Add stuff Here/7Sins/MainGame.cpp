@@ -20,7 +20,16 @@ MainGame::MainGame(Game* game)
 	_Background.setPosition(0, 0);
 	_Background.setScale(sf::Vector2f(0.75f, 0.8f));
 
-	m_World = new b2World(Gravity);									//Start the physics world
+	//level settings
+	m_world = new PhysicsWorld();
+	GameObject1 = new GameObject(m_world->GetWorld(), this->game->textureManager.getRef("IdleNinja"), BodyType::Player, this->game);
+	GameObject2 = new GameObject(m_world->GetWorld(), this->game->textureManager.getRef("IdleNinja"), BodyType::Player, this->game);
+
+
+	GameObjectList.push_back(GameObject1);
+	GameObjectList.push_back(GameObject2);							//Start the physics world
+
+	CurrentLevel =  new Scene(m_world->GetWorld(), GameObjectList, this->game->textureManager.getRef("gameBackGround"), lvlindex, this->game);
 
 }
 
@@ -33,8 +42,8 @@ void
 MainGame::draw(const float dt)
 {
 
-	game->window.draw(_Background);
-
+	//game->window.draw(_Background);
+	CurrentLevel->draw();
 }
 
 /*
@@ -45,7 +54,8 @@ MainGame::draw(const float dt)
 void
 MainGame::update(const float dt)
 {
-	m_World->Step(StepRate, velIterations, posIterations);
+	m_world->GetWorld()->Step(StepRate, velIterations, posIterations);
+	CurrentLevel->update();
 }
 
 /*
@@ -74,6 +84,8 @@ MainGame::handleInput()
 				break;
 		}
 	}
+	CurrentLevel->input(event);
+
 }
 
 /*
