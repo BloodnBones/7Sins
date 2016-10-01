@@ -85,7 +85,7 @@ void GameObject::Init(b2World & world)
 */
 void GameObject::SetPhysicsBox()
 {
-	b2CircleShape Shape;
+	b2CircleShape Shape;									//Why is this a circle?
 	Shape.m_radius = 0.5;
 	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x * 2, origin_y));
 	m_body._RECT.setOrigin(origin_x, origin_y / 2);
@@ -96,7 +96,7 @@ void GameObject::SetPhysicsBox()
 	m_body._FixtureDef.shape = &Shape;
 	m_body._FixtureDef.density = 1.0f;
 	m_body._FixtureDef.restitution = 0.2f;
-	m_body._FixtureDef.friction = 0.05f;
+	m_body._FixtureDef.friction = 0.9f;
 	m_body._BodyPtr = m_world->CreateBody(&m_body._BodyDef);
 	m_body._BodyPtr->CreateFixture(&Shape, 1.0f);
 	m_body._BodyPtr->SetUserData(&m_body);
@@ -116,29 +116,36 @@ void GameObject::SetPhysicsBox()
 */
 void GameObject::input(sf::Event events)
 {
-
+												//TO DO - Add controls for multiple players
 	if (m_body.type == BodyType::Player)
 	{
-		switch (events.type) {
-		case sf::Event::KeyPressed:
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-1, 0), m_body._BodyPtr->GetWorldCenter(), true);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(1, 0), m_body._BodyPtr->GetWorldCenter(), true);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			if (jumpTimer > 1.5)
 			{
-				m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-1, 0), m_body._BodyPtr->GetWorldCenter(), true);
+				m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
+				timer.restart();
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			{
-				m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(1, 0), m_body._BodyPtr->GetWorldCenter(), true);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-			{
-				if (jumpTimer > 0.5)
-				{
-					m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
-					timer.restart();
-				}
-			}
+		}
+		if (sf::Joystick::isConnected(0))			//Checks if a joystick(controller) is plugged in 
+		{
+			float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);
 
-			break;
+			//Checks for button on controller being pressed
+			if (sf::Joystick::isButtonPressed(0, 1) && jumpTimer > 0.5)
+			{
+				m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
+				timer.restart();
+			}
 		}
 	}
 }

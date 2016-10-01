@@ -129,7 +129,7 @@ Scene::Scene(b2World * aWorld, std::vector<GameObject *> Players, sf::Texture & 
 	GameOverText3.setPosition(sf::Vector2f(250, 250));
 
 	timer.restart();
-	std::cout << LevelIndex << endl;
+	//std::cout << LevelIndex << endl;
 }
 
 /*
@@ -346,7 +346,7 @@ void Scene::update()
 	float ypos;
 	float rotationAngle;
 	//update Obstacles
-	std::cout << Obstacles.size() - 1;
+	//std::cout << Obstacles.size() - 1;
 	if (!Obstacles.empty())
 	{
 		for (auto i = Obstacles.begin(); i != Obstacles.end();)

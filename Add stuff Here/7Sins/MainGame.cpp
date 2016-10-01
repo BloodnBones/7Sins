@@ -16,9 +16,9 @@ MainGame::MainGame(Game* game)
 	this->hudView.setCenter(pos);
 	this->gameView.setCenter(pos);
 
-	_Background.setTexture(this->game->textureManager.getRef("gameBackGround"));
-	_Background.setPosition(0, 0);
-	_Background.setScale(sf::Vector2f(0.75f, 0.8f));
+	//_Background.setTexture(this->game->textureManager.getRef("gameBackGround"));
+	//_Background.setPosition(0, 0);
+	//_Background.setScale(sf::Vector2f(0.75f, 0.8f));
 
 	//level settings
 	m_world = new PhysicsWorld();

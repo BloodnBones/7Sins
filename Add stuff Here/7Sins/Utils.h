@@ -40,3 +40,14 @@ struct PhysicsBody {
 	bool isDead;
 	float HP = 100;
 };
+
+enum Character
+{
+	Lucia = 0,
+	Gabriel = 1,
+	Joshua = 2,
+	Betty = 3,
+	Matthew = 4,
+	Satella = 5,
+	Honda = 6
+};
