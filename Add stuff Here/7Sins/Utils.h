@@ -1,3 +1,20 @@
+/*
+Bachelor of Software Engineering
+Media Design School
+Auckland
+NewZealand
+
+(c) 2005 - 2016 Media Design School
+
+File Name	:	Utils.h
+Description	:	Contains useful structs and global variables
+Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
+mail		:	tyrone.mill6438@mediadesign.school.nz
+			,
+			,
+			,
+*/
+
 #pragma once
 //pre-defined headers
 #include "include\Box2D\Box2D.h"

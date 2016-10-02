@@ -1,18 +1,35 @@
+/*
+Bachelor of Software Engineering
+Media Design School
+Auckland
+NewZealand
+
+(c) 2005 - 2016 Media Design School
+
+File Name	:
+Description	:
+Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
+mail		:	tyrone.mill6438@mediadesign.school.nz
+			,
+			,
+			,
+*/
+
 #include "Scene.h"
 
 /*
-* @brief: Scene Constructor for creation of empty scene objects
-* @return: Scene
+* @brief	:Scene Constructor for creation of empty scene objects
+* @return	:Scene
 */
 Scene::Scene()
 {
 }
 
 /*
-* @brief: Scene copy construnctor for test purposes(dont need to use anymore)
-* @param: Vector<GameObjects *> objects - Populates the characters ingame
-* @param: sf::Image image - Sets Background
-* @return : Scene
+* @brief	:Scene copy construnctor for test purposes(dont need to use anymore)
+* @param	:Vector<GameObjects *> objects - Populates the characters ingame
+* @param	:sf::Image image - Sets Background
+* @return	:Scene
 */
 Scene::Scene(std::vector<GameObject*> GameObjects, sf::Image & image)
 {
@@ -60,12 +77,12 @@ Scene::Scene(std::vector<GameObject*> GameObjects, sf::Image & image)
 }
 
 /*
-* @brief: Scene copy construnctor (use this one)
-* @param: Vector<GameObjects *> objects - Populates the characters ingame
-* @param: sf::Image image - Sets Background
-* @param: int level - Sets the level index (we can set different values for multiple levels)
-* @param: Game * gameptr - Sets the current gamestate
-* @return : Scene
+* @brief	:Scene copy construnctor (use this one)
+* @param	:Vector<GameObjects *> objects - Populates the characters ingame
+* @param	:sf::Image image - Sets Background
+* @param	:int level - Sets the level index (we can set different values for multiple levels)
+* @param	:Game * gameptr - Sets the current gamestate
+* @return	:Scene
 */
 Scene::Scene(b2World * aWorld, std::vector<GameObject *> Players, sf::Texture & image, int Level, Game *gameptr)
 {
@@ -133,9 +150,9 @@ Scene::Scene(b2World * aWorld, std::vector<GameObject *> Players, sf::Texture & 
 }
 
 /*
-* @brief: Scene destructor(needs to kill all pointers and clear all vectors)
-* @param
-* @return
+* @brief	:Scene destructor(needs to kill all pointers and clear all vectors)
+* @param	:
+* @return	:
 */
 Scene::~Scene()
 {
@@ -143,9 +160,9 @@ Scene::~Scene()
 }
 
 /*
-* @brief: Scene input handler
-* @param: sf::Event events - sfml event handler
-* @return: void
+* @brief	:Scene input handler
+* @param	:sf::Event events - sfml event handler
+* @return	:void
 */
 void Scene::input(sf::Event events)
 {
@@ -164,8 +181,8 @@ void Scene::input(sf::Event events)
 }
 
 /*
-* @brief: Sets the ground object(aka Lava)
-* @return: void
+* @brief	:Sets the ground object(aka Lava)
+* @return	:void
 */
 void Scene::SetFloor()
 {
@@ -175,14 +192,14 @@ void Scene::SetFloor()
 }
 
 /*
-* @brief: Sets a Horizontal static body
-* @param: PhysicsBody &body - the body thats going to be used
-* @param: float _xpos - the x position box2d
-* @param: float  ypos - the y position box2d
-* @param: float origin_x - the center position of the shape box2d & sfml
-* @param: float origin_y - the center position of the shape box2d & sfml
-* @param: sf::Color fill - the colour of the object (to be later changed to be lava)
-* @return: void
+* @brief	:Sets a Horizontal static body
+* @param	:PhysicsBody &body - the body thats going to be used
+* @param	:float _xpos - the x position box2d
+* @param	:float  ypos - the y position box2d
+* @param	:float origin_x - the center position of the shape box2d & sfml
+* @param	:float origin_y - the center position of the shape box2d & sfml
+* @param	:sf::Color fill - the colour of the object (to be later changed to be lava)
+* @return	:void
 */
 void Scene::HorizontalBorder(PhysicsBody & body, float _xpos, float ypos, float origin_x, float origin_y, sf::Color fill)
 {
@@ -204,14 +221,14 @@ void Scene::HorizontalBorder(PhysicsBody & body, float _xpos, float ypos, float 
 }
 
 /*
-* @brief: Sets a Horizontal Tile body
-* @param: PhysicsBody &body - the body thats going to be used
-* @param: float _xpos - the x position box2d
-* @param: float  ypos - the y position box2d
-* @param: float origin_x - the center position of the shape box2d & sfml
-* @param: float origin_y - the center position of the shape box2d & sfml
-* @param: int SpriteIndex - Sets the sprite based on the index (to be later changed to be texture manager)
-* @return: void
+* @brief	:Sets a Horizontal Tile body
+* @param	:PhysicsBody &body - the body thats going to be used
+* @param	:float _xpos - the x position box2d
+* @param	:float  ypos - the y position box2d
+* @param	:float origin_x - the center position of the shape box2d & sfml
+* @param	:float origin_y - the center position of the shape box2d & sfml
+* @param	:int SpriteIndex - Sets the sprite based on the index (to be later changed to be texture manager)
+* @return	:void
 */
 void Scene::HorizontalObstacle(PhysicsBody & body, float _xpos, float ypos, float origin_x, float origin_y, int SpriteIndex)
 {
@@ -235,8 +252,8 @@ void Scene::HorizontalObstacle(PhysicsBody & body, float _xpos, float ypos, floa
 }
 
 /*
-* @brief : to delete(obsolete)
-* @return:void
+* @brief	:to delete(obsolete)
+* @return	:void
 */
 void Scene::VerticleObstacle(PhysicsBody & body, float _xpos, float ypos, float origin_x, float origin_y, int SpriteIndex)
 {
@@ -259,9 +276,9 @@ void Scene::VerticleObstacle(PhysicsBody & body, float _xpos, float ypos, float 
 }
 
 /*
-* @brief: Sets the Tiles 
-* @notes:currently sets 400 tiles into 4 rows of 100
-* @return: void
+* @brief	:Sets the Tiles 
+* @notes	:currently sets 400 tiles into 4 rows of 100
+* @return	:void
 */
 void Scene::SetObstacles()
 {
@@ -303,17 +320,17 @@ void Scene::SetObstacles()
 }
 
 /*
-* @brief: Obsolete as no enemies present ingame
-* @notes: could change to holy beam launcher
-* @return:void
+* @brief	:Obsolete as no enemies present ingame
+* @notes	:could change to holy beam launcher
+* @return	:void
 */
 void Scene::SetEnemies()
 {
 }
 
 /*
-* @brief: Draws to window
-* @return:void
+* @brief	:Draws to window
+* @return	:void
 */
 void Scene::draw()
 {
@@ -337,8 +354,8 @@ void Scene::draw()
 }
 
 /*
-* @brief: updates the scene (after the world step process)
-* @return: void
+* @brief	:updates the scene (after the world step process)
+* @return	:void
 */
 void Scene::update()
 {
@@ -387,8 +404,8 @@ void Scene::update()
 }
 
 /*
-* @brief: Sets the tiles
-* @notes: to be changed to texture manager so this will later become obsolete
+* @brief	:Sets the tiles
+* @notes	:to be changed to texture manager so this will later become obsolete
 * @return
 */
 void Scene::SetObstacleSprites()
@@ -403,9 +420,9 @@ void Scene::SetObstacleSprites()
 }
 
 /*
-* @brief: obsolete doesnt get used
-* @param
-* @return
+* @brief	:obsolete doesnt get used
+* @param	:None
+* @return	:None
 */
 void Scene::AddSceneBodies()
 {
@@ -423,8 +440,8 @@ void Scene::AddSceneBodies()
 }
 
 /*
-* @brief: Ends the game
-* @return:void
+* @brief	:Ends the game
+* @return	:void
 */
 void Scene::GameOver()
 {
@@ -436,9 +453,9 @@ void Scene::GameOver()
 }
 
 /*
-* @brief: sets the box2dWorld
-* @param: b2World * world - a pointer to the world we are going to use
-* @return: void
+* @brief	:sets the box2dWorld
+* @param	:b2World * world - a pointer to the world we are going to use
+* @return	:void
 */
 void Scene::SetWorld(b2World * aworld)
 {
@@ -448,10 +465,10 @@ void Scene::SetWorld(b2World * aworld)
 }
 
 /*
-* @brief: Box2d collision detection presolve function override
-* @param: b2Contact * contact - a pointer to the contact point on a body(can be used for damage based on body parts)
-* @param: b2Manifold *- convex shapes collisions
-* @return: void
+* @brief	:Box2d collision detection presolve function override
+* @param	:b2Contact * contact - a pointer to the contact point on a body(can be used for damage based on body parts)
+* @param	:b2Manifold *- convex shapes collisions
+* @return	:void
 */
 void Scene::PreSolve(b2Contact * contact, const b2Manifold *)
 {
@@ -464,10 +481,10 @@ void Scene::PreSolve(b2Contact * contact, const b2Manifold *)
 }
 
 /*
-* @brief: Calculates score based on collision(not really needed)
-* @param: b2Contact * contact - a pointer to the contact point on a body
-* @param: b2ContactImpulse impulse - the amount of energy used on impact
-* @return:void
+* @brief	:Calculates score based on collision(not really needed)
+* @param	:b2Contact * contact - a pointer to the contact point on a body
+* @param	:b2ContactImpulse impulse - the amount of energy used on impact
+* @return	:void
 */
 void Scene::PostSolve(b2Contact * contact, const b2ContactImpulse * impulse)
 {
@@ -522,8 +539,8 @@ void Scene::PostSolve(b2Contact * contact, const b2ContactImpulse * impulse)
 }
 
 /*
-* @brief: returns the level index 
-* @return: int - Scene::LevelIndex
+* @brief	:returns the level index 
+* @return	:int - Scene::LevelIndex
 */
 int Scene::getLevel()
 {

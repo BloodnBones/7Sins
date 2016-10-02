@@ -1,3 +1,20 @@
+/*
+Bachelor of Software Engineering
+Media Design School
+Auckland
+NewZealand
+
+(c) 2005 - 2016 Media Design School
+
+File Name	:
+Description	:
+Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
+mail		:	tyrone.mill6438@mediadesign.school.nz
+			,
+			,
+			,
+*/
+
 #ifndef GameObject_H
 #define GameObject_H
 
@@ -18,13 +35,13 @@ class GameObject
 {
 private:
 	
-	PhysicsBody m_body;
+	PhysicsBody m_body;			//Struct of objects physics body settings
 	PhysicsBody m_Mouse;
 	BodyType m_type;
 
 	b2World *m_world;
 	b2BodyDef bodyDef;
-	b2Body* groundBody;
+	b2Body* groundBody;			//Pointer to objects physics world body
 
 	float xpos;
 	float ypos;

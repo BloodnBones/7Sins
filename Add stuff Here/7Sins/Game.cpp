@@ -1,3 +1,20 @@
+/*
+Bachelor of Software Engineering
+Media Design School
+Auckland
+NewZealand
+
+(c) 2005 - 2016 Media Design School
+
+File Name	:
+Description	:
+Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
+mail		:	tyrone.mill6438@mediadesign.school.nz
+			,	gabriel.mugadza
+			,	mun.houyong
+			,	dylan.ridgeway
+*/
+
 #include "Game.h"
 #include "GameState.h"
 
@@ -29,9 +46,9 @@ Game::~Game()
 }
 
 /*
-* @brief	Load the games textures into the texture manager.
-* @param	None
-* @return	None
+* @brief	:Load the games textures into the texture manager.
+* @param	:None
+* @return	:None
 */
 void
 Game::loadTextures()
@@ -56,9 +73,9 @@ Game::pushState(State statevalue, GameState* state)
 }
 
 /*
-* @brief	Deletes the pointer within in the game map on game destruction
-* @param	None
-* @return	None
+* @brief	:Deletes the pointers within in the game map on game destruction
+* @param	:None
+* @return	:None
 */
 void
 Game::popState()
@@ -70,9 +87,9 @@ Game::popState()
 }
 
 /*
-* @brief	returns the pointer to the current state to be used
-* @param	The key value to find the game state
-* @return	Pointer to the current game state
+* @brief	:returns the pointer to the current state to be used
+* @param	:The key value to find the game state
+* @return	:Pointer to the current game state
 */
 GameState*
 Game::currentState(State statevalue)
@@ -88,9 +105,9 @@ Game::currentState(State statevalue)
 }
 
 /*
-* @brief	Loops will Window is open Calls to correct state for input, draw and update.
-* @param	None
-* @return	None
+* @brief	:Loops will Window is open Calls to correct state for input, draw and update.
+* @param	:None
+* @return	:None
 */
 void
 Game::gameLoop()
@@ -146,9 +163,9 @@ Game::gameLoop()
 }
 
 /*
-* @brief	Sets the enum vaule representing the state of the game
-* @param	New value of the enum
-* @return	None
+* @brief	:Sets the enum vaule representing the state of the game
+* @param	:New value of the enum
+* @return	:None
 */
 void
 Game::setState(State newState)

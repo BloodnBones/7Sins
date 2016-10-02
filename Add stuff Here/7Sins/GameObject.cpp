@@ -1,13 +1,30 @@
+/*
+Bachelor of Software Engineering
+Media Design School
+Auckland
+NewZealand
+
+(c) 2005 - 2016 Media Design School
+
+File Name	:	
+Description	:	
+Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
+mail		:	tyrone.mill6438@mediadesign.school.nz
+			,
+			,
+			,
+*/
+
 #include "GameObject.h"
 
 
 /*
-* @brief: GameObject constructor
-* @param: b2World * aworld - a pointer to the box2d world
-* @param: sf::Texture &image - the sprite
-* @param: BodyType type - sets the PhysicsBody body type
-* @param: Game * gameptr - sets the current gamestate
-* @return: GameObject
+* @brief	:GameObject constructor
+* @param	:b2World * aworld - a pointer to the box2d world
+* @param	:sf::Texture &image - the sprite
+* @param	:BodyType type - sets the PhysicsBody body type
+* @param	:Game * gameptr - sets the current gamestate
+* @return	:GameObject
 */
 GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game *gameptr)
 {
@@ -32,13 +49,13 @@ GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game 
 }
 
 /*
-* @brief: GameObject constructor
-* @param: b2World * aworld - a pointer to the box2d world
-* @param: sf::Texture &image - the sprite
-* @param: BodyType type - sets the PhysicsBody body type
-* @param: float _xpos - x position;
-* @param: float _ypos - y position;
-* @return: GameObject
+* @brief	:GameObject constructor
+* @param	:b2World * aworld - a pointer to the box2d world
+* @param	:sf::Texture &image - the sprite
+* @param	:BodyType type - sets the PhysicsBody body type
+* @param	:float _xpos - x position;
+* @param	:float _ypos - y position;
+* @return	:GameObject
 */
 GameObject::GameObject(b2World * aWorld, sf::Texture& image, BodyType type, float _xpos, float _ypos)
 {
@@ -62,7 +79,7 @@ GameObject::GameObject(b2World * aWorld, sf::Texture& image, BodyType type, floa
 }
 
 /*
-* @brief: GameObject Destructor, destroys the gameobject
+* @brief	:GameObject Destructor, destroys the gameobject
 */
 GameObject::~GameObject()
 {
@@ -71,7 +88,7 @@ GameObject::~GameObject()
 }
 
 /*
-* @brief: not used( obsolete)
+* @brief	:not used( obsolete)
 * @param
 * @return
 */
@@ -80,8 +97,8 @@ void GameObject::Init(b2World & world)
 }
 
 /*
-* @brief: sets the Physicsbody things
-* @return: void
+* @brief	:sets the Physicsbody things
+* @return	:void
 */
 void GameObject::SetPhysicsBox()
 {
@@ -110,9 +127,9 @@ void GameObject::SetPhysicsBox()
 }
 
 /*
-* @brief: Input handler
-* @param: sf::Event events - sfml event handler
-* @return: void
+* @brief	:Input handler
+* @param	:sf::Event events - sfml event handler
+* @return	:void
 */
 void GameObject::input(sf::Event events)
 {
@@ -151,8 +168,8 @@ void GameObject::input(sf::Event events)
 }
 
 /*
-* @brief: draws to window
-* @return: void
+* @brief	:draws to window
+* @return	:void
 */
 void GameObject::draw()
 {
@@ -160,10 +177,10 @@ void GameObject::draw()
 }
 
 /*
-* @brief: sets the position of the object both onscreen and in box2d(can be used for testing, not really ingame)
-* @param: float x - new  x position
-* @param: float y - new  y position
-* @return: void
+* @brief	:sets the position of the object both onscreen and in box2d(can be used for testing, not really ingame)
+* @param	:float x - new  x position
+* @param	:float y - new  y position
+* @return	:void
 */
 void GameObject::SetPosition(float x, float y)
 {
@@ -184,8 +201,8 @@ void GameObject::SetPosition(float x, float y)
 }
 
 /*
-* @brief: updates the object
-* @return: void
+* @brief	:updates the object
+* @return	:void
 */
 void GameObject::update()
 {
@@ -197,10 +214,10 @@ void GameObject::update()
 }
 
 /*
-* @brief: sets an impulse
-* @param: float x - power to x axis
-* @param: float y - power to y axis
-* @return: void
+* @brief	:sets an impulse
+* @param	:float x - power to x axis
+* @param	:float y - power to y axis
+* @return	:void
 */
 void GameObject::setImpulse(float x, float y)
 {
@@ -208,7 +225,7 @@ void GameObject::setImpulse(float x, float y)
 }
 
 /*
-* @brief : obsolete
+* @brief	:obsolete
 * @param
 * @return
 */
@@ -219,8 +236,8 @@ void GameObject::Shoot(float x, float y)
 }
 
 /*
-* @brief: returns a pointer to the Physics body so that it can be changed from elsewhere
-* @return: PhysicsBody * - GameObject::m_body
+* @brief	:returns a pointer to the Physics body so that it can be changed from elsewhere
+* @return	:PhysicsBody * - GameObject::m_body
 */
 PhysicsBody * GameObject::getBody()
 {
