@@ -140,6 +140,10 @@ Game::gameLoop()
 		{
 			Scene = currentState(GAME_OVER);
 		}break;
+		case GAME_SELECT:
+		{
+			Scene = currentState(GAME_SELECT);
+		}break;
 		default:
 		{
 			continue;	//Exit game if no states exist

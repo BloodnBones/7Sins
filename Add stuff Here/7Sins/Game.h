@@ -29,7 +29,8 @@ enum State {
 	GAME_PLAY = 0,
 	GAME_MENU = 1,
 	GAME_OVER = 2,
-	GAME_PAUSE = 3
+	GAME_PAUSE = 3,
+	GAME_SELECT = 4
 };
 
 class GameState;

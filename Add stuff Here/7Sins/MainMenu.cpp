@@ -18,6 +18,7 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #include "MainMenu.h"
 #include "MainGame.h"
 #include "GameState.h"
+#include "SelectionMenu.h"
 
 #include <iostream>
 #include <cmath>
@@ -36,8 +37,8 @@ MainMenu::MainMenu(Game* gameState)
 	pos *= 0.5f;
 	this->view.setCenter(pos);
 
-	startPrompt.setTexture(this->game->textureManager.getRef("gameBackGround"));
-	startPrompt.setPosition(0, 0);
+	backGround.setTexture(this->game->textureManager.getRef("gameBackGround"));
+	backGround.setPosition(0, 0);
 
 	font.loadFromFile("images/contm.ttf");
 
@@ -125,7 +126,8 @@ MainMenu::update(const float dt)
 	}
 	if (playerSelect.CheckButton(game->window))
 	{
-		std::cout << "Sorry I don't do anything" << std::endl;
+		game->pushState(GAME_SELECT, new SelectionMenu(game));
+		game->setState(GAME_SELECT);
 	}
 }
 
@@ -137,7 +139,7 @@ MainMenu::update(const float dt)
 void
 MainMenu::draw(const float dt)
 {
-	game->window.draw(startPrompt);
+	game->window.draw(backGround);
 	quit.Draw(game);
 	play.Draw(game);
 	credits.Draw(game);

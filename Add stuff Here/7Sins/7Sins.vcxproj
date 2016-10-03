@@ -146,6 +146,7 @@
     <ClCompile Include="PhysicsWorld.cpp" />
     <ClCompile Include="QueryCallback.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SelectionMenu.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +159,7 @@
     <ClInclude Include="PhysicsWorld.h" />
     <ClInclude Include="QueryCallback.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SelectionMenu.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

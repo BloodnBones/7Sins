@@ -10,9 +10,9 @@ File Name	:
 Description	:
 Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
 mail		:	tyrone.mill6438@mediadesign.school.nz
-			,
-			,
-			,
+			,	
+			,	
+			,	
 */
 
 #pragma once
@@ -21,26 +21,29 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #include "button.h"
 #include "GameState.h"
 
-class MainMenu : public GameState
+class SelectionMenu : public GameState
 {
 public:
-	MainMenu(Game* gameState);
+	SelectionMenu(Game* gameState);
 
 	virtual void draw(const float dt);
 	virtual void update(const float dt);
 	virtual void handleInput();
 
-
 private:
-	sf::View view;
 	sf::Sprite backGround;
-	sf::Text test;
 	sf::Font font;
-	Button play;
-	Button quit;
-	Button credits;
-	Button playerSelect;
-	//Transitions to main game
-	void startGame();
-};
 
+	Button lucia;
+	Button gabriel;
+	Button joshua;
+	Button betty;
+	Button matthew;
+	Button satella;
+	Button honda;
+
+	Button done;
+	Button back;
+	Button quit;
+
+};
