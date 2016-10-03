@@ -38,7 +38,7 @@ private:
 	GameObject * m_currentGameObject;
 	std::vector<PhysicsBody *> m_bodies;
 	std::vector<GameObject *> Enemies;
-	GameObject * GameObjectList[3];
+	std::vector<GameObject *> GameObjectList;
 
 	int LevelIndex;
 	

@@ -36,9 +36,9 @@ Scene::Scene(std::vector<GameObject*> GameObjects, sf::Image & image)
 
 	for (size_t i = 0; i < GameObjects.size(); i++)
 	{
-		GameObjectList[i] = GameObjects[i];
+		
+		GameObjectList.push_back(GameObjects[i]);
 	}
-	m_currentGameObject = GameObjectList[0];
 	f_GameObjectsLeft = GameObjects.size();
 	BackgroundTex.loadFromImage(image);
 	_Background = sf::RectangleShape(sf::Vector2f((float)BackgroundTex.getSize().x, (float)BackgroundTex.getSize().y));
@@ -93,9 +93,8 @@ Scene::Scene(b2World * aWorld, std::vector<GameObject *> Players, sf::Texture & 
 	_World->SetContactFilter(this);
 	for (size_t i = 0; i < Players.size(); i++)
 	{
-		GameObjectList[i] = Players[i];
+		GameObjectList.push_back(Players[i]);
 	}
-	m_currentGameObject = GameObjectList[0];
 	f_GameObjectsLeft = Players.size();
 	BackgroundTex = image;
 	_Background = sf::RectangleShape(sf::Vector2f((float)BackgroundTex.getSize().x, (float)BackgroundTex.getSize().y));
@@ -166,7 +165,11 @@ Scene::~Scene()
 */
 void Scene::input(sf::Event events)
 {
-	m_currentGameObject->input(events);
+	for (size_t i = 0; i < GameObjectList.size(); i++)
+	{
+		GameObjectList[i]->input(events);
+	}
+
 	switch (events.type) {
 	case sf::Event::KeyPressed:
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
@@ -349,8 +352,13 @@ void Scene::draw()
 	}
 
 	for (int i = 0; i < 1; i++)
+	{
 		currentGame->window.draw(Floor[i]._RECT);
-	m_currentGameObject->draw();
+	}
+	for (size_t i = 0; i < GameObjectList.size(); i++)
+	{
+		GameObjectList[i]->draw();
+	}
 }
 
 /*
@@ -391,8 +399,11 @@ void Scene::update()
 			++i;
 		}
 	}
-
-	m_currentGameObject->update();
+	for (size_t i = 0; i < GameObjectList.size(); i++)
+	{
+		GameObjectList[i]->update();
+	}
+	
 }
 
 /*
@@ -475,7 +486,7 @@ void Scene::PreSolve(b2Contact * contact, const b2Manifold *)
 */
 void Scene::PostSolve(b2Contact * contact, const b2ContactImpulse * impulse)
 {
-	
+
 
 }
 

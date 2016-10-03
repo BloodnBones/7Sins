@@ -39,9 +39,8 @@ MainGame::MainGame(Game* game)
 
 	//level settings
 	m_world = new PhysicsWorld();
-	GameObject1 = new GameObject(m_world->GetWorld(), this->game->textureManager.getRef("IdleNinja"), BodyType::Player, this->game);
-	GameObject2 = new GameObject(m_world->GetWorld(), this->game->textureManager.getRef("IdleNinja"), BodyType::Player, this->game);
-
+	GameObject1 = new GameObject(m_world->GetWorld(), this->game->textureManager.getRef("IdleNinja"), BodyType::Player, this->game, 0);
+	GameObject2 = new GameObject(m_world->GetWorld(), this->game->textureManager.getRef("IdleNinja"), BodyType::Player, this->game, 1);
 
 	GameObjectList.push_back(GameObject1);
 	GameObjectList.push_back(GameObject2);							//Start the physics world

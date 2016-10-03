@@ -67,8 +67,12 @@ private:
 	sf::Clock deltaClock;
 	sf::Time deltaTime = deltaClock.restart();
 
+	//multiplayer things
+	int PlayerIndex;  //player 1,2 etc...
+
+
 public:
-	GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game *gameptr);
+	GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game *gameptr, int Index);
 	GameObject(b2World *aWorld, sf::Texture &image, BodyType type, float xpos, float ypos);
 	~GameObject();
 	void Init(b2World & world);
@@ -79,6 +83,9 @@ public:
 	void update();
 	void setImpulse(float x, float y);
 	void Shoot(float x, float y);
+	void Player1Input();
+	void Player2Input();
+	void SetPlayerIndex(int Index);
 	PhysicsBody * getBody();
 
 	bool	canKill;
