@@ -23,6 +23,8 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #include "include\SFML\System.hpp"
 #include "include\SFML\Window.hpp"
 #include <cstdio>
+#include <cmath>
+#include <math.h>
 #include <iostream>
 
 
@@ -58,10 +60,19 @@ private:
 	bool canJump;
 	float jumpTimer = 3;
 	Game * currentGame;
+	bool isGrounded = false;
 
-	
+	float MAX_VELOCITY = 7.0f;
+	float stillTime = 0;
+	sf::Clock deltaClock;
+	sf::Time deltaTime = deltaClock.restart();
+
+	//multiplayer things
+	int PlayerIndex;  //player 1,2 etc...
+
+
 public:
-	GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game *gameptr);
+	GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game *gameptr, int Index);
 	GameObject(b2World *aWorld, sf::Texture &image, BodyType type, float xpos, float ypos);
 	~GameObject();
 	void Init(b2World & world);
@@ -72,6 +83,9 @@ public:
 	void update();
 	void setImpulse(float x, float y);
 	void Shoot(float x, float y);
+	void Player1Input();
+	void Player2Input();
+	void SetPlayerIndex(int Index);
 	PhysicsBody * getBody();
 
 	bool	canKill;

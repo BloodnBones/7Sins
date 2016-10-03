@@ -6,8 +6,8 @@ NewZealand
 
 (c) 2005 - 2016 Media Design School
 
-File Name	:	
-Description	:	
+File Name	:
+Description	:
 Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
 mail		:	tyrone.mill6438@mediadesign.school.nz
 			,
@@ -26,8 +26,9 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 * @param	:Game * gameptr - sets the current gamestate
 * @return	:GameObject
 */
-GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game *gameptr)
+GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game *gameptr, int Index)
 {
+	PlayerIndex = Index;
 	currentGame = gameptr;
 	m_world = aWorld;
 	m_type = type;
@@ -35,8 +36,16 @@ GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game 
 	offset = gameTime * 0.3f;
 	if (m_type == BodyType::Player)
 	{
-		xpos = 200;
-		ypos = 450;
+		if (Index == 0)
+		{
+			xpos = 200;
+			ypos = 250;
+		}
+		else
+		{
+			xpos = 600;
+			ypos = 250;
+		}
 	}
 	origin_x = 20;
 	origin_y = 40;
@@ -102,8 +111,6 @@ void GameObject::Init(b2World & world)
 */
 void GameObject::SetPhysicsBox()
 {
-	//b2CircleShape Shape;									//Why is this a circle?
-	//Shape.m_radius = 0.5;
 	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x * 2, origin_y));
 	m_body._RECT.setOrigin(origin_x, origin_y / 2);
 	m_body._RECT.setTexture(&sprite);
@@ -111,11 +118,11 @@ void GameObject::SetPhysicsBox()
 	m_body._BodyDef.type = b2_dynamicBody;
 	m_body._BodyShape.SetAsBox(origin_x / RATIO, (origin_y / 2) / RATIO);
 	m_body._FixtureDef.shape = &m_body._BodyShape;
-	m_body._FixtureDef.density = 1.0f;
-	m_body._FixtureDef.restitution = 0.2f;
+	m_body._FixtureDef.density = 2.0f;
+	m_body._FixtureDef.restitution = 0.1f;
 	m_body._FixtureDef.friction = 0.9f;
 	m_body._BodyPtr = m_world->CreateBody(&m_body._BodyDef);
-	m_body._BodyPtr->CreateFixture(&m_body._BodyShape, 1.0f);
+	m_body._BodyPtr->CreateFixture(&m_body._FixtureDef);
 	m_body._BodyPtr->SetUserData(&m_body);
 	bodyDef.position.Set(0, 0);
 	groundBody = m_world->CreateBody(&bodyDef);
@@ -133,36 +140,28 @@ void GameObject::SetPhysicsBox()
 */
 void GameObject::input(sf::Event events)
 {
-												//TO DO - Add controls for multiple players
+	//TO DO - Add controls for multiple player
+	b2Vec2 current_Velocity = m_body._BodyPtr->GetLinearVelocity();
+
 	if (m_body.type == BodyType::Player)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		//Cap Max Velocity
+		if (abs(current_Velocity.x) > MAX_VELOCITY)
 		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-1, 0), m_body._BodyPtr->GetWorldCenter(), true);
+			current_Velocity.x = sgn(current_Velocity.x) * MAX_VELOCITY;
+			m_body._BodyPtr->SetLinearVelocity(current_Velocity);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(1, 0), m_body._BodyPtr->GetWorldCenter(), true);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-			if (jumpTimer > 1.5)
-			{
-				m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
-				timer.restart();
-			}
-		}
-		if (sf::Joystick::isConnected(0))			//Checks if a joystick(controller) is plugged in 
-		{
-			float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);
 
-			//Checks for button on controller being pressed
-			if (sf::Joystick::isButtonPressed(0, 1) && jumpTimer > 0.5)
-			{
-				m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
-				timer.restart();
-			}
+		//Player 1
+		if (PlayerIndex == 0)
+		{
+			Player1Input();
+		}
+
+		//Player 2
+		else if (PlayerIndex == 1)
+		{
+			Player2Input();
 		}
 	}
 }
@@ -208,9 +207,21 @@ void GameObject::update()
 {
 	xpos = m_body._BodyPtr->GetPosition().x;
 	ypos = m_body._BodyPtr->GetPosition().y;
-	//cout << xpos << ", " << ypos << endl;
+
 	m_body._RECT.setPosition(xpos*RATIO, ypos*RATIO);
 	jumpTimer = timer.getElapsedTime().asSeconds();
+
+	if (m_body.Touching)
+	{
+		isGrounded = true;
+	}
+	else
+	{
+		isGrounded = false;
+	}
+
+
+
 }
 
 /*
@@ -234,6 +245,101 @@ void GameObject::Shoot(float x, float y)
 	//m_body._BodyPtr->SetActive(true);
 	this->setImpulse(x, y);
 }
+
+void GameObject::Player1Input()
+{
+	b2Vec2 current_Velocity = m_body._BodyPtr->GetLinearVelocity();
+	//Damp the velocity when not moving
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		stillTime += deltaTime.asSeconds();
+		m_body._BodyPtr->SetLinearVelocity(b2Vec2(current_Velocity.x * 0.9f, current_Velocity.y));
+	}
+	else
+	{
+		stillTime = 0;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && current_Velocity.x > -MAX_VELOCITY)
+	{
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-2, 0), m_body._BodyPtr->GetWorldCenter(), true);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && current_Velocity.x < MAX_VELOCITY)
+	{
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(2, 0), m_body._BodyPtr->GetWorldCenter(), true);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		if (isGrounded)
+		{
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -15), m_body._BodyPtr->GetWorldCenter(), true);
+
+		}
+	}
+	if (sf::Joystick::isConnected(0))			//Checks if a joystick(controller) is plugged in 
+	{
+		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);
+
+		//Checks for button on controller being pressed
+		if (sf::Joystick::isButtonPressed(0, 1) && isGrounded)
+		{
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
+
+		}
+	}
+}
+
+void GameObject::Player2Input()
+{
+	b2Vec2 current_Velocity = m_body._BodyPtr->GetLinearVelocity();
+	//Damp the velocity when not moving
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		stillTime += deltaTime.asSeconds();
+		m_body._BodyPtr->SetLinearVelocity(b2Vec2(current_Velocity.x * 0.9f, current_Velocity.y));
+	}
+	else
+	{
+		stillTime = 0;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && current_Velocity.x > -MAX_VELOCITY)
+	{
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-2, 0), m_body._BodyPtr->GetWorldCenter(), true);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && current_Velocity.x < MAX_VELOCITY)
+	{
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(2, 0), m_body._BodyPtr->GetWorldCenter(), true);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad0))
+	{
+		if (isGrounded)
+		{
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -15), m_body._BodyPtr->GetWorldCenter(), true);
+
+		}
+	}
+	if (sf::Joystick::isConnected(1))			//Checks if a joystick(controller) is plugged in 
+	{
+		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);
+
+		//Checks for button on controller being pressed
+		if (sf::Joystick::isButtonPressed(0, 1) && isGrounded)
+		{
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
+
+		}
+
+	}
+}
+
+void GameObject::SetPlayerIndex(int Index)
+{
+	PlayerIndex = Index;
+}
+
 
 /*
 * @brief	:returns a pointer to the Physics body so that it can be changed from elsewhere
