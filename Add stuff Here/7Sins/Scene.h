@@ -81,14 +81,17 @@ public:
 	void SetWorld(b2World * aworld);
 	bool isWon = false;
 	bool isLost = false;
+	
+	//collision 
 	void PreSolve(b2Contact* contact, const b2Manifold*);
 	void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
 	bool ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB) {
 		PhysicsBody* bodyDataA = static_cast<PhysicsBody*>(fixtureA->GetBody()->GetUserData());
 		PhysicsBody* bodyDataB = static_cast<PhysicsBody*>(fixtureB->GetBody()->GetUserData());
 		return (true);
-		
 	}
+	void BeginContact(b2Contact * contact);
+	void EndContact(b2Contact * contact);
 	int getLevel();
 };
 

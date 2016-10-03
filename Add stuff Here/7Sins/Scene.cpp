@@ -210,10 +210,10 @@ void Scene::HorizontalBorder(PhysicsBody & body, float _xpos, float ypos, float 
 	body._RECT.setFillColor(fill);
 	body._BodyShape.SetAsBox(origin_x / RATIO, (origin_y / 6) / RATIO);
 	body._FixtureDef.shape = &body._BodyShape;
-	body._FixtureDef.density = 5.0f;
-	body._FixtureDef.friction = 0.5f;
+	body._FixtureDef.density = 10.0f;
+	body._FixtureDef.friction = 1.0f;
 	body._BodyPtr = _World->CreateBody(&body._BodyDef);
-	body._BodyPtr->CreateFixture(&body._BodyShape, 5.0f);
+	body._BodyPtr->CreateFixture(&body._FixtureDef);
 	body._BodyPtr->SetUserData(&body);
 	//set position
 	body._RECT.setPosition(body._BodyPtr->GetPosition().x*RATIO, body._BodyPtr->GetPosition().y*RATIO);
@@ -316,7 +316,7 @@ void Scene::SetObstacles()
 		}
 
 	}
-//	SetEnemies();
+	//	SetEnemies();
 }
 
 /*
@@ -369,33 +369,25 @@ void Scene::update()
 		for (auto i = Obstacles.begin(); i != Obstacles.end();)
 		{
 
-			PhysicsBody* data = static_cast<PhysicsBody*>((*i)._BodyPtr->GetUserData());
-			if (((data && (data->isDead && data->HP <= 0))))
+
+			if ((*i).HP < 100 && (*i).type == BodyType::ObstacleH)
 			{
-				//delete data;
-				i = Obstacles.erase(i);
-				continue;
+				sf::Texture Image;
+				Image.loadFromImage(ObstacleSprites[0]);
+				(*i)._RECT.setTexture(&Image);
 			}
-			else
+			if ((*i).HP < 100 && (*i).type == BodyType::ObstacleV)
 			{
-				if ((*i).HP < 100 && (*i).type == BodyType::ObstacleH)
-				{
-					sf::Texture Image;
-					Image.loadFromImage(ObstacleSprites[0]);
-					(*i)._RECT.setTexture(&Image);
-				}
-				if ((*i).HP < 100 && (*i).type == BodyType::ObstacleV)
-				{
-					sf::Texture Image;
-					Image.loadFromImage(ObstacleSprites[1]);
-					(*i)._RECT.setTexture(&Image);
-				}
-				xpos = (*i)._BodyPtr->GetPosition().x;
-				ypos = (*i)._BodyPtr->GetPosition().y;
-				rotationAngle = (*i)._BodyPtr->GetAngle();
-				(*i)._RECT.setPosition(xpos*RATIO, ypos*RATIO);
-				(*i)._RECT.setRotation(rotationAngle * (float)-57.295);
+				sf::Texture Image;
+				Image.loadFromImage(ObstacleSprites[1]);
+				(*i)._RECT.setTexture(&Image);
 			}
+			xpos = (*i)._BodyPtr->GetPosition().x;
+			ypos = (*i)._BodyPtr->GetPosition().y;
+			rotationAngle = (*i)._BodyPtr->GetAngle();
+			(*i)._RECT.setPosition(xpos*RATIO, ypos*RATIO);
+			(*i)._RECT.setRotation(rotationAngle * (float)-57.295);
+
 			++i;
 		}
 	}
@@ -472,12 +464,7 @@ void Scene::SetWorld(b2World * aworld)
 */
 void Scene::PreSolve(b2Contact * contact, const b2Manifold *)
 {
-	PhysicsBody* bodyDataA = static_cast<PhysicsBody*>(contact->GetFixtureA()->GetBody()->GetUserData());
-	PhysicsBody* bodyDataB = static_cast<PhysicsBody*>(contact->GetFixtureB()->GetBody()->GetUserData());
-	if (bodyDataA)
-		bodyDataA->velocity = contact->GetFixtureA()->GetBody()->GetLinearVelocity();
-	if (bodyDataB)
-		bodyDataB->velocity = contact->GetFixtureB()->GetBody()->GetLinearVelocity();
+
 }
 
 /*
@@ -488,58 +475,48 @@ void Scene::PreSolve(b2Contact * contact, const b2Manifold *)
 */
 void Scene::PostSolve(b2Contact * contact, const b2ContactImpulse * impulse)
 {
-	if (impulse->normalImpulses[0] > 1)
+	
+
+}
+
+void Scene::BeginContact(b2Contact * contact)
+{
+
+	PhysicsBody* bodyDataA = static_cast<PhysicsBody*>(contact->GetFixtureA()->GetBody()->GetUserData());
+	PhysicsBody* bodyDataB = static_cast<PhysicsBody*>(contact->GetFixtureB()->GetBody()->GetUserData());
+
+	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)
 	{
-		float maxImpulse = 0.0f;
-		for (int i = 0; i < contact->GetManifold()->pointCount; ++i)
-		{
-			maxImpulse = b2Max(maxImpulse, impulse->normalImpulses[i]);
-		}
-
-		//If FixtureA has energy, calculate lost energy according to impulse strength and add that to totalscore
-		PhysicsBody* bodyDataA = static_cast<PhysicsBody*>(contact->GetFixtureA()->GetBody()->GetUserData());
-		PhysicsBody* bodyDataB = static_cast<PhysicsBody*>(contact->GetFixtureB()->GetBody()->GetUserData());
-		float deltaEnergy = 0;
-
-		if (bodyDataA && !bodyDataA->isDead)
-		{
-			deltaEnergy = maxImpulse * (float)0.1;
-			bodyDataA->HP -= deltaEnergy * 10;
-			if (bodyDataB && !bodyDataA->HP)
-			{
-				contact->GetFixtureB()->GetBody()->SetLinearVelocity(bodyDataB->_BodyPtr->GetLinearVelocity());
-			}
-		}
-		else if (bodyDataA || bodyDataA->type == Enemy)
-		{
-			bodyDataA->isDead = true;
-		}
-
-		f_Score += (int)deltaEnergy;
-
-		deltaEnergy = 0;
-		if(bodyDataB && !bodyDataB->isDead)
-		{
-			deltaEnergy = maxImpulse * (float)0.1;
-			bodyDataB->HP -= deltaEnergy * 10;
-			if (bodyDataA && !bodyDataB->HP)
-			{
-				contact->GetFixtureB()->GetBody()->SetLinearVelocity(bodyDataB->_BodyPtr->GetLinearVelocity());
-			}
-		}
-		else if (bodyDataB || bodyDataB->type == Enemy)
-		{
-			bodyDataB->isDead = true;
-		}
-
-		f_Score += (int)deltaEnergy;
-		//	ScoreCount.setString(std::to_string(f_Score));
-		std::cout << "Score: " << f_Score << endl;
+		bodyDataA->Touching = true;
+		bodyDataB->Touching = true;
+		std::cout << "touching " << endl;
 	}
+	else if (bodyDataB->type == Player && bodyDataA->type == ObstacleH)
+	{
+		bodyDataA->Touching = true;
+		bodyDataB->Touching = true;
+		std::cout << "touching " << endl;
+	}
+	else
+	{
+		bodyDataA->Touching = false;
+		bodyDataB->Touching = false;
+	}
+
+}
+
+void Scene::EndContact(b2Contact * contact)
+{
+
+	PhysicsBody* bodyDataA = static_cast<PhysicsBody*>(contact->GetFixtureA()->GetBody()->GetUserData());
+	PhysicsBody* bodyDataB = static_cast<PhysicsBody*>(contact->GetFixtureB()->GetBody()->GetUserData());
+
+	bodyDataA->Touching = false;
+	bodyDataB->Touching = false;
 }
 
 /*
-* @brief	:returns the level index 
+* @brief	:returns the level index
 * @return	:int - Scene::LevelIndex
 */
 int Scene::getLevel()

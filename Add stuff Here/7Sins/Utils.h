@@ -47,6 +47,12 @@ enum BodyType
 
 //world object
 struct PhysicsBody {
+
+	PhysicsBody() {
+
+	};
+
+
 	b2BodyDef _BodyDef;
 	b2PolygonShape _BodyShape;
 	b2FixtureDef _FixtureDef;
@@ -55,7 +61,7 @@ struct PhysicsBody {
 	sf::Texture Image;
 	BodyType type;
 	b2Vec2 velocity;
-	bool isDead;
+	bool Touching;
 	float HP = 100;
 };
 
@@ -69,3 +75,8 @@ enum Character
 	Satella = 5,
 	Honda = 6
 };
+
+//returns 0 if greater and 1 if less
+template <typename T> int sgn(T val) {
+	return (T(0) < val) - (val < T(0));
+}
