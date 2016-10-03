@@ -102,20 +102,20 @@ void GameObject::Init(b2World & world)
 */
 void GameObject::SetPhysicsBox()
 {
-	b2CircleShape Shape;									//Why is this a circle?
-	Shape.m_radius = 0.5;
+	//b2CircleShape Shape;									//Why is this a circle?
+	//Shape.m_radius = 0.5;
 	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x * 2, origin_y));
 	m_body._RECT.setOrigin(origin_x, origin_y / 2);
 	m_body._RECT.setTexture(&sprite);
 	m_body._BodyDef.position.Set(xpos / RATIO, ypos / RATIO);
 	m_body._BodyDef.type = b2_dynamicBody;
 	m_body._BodyShape.SetAsBox(origin_x / RATIO, (origin_y / 2) / RATIO);
-	m_body._FixtureDef.shape = &Shape;
+	m_body._FixtureDef.shape = &m_body._BodyShape;
 	m_body._FixtureDef.density = 1.0f;
 	m_body._FixtureDef.restitution = 0.2f;
 	m_body._FixtureDef.friction = 0.9f;
 	m_body._BodyPtr = m_world->CreateBody(&m_body._BodyDef);
-	m_body._BodyPtr->CreateFixture(&Shape, 1.0f);
+	m_body._BodyPtr->CreateFixture(&m_body._BodyShape, 1.0f);
 	m_body._BodyPtr->SetUserData(&m_body);
 	bodyDef.position.Set(0, 0);
 	groundBody = m_world->CreateBody(&bodyDef);

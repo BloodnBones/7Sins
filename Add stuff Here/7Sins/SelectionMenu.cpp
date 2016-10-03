@@ -1,4 +1,5 @@
 #include "SelectionMenu.h"
+#include "MainGame.h"
 
 
 /*
@@ -143,8 +144,9 @@ SelectionMenu::update(const float dt)
 
 	if (done.CheckButton(game->window))
 	{
-		std::cout << "Sorry I don't do anything" << std::endl;
-		game->setState(GAME_MENU);
+		game->pushState(GAME_PLAY, new MainGame(game));
+		game->setState(GAME_PLAY);
+		//game->setState(GAME_MENU);
 	}
 	if (back.CheckButton(game->window))
 	{

@@ -58,10 +58,10 @@ MainMenu::MainMenu(Game* gameState)
 	credits.SetScale(1, 1);
 	credits.SetPosition(530, 260);
 
-	playerSelect.SetName("PLAYER SELECT");
-	playerSelect.SetFont(font);
-	playerSelect.SetScale(1, 1);
-	playerSelect.SetPosition(480, 330);
+	//playerSelect.SetName("PLAYER SELECT");
+	//playerSelect.SetFont(font);
+	//playerSelect.SetScale(1, 1);
+	//playerSelect.SetPosition(480, 330);
 
 }
 
@@ -114,8 +114,9 @@ MainMenu::update(const float dt)
 	//Updates the buttons and calls the desired functions if they are clicked.
 	if (play.CheckButton(game->window))
 	{
-		game->pushState(GAME_PLAY, new MainGame(game));
-		game->setState(GAME_PLAY);
+		game->pushState(GAME_SELECT, new SelectionMenu(game));
+		game->setState(GAME_SELECT);
+		
 	}
 	if (quit.CheckButton(game->window))
 	{
@@ -125,11 +126,11 @@ MainMenu::update(const float dt)
 	{
 		std::cout << "Sorry I don't do anything" << std::endl;
 	}
-	if (playerSelect.CheckButton(game->window))
-	{
-		game->pushState(GAME_SELECT, new SelectionMenu(game));
-		game->setState(GAME_SELECT);
-	}
+	//if (playerSelect.CheckButton(game->window))
+	//{
+	//	game->pushState(GAME_SELECT, new SelectionMenu(game));
+	//	game->setState(GAME_SELECT);
+	//}
 }
 
 /*
@@ -144,7 +145,7 @@ MainMenu::draw()
 	quit.Draw(game);
 	play.Draw(game);
 	credits.Draw(game);
-	playerSelect.Draw(game);
+	//playerSelect.Draw(game);
 }
 
 /*
