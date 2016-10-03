@@ -26,7 +26,7 @@ class MainMenu : public GameState
 public:
 	MainMenu(Game* gameState);
 
-	virtual void draw(const float dt);
+	virtual void draw();
 	virtual void update(const float dt);
 	virtual void handleInput();
 

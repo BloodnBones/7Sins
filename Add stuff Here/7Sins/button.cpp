@@ -1,3 +1,17 @@
+/*
+Bachelor of Software Engineering
+Media Design School
+Auckland
+NewZealand
+
+(c) 2005 - 2016 Media Design School
+
+File Name	:	button.cpp
+Description	:	Contains the functions associated with the button objects for setting and getting interactions
+Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
+mail		:	tyrone.mill6438@mediadesign.school.nz
+*/
+
 #include "button.h"
 #include <iostream>
 #include "Utils.h"
@@ -47,7 +61,7 @@ void Button::SetScale(float x, float y)
 void Button::SetName(std::string name)
 {
 	m_Text.setString(name);
-	m_Text.setFillColor(sf::Color::Black);
+	m_Color = sf::Color::Black;
 }
 
 void Button::SetActive(bool toggle, const sf::Texture& activeButton, const sf::Texture& button)
@@ -65,8 +79,17 @@ void Button::SetActive(bool toggle, const sf::Texture& activeButton, const sf::T
 void Button::SetFont(sf::Font& font)
 {
 	m_Text.setFont(font);
-	m_Text.setFillColor(sf::Color::Black);
 	m_Text.setCharacterSize(30);
+}
+
+/*
+* @brief	:Set the color of the buttons text deafaults to black
+* @param	:Color to set the text to
+* @return	:None
+*/
+void Button::SetFillColor(sf::Color color)
+{
+	m_Color = color;
 }
 
 /*
@@ -83,12 +106,14 @@ bool Button::CheckButton(sf::RenderWindow& window)
 	{
 		m_Text.setFillColor(sf::Color(255, 0, 0, 255));
 		m_Text.setOutlineColor(sf::Color(0, 255, 0, 255));
-		m_Text.setScale(1.5f * m_Scale);
+		m_Text.setScale(1.1f * m_Scale);
+		m_Text.setPosition(m_Position.x-3, m_Position.y - 3);
 	}
 	else
 	{
-		m_Text.setFillColor(sf::Color::Black);
+		m_Text.setFillColor(m_Color);
 		m_Text.setScale(m_Scale);
+		m_Text.setPosition(m_Position);
 	}
 
 	if (m_Text.getGlobalBounds().contains(x, y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))		//Check if button clicked

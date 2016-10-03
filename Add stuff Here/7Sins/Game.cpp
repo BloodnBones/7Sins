@@ -157,7 +157,7 @@ Game::gameLoop()
 
 			window.clear();
 
-			Scene->draw(timeDelta);
+			Scene->draw();
 
 			window.display();
 			frameRate = 0;						//Reset time since last sweep

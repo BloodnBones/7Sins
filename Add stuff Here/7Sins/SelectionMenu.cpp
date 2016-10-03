@@ -12,6 +12,7 @@ SelectionMenu::SelectionMenu(Game* gameState)
 
 	backGround.setTexture(this->game->textureManager.getRef("gameBackGround"));
 	backGround.setPosition(0, 0);
+	backGround.setScale(0.8f, 0.9f);
 
 	font.loadFromFile("images/contm.ttf");
 
@@ -56,33 +57,46 @@ SelectionMenu::SelectionMenu(Game* gameState)
 	done.SetPosition(200, 500);
 	done.SetScale(1, 1);
 	done.SetFont(font);
+	done.SetFillColor(sf::Color::White);			//If not used color will be black
 
 	back.SetName("BACK");
 	back.SetPosition(500, 500);
 	back.SetScale(1, 1);
 	back.SetFont(font);
+	back.SetFillColor(sf::Color::White);
 
 	quit.SetName("QUIT");
 	quit.SetPosition(800, 500);
 	quit.SetScale(1, 1);
 	quit.SetFont(font);
+	quit.SetFillColor(sf::Color::White);
 }
 
 /*
-* @brief
-* @param
-* @return
+* @brief	:Handles close button event
+* @param	:None
+* @return	:None
 */
 void
 SelectionMenu::handleInput()
 {
 	sf::Event event;
+
+	while (game->window.pollEvent(event))
+	{
+		switch (event.type)
+		{
+		case sf::Event::Closed:
+			game->window.close();
+			break;
+		}
+	}
 }
 
 /*
-* @brief
-* @param
-* @return
+* @brief	:Updates the menubased on player input and selection
+* @param	:delta time
+* @return	:None
 */
 void
 SelectionMenu::update(const float dt)
@@ -143,12 +157,12 @@ SelectionMenu::update(const float dt)
 }
 
 /*
-* @brief
-* @param
-* @return
+* @brief	:Calls to each button to draw to the gaem window
+* @param	:None
+* @return	:None
 */
 void
-SelectionMenu::draw(const float dt)
+SelectionMenu::draw()
 {
 	game->window.draw(backGround);
 

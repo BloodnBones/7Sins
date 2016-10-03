@@ -56,7 +56,7 @@ MainGame::MainGame(Game* game)
 * @return
 */
 void
-MainGame::draw(const float dt)
+MainGame::draw()
 {
 
 	//game->window.draw(_Background);

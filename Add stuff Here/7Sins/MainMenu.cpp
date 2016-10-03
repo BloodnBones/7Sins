@@ -39,6 +39,7 @@ MainMenu::MainMenu(Game* gameState)
 
 	backGround.setTexture(this->game->textureManager.getRef("gameBackGround"));
 	backGround.setPosition(0, 0);
+	backGround.setScale(0.8f, 0.9f);
 
 	font.loadFromFile("images/contm.ttf");
 
@@ -137,7 +138,7 @@ MainMenu::update(const float dt)
 * @return
 */
 void
-MainMenu::draw(const float dt)
+MainMenu::draw()
 {
 	game->window.draw(backGround);
 	quit.Draw(game);

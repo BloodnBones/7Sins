@@ -29,7 +29,7 @@ class MainGame : public GameState
 public:
 	MainGame(Game* game);
 
-	virtual	void draw(const float dt);
+	virtual	void draw();
 	virtual void update(const float dt);
 	virtual void handleInput();
 

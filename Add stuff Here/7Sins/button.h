@@ -33,13 +33,15 @@ public:
 	void SetName(std::string number);
 	void SetActive(bool toggle, const sf::Texture& activeButton, const sf::Texture& button);
 	void SetFont(sf::Font& font);
+	void SetFillColor(sf::Color color);
 
 	bool CheckButton(sf::RenderWindow& window);
 
 private:
 	sf::Text m_Text;
 	sf::Vector2f m_Scale;
-	sf::Vector2i m_Position;
+	sf::Vector2f m_Position;
+	sf::Color m_Color;
 
 	bool isLoaded;
 };
