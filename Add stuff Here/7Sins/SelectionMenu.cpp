@@ -116,6 +116,8 @@ SelectionMenu::update(const float dt)
 	if (lucia.CheckButton(game->window))
 	{
 		std::cout << "Sorry I don't do anything" << std::endl;
+		if (joystic1) then
+			GameObject1 = new ....lucia;
 	}
 	if (gabriel.CheckButton(game->window))
 	{

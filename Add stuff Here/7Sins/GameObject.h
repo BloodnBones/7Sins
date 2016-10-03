@@ -40,6 +40,7 @@ private:
 	PhysicsBody m_body;			//Struct of objects physics body settings
 	PhysicsBody m_Mouse;
 	BodyType m_type;
+	Character m_Character;
 
 	b2World *m_world;
 	b2BodyDef bodyDef;

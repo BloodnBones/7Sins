@@ -46,4 +46,8 @@ private:
 	Button back;
 	Button quit;
 
+
+	GameObject *GameObject1;
+	std::vector<GameObject *> GameObjectList;
+
 };
