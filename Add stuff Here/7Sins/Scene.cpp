@@ -276,7 +276,7 @@ void Scene::VerticleObstacle(PhysicsBody & body, float _xpos, float ypos, float 
 }
 
 /*
-* @brief	:Sets the Tiles 
+* @brief	:Sets the Tiles (ground objects)
 * @notes	:currently sets 400 tiles into 4 rows of 100
 * @return	:void
 */

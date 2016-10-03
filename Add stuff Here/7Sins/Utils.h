@@ -17,7 +17,8 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 
 #pragma once
 //pre-defined headers
-#include "include\Box2D\Box2D.h"
+#include <Box2D\Box2D.h>
+//#include "include\Box2D\Box2D.h"
 #include "include\SFML\Graphics.hpp"
 #include "TextureManager.h"
 #include "include\SFML\Audio.hpp"

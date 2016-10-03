@@ -18,7 +18,7 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #pragma once
 
 #include "include\SFML\Graphics.hpp"
-
+#include "button.h"
 #include "GameState.h"
 
 class MainMenu : public GameState
@@ -34,6 +34,12 @@ public:
 private:
 	sf::View view;
 	sf::Sprite startPrompt;
+	sf::Text test;
+	sf::Font font;
+	Button play;
+	Button quit;
+	Button credits;
+	Button playerSelect;
 	//Transitions to main game
 	void startGame();
 };

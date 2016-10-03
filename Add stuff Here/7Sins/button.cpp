@@ -1,5 +1,6 @@
 #include "button.h"
 #include <iostream>
+#include "Utils.h"
 
 
 
@@ -12,67 +13,90 @@ Button::~Button()
 {
 }
 
-Button::Button(int x, int y, std::string number)
+Button::Button(int x, int y, std::string name)
 {
 	SetPosition(x, y);
-	SetNumber(number);
+	SetName(name);
 }
 
 void Button::Load(const sf::Texture& activeButton, const sf::Texture& button, const sf::Font& font)
 {
-	m_Text.setFont(font);
-	m_Text.setFillColor(sf::Color::Black);
-	m_Sprite.setTexture(button);
+	//m_Text.setFont(font);
+	//m_Text.setFillColor(sf::Color::White);
 
 }
 
-void Button::Draw(sf::RenderWindow& renderWindow)
+void Button::Draw(Game* gameState)
 {
-
-	renderWindow.draw(m_Sprite);
-	renderWindow.draw(m_Text);
+	gameState->window.draw(m_Text);
 }
 
 void Button::SetPosition(float x, float y)
 {
 	m_Position.x = x;
 	m_Position.y = y;
-	m_Sprite.setPosition(x, y);
-	m_Text.setPosition(x+22, y+12);
+	m_Text.setPosition(x, y);
 }
 
-void Button::SetScale()
+void Button::SetScale(float x, float y)
 {
-	m_Sprite.scale(sf::Vector2f(2.2f, 1.0f));
+	m_Scale.x = x;
+	m_Scale.y = y;
 }
 
-void Button::SetNumber(std::string number)
+void Button::SetName(std::string name)
 {
-	m_Text.setString(number);
+	m_Text.setString(name);
+	m_Text.setFillColor(sf::Color::Black);
 }
 
 void Button::SetActive(bool toggle, const sf::Texture& activeButton, const sf::Texture& button)
 {
 	if (toggle)
 	{
-		m_Sprite.setTexture(activeButton);
+		//m_Sprite.setTexture(activeButton);
 	}
 	else
 	{
-		m_Sprite.setTexture(button);
+		//m_Sprite.setTexture(button);
 	}
 }
 
-bool Button::CheckButton(int x, int y, const sf::Texture& activeButton, const sf::Texture& button)
+void Button::SetFont(sf::Font& font)
 {
-	if (x >= m_Position.x && x <= m_Position.x + 60 && y >= m_Position.y && y <= m_Position.y + 60)
+	m_Text.setFont(font);
+	m_Text.setFillColor(sf::Color::Black);
+	m_Text.setCharacterSize(30);
+}
+
+/*
+* @brief	:Updates the button based on the mouse position
+* @param	:Reference to the window to get mouse input from
+* @return	:Bool value of wether the button was pressed
+*/
+bool Button::CheckButton(sf::RenderWindow& window)
+{
+	int x = sf::Mouse::getPosition(window).x;
+	int y = sf::Mouse::getPosition(window).y;
+
+	if (m_Text.getGlobalBounds().contains(x, y))				//Mouse movement check for color change
 	{
-		SetActive(true, activeButton, button);
+		m_Text.setFillColor(sf::Color(255, 0, 0, 255));
+		m_Text.setOutlineColor(sf::Color(0, 255, 0, 255));
+		m_Text.setScale(1.5f * m_Scale);
+	}
+	else
+	{
+		m_Text.setFillColor(sf::Color::Black);
+		m_Text.setScale(m_Scale);
+	}
+
+	if (m_Text.getGlobalBounds().contains(x, y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))		//Check if button clicked
+	{
 		return true;
 	}
 	else
 	{
-		SetActive(false, activeButton, button);
 		return false;
 	}
 }

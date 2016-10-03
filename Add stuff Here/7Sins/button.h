@@ -14,7 +14,7 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 
 #include <iostream>
 #include "include\SFML\Graphics.hpp"
-
+#include "Game.h"
 
 #pragma once
 class Button
@@ -26,19 +26,19 @@ public:
 	Button(int x, int y, std::string);
 
 	void Load(const sf::Texture& activeButton, const sf::Texture& button, const sf::Font& font);
-	void Draw(sf::RenderWindow& window);
+	void Draw(Game* gameState);
 
 	void SetPosition(float x, float y);
-	void SetScale();
-	void SetNumber(std::string number);
+	void SetScale(float x, float y);
+	void SetName(std::string number);
 	void SetActive(bool toggle, const sf::Texture& activeButton, const sf::Texture& button);
+	void SetFont(sf::Font& font);
 
-	bool CheckButton(int x, int y, const sf::Texture& activeButton, const sf::Texture& button);
+	bool CheckButton(sf::RenderWindow& window);
 
 private:
-	sf::Sprite m_Sprite;
-
 	sf::Text m_Text;
+	sf::Vector2f m_Scale;
 	sf::Vector2i m_Position;
 
 	bool isLoaded;
