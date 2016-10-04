@@ -53,6 +53,13 @@ SelectionMenu::SelectionMenu(Game* gameState)
 	honda.SetScale(1, 1);
 	honda.SetFont(font);
 
+	m_Player4.setString("PLAYER 4");
+	m_Player4.setPosition(800, 100);
+	m_Player4.setFont(font);
+	m_Player4.setScale(1, 1);
+	m_Player4.setFillColor(sf::Color::Black);
+	m_Player4.setCharacterSize(30);
+
 	//Menu Buttons
 	done.SetName("DONE");
 	done.SetPosition(200, 500);
@@ -116,8 +123,11 @@ SelectionMenu::update(const float dt)
 	if (lucia.CheckButton(game->window))
 	{
 		std::cout << "Sorry I don't do anything" << std::endl;
-		if (joystic1) then
-			GameObject1 = new ....lucia;
+		//Check which controller clicked
+		//Assign character to that controler
+		//Add this to the vector
+		//if (joystic1) then
+		//GameObject1 = new ....lucia;
 	}
 	if (gabriel.CheckButton(game->window))
 	{
@@ -169,6 +179,8 @@ void
 SelectionMenu::draw()
 {
 	game->window.draw(backGround);
+
+	game->window.draw(m_Player4);
 
 	lucia.Draw(game);
 	gabriel.Draw(game);

@@ -20,6 +20,7 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #include "include\SFML\Graphics.hpp"
 #include "button.h"
 #include "GameState.h"
+#include "GameObject.h"
 
 class SelectionMenu : public GameState
 {
@@ -46,6 +47,7 @@ private:
 	Button back;
 	Button quit;
 
+	sf::Text m_Player4;
 
 	GameObject *GameObject1;
 	std::vector<GameObject *> GameObjectList;
