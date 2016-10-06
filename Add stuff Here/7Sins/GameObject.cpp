@@ -57,6 +57,46 @@ GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game 
 	}
 }
 
+
+/*
+* @brief	:GameObject constructor
+* @param	:b2World * aworld - a pointer to the box2d world
+* @param	:Character character - players choice of characrter to be
+* @param	:BodyType type - sets the PhysicsBody body type
+* @param	:Game * gameptr - sets the current gamestate
+* @return	:GameObject
+*/
+GameObject::GameObject(b2World *aWorld, Character character, BodyType type, Game *gameptr, int Index)
+{
+	PlayerIndex = Index;
+	currentGame = gameptr;
+	m_world = aWorld;
+	m_type = type;
+	LoadCharacterImage(character);
+	offset = gameTime * 0.3f;
+	if (m_type == BodyType::Player)
+	{
+		if (Index == 0)
+		{
+			xpos = 200;
+			ypos = 250;
+		}
+		else
+		{
+			xpos = 600;
+			ypos = 250;
+		}
+	}
+	origin_x = 20;
+	origin_y = 40;
+	fill = sf::Color(255, 0, 255, 255);
+	SetPhysicsBox();
+	if (m_type == BodyType::Player)
+	{
+		m_body._BodyPtr->SetActive(true);
+	}
+}
+
 /*
 * @brief	:GameObject constructor
 * @param	:b2World * aworld - a pointer to the box2d world
@@ -246,6 +286,11 @@ void GameObject::Shoot(float x, float y)
 	this->setImpulse(x, y);
 }
 
+/*
+* @brief	:Process the iputs for each player
+* @param
+* @return
+*/
 void GameObject::Player1Input()
 {
 	b2Vec2 current_Velocity = m_body._BodyPtr->GetLinearVelocity();
@@ -340,6 +385,42 @@ void GameObject::SetPlayerIndex(int Index)
 	PlayerIndex = Index;
 }
 
+/*
+* @brief	:Loades image based on playeres choice of character
+* @param	:Enum value of the chosen character
+*/
+void GameObject::LoadCharacterImage(Character character)
+{
+	switch (character)
+	{
+	case Lucia:
+		sprite = this->currentGame->textureManager.getRef("Lucia");
+		break;
+	case Gabriel:
+		sprite = this->currentGame->textureManager.getRef("Gabriel");
+		break;
+	case Joshua:
+		sprite = this->currentGame->textureManager.getRef("Joshua");
+		break;
+	case Betty:
+		sprite = this->currentGame->textureManager.getRef("Betty");
+		break;
+	case Matthew:
+		sprite = this->currentGame->textureManager.getRef("Matthew");
+		break;
+	case Satella:
+		sprite = this->currentGame->textureManager.getRef("Satella");
+		break;
+	case Honda:
+		sprite = this->currentGame->textureManager.getRef("Honda");
+		break;
+	case NONE:
+		sprite;
+		break;
+	default:
+		sprite = this->currentGame->textureManager.getRef("IdleNinja");
+	}
+}
 
 /*
 * @brief	:returns a pointer to the Physics body so that it can be changed from elsewhere

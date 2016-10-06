@@ -18,40 +18,54 @@ SelectionMenu::SelectionMenu(Game* gameState)
 	font.loadFromFile("images/contm.ttf");
 
 	//Character Buttons
-	lucia.SetName("LUCIA");
-	lucia.SetPosition(100, 350);
-	lucia.SetScale(1, 1);
-	lucia.SetFont(font);
+	m_P1Current.setString("LUCIA");
+	m_P1Current.setPosition(200, 400);
+	m_P1Current.setScale(1, 1);
+	m_P1Current.setFont(font);
+	m_P1Current.setFillColor(sf::Color::Black);
+	m_P1Current.setCharacterSize(30);
 
-	gabriel.SetName("GABRIEL");
-	gabriel.SetPosition(230, 350);
-	gabriel.SetScale(1, 1);
-	gabriel.SetFont(font);
+	m_P2Current.setString("LUCIA");
+	m_P2Current.setPosition(400, 400);
+	m_P2Current.setScale(1, 1);
+	m_P2Current.setFont(font);
+	m_P2Current.setFillColor(sf::Color::Black);
+	m_P2Current.setCharacterSize(30);
 
-	joshua.SetName("JOSHUA");
-	joshua.SetPosition(380, 350);
-	joshua.SetScale(1, 1);
-	joshua.SetFont(font);
+	m_P3Current.setString("LUCIA");
+	m_P3Current.setPosition(600, 400);
+	m_P3Current.setScale(1, 1);
+	m_P3Current.setFont(font);
+	m_P3Current.setFillColor(sf::Color::Black);
+	m_P3Current.setCharacterSize(30);;
 
-	betty.SetName("BETTY");
-	betty.SetPosition(520, 350);
-	betty.SetScale(1, 1);
-	betty.SetFont(font);
+	m_P4Current.setString("LUCIA");
+	m_P4Current.setPosition(800, 400);
+	m_P4Current.setScale(1, 1);
+	m_P4Current.setFont(font);
+	m_P4Current.setFillColor(sf::Color::Black);
+	m_P4Current.setCharacterSize(30);
 
-	matthew.SetName("MATTHEW");
-	matthew.SetPosition(630, 350);
-	matthew.SetScale(1, 1);
-	matthew.SetFont(font);
+	m_Player1.setString("PLAYER 1");
+	m_Player1.setPosition(200, 100);
+	m_Player1.setScale(1, 1);
+	m_Player1.setFont(font);
+	m_Player1.setFillColor(sf::Color::Black);
+	m_Player1.setCharacterSize(30);
 
-	satella.SetName("SATELLA");
-	satella.SetPosition(800, 350);
-	satella.SetScale(1, 1);
-	satella.SetFont(font);
+	m_Player2.setString("PLAYER 2");
+	m_Player2.setPosition(400, 100);
+	m_Player2.setScale(1, 1);
+	m_Player2.setFont(font);
+	m_Player2.setFillColor(sf::Color::Black);
+	m_Player2.setCharacterSize(30);
 
-	honda.SetName("HONDA");
-	honda.SetPosition(970, 350);
-	honda.SetScale(1, 1);
-	honda.SetFont(font);
+	m_Player3.setString("PLAYER 3");
+	m_Player3.setPosition(600, 100);
+	m_Player3.setScale(1, 1);
+	m_Player3.setFont(font);
+	m_Player3.setFillColor(sf::Color::Black);
+	m_Player3.setCharacterSize(30);
 
 	m_Player4.setString("PLAYER 4");
 	m_Player4.setPosition(800, 100);
@@ -97,6 +111,35 @@ SelectionMenu::handleInput()
 		case sf::Event::Closed:
 			game->window.close();
 			break;
+		case sf::Event::KeyReleased:
+			switch (event.key.code)
+			{
+			case sf::Keyboard::A:
+				if (m_P1Choice > 0)
+				{
+					m_P1Choice--;
+				}
+				break;
+			case sf::Keyboard::D:
+				if (m_P1Choice < 7)
+				{
+					m_P1Choice++;
+				}
+				break;
+			case sf::Keyboard::Right:
+				if (m_P2Choice < 7)
+				{
+					m_P2Choice++;
+				}
+				break;
+			case sf::Keyboard::Left:
+				if (m_P2Choice > 0)
+				{
+					m_P2Choice--;
+				}
+				break;
+			}
+			break;
 		}
 	}
 }
@@ -119,43 +162,25 @@ SelectionMenu::update(const float dt)
 
 	float scale = 123 + (sin(clock() / 1000) * 150);
 
+	SetChoice(&m_P1Current, m_P1Choice);
+	SetChoice(&m_P2Current, m_P2Choice);
+	SetChoice(&m_P3Current, m_P3Choice);
+	SetChoice(&m_P4Current, m_P4Choice);
+
 	//Updates the buttons and calls the desired functions if they are clicked.
-	if (lucia.CheckButton(game->window))
+	//if (lucia.CheckButton(game->window))
 	{
-		std::cout << "Sorry I don't do anything" << std::endl;
+	//	std::cout << "Sorry I don't do anything" << std::endl;
 		//Check which controller clicked
 		//Assign character to that controler
 		//Add this to the vector
 		//if (joystic1) then
 		//GameObject1 = new ....lucia;
 	}
-	if (gabriel.CheckButton(game->window))
-	{
-		std::cout << "Sorry I don't do anything" << std::endl;
-	}
-	if (joshua.CheckButton(game->window))
-	{
-		std::cout << "Sorry I don't do anything" << std::endl;
-	}
-	if (betty.CheckButton(game->window))
-	{
-		std::cout << "Sorry I don't do anything" << std::endl;
-	}
-	if (matthew.CheckButton(game->window))
-	{
-		std::cout << "Sorry I don't do anything" << std::endl;
-	}
-	if (satella.CheckButton(game->window))
-	{
-		std::cout << "Sorry I don't do anything" << std::endl;
-	}
-	if (honda.CheckButton(game->window))
-	{
-		std::cout << "Sorry I don't do anything" << std::endl;
-	}
 
 	if (done.CheckButton(game->window))
 	{
+		//GameObject1 = new GameObject()
 		game->pushState(GAME_PLAY, new MainGame(game));
 		game->setState(GAME_PLAY);
 		//game->setState(GAME_MENU);
@@ -180,17 +205,51 @@ SelectionMenu::draw()
 {
 	game->window.draw(backGround);
 
+	game->window.draw(m_Player1);
+	game->window.draw(m_Player2);
+	game->window.draw(m_Player3);
 	game->window.draw(m_Player4);
 
-	lucia.Draw(game);
-	gabriel.Draw(game);
-	joshua.Draw(game);
-	betty.Draw(game);
-	matthew.Draw(game);
-	satella.Draw(game);
-	honda.Draw(game);
+	game->window.draw(m_P1Current);
+	game->window.draw(m_P2Current);
+	game->window.draw(m_P3Current);
+	game->window.draw(m_P4Current);
 
 	done.Draw(game);
 	back.Draw(game);
 	quit.Draw(game);
+}
+
+void SelectionMenu::SetChoice(sf::Text* text, int choice)
+{
+	switch (choice)
+	{
+	case Lucia:
+		text->setString("LUCIA");
+		break;
+	case Gabriel:
+		text->setString("GABRIEL");
+		break;
+	case Joshua:
+		text->setString("JOSHUA");
+		break;
+	case Betty:
+		text->setString("BETTY");
+		break;
+	case Matthew:
+		text->setString("MATTHEW");
+		break;
+	case Satella:
+		text->setString("SATELLA");
+		break;
+	case Honda:
+		text->setString("HONDA");
+		break;
+	case NONE:
+		text->setString("");
+		break;
+	default:
+		text->setString("Error");
+	}
+
 }

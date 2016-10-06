@@ -67,13 +67,14 @@ struct PhysicsBody {
 
 enum Character
 {
-	Lucia = 0,
-	Gabriel = 1,
-	Joshua = 2,
-	Betty = 3,
-	Matthew = 4,
-	Satella = 5,
-	Honda = 6
+	Lucia	= 1,
+	Gabriel = 2,
+	Joshua	= 3,
+	Betty	= 4,
+	Matthew	= 5,
+	Satella = 6,
+	Honda	= 7,
+	NONE	= 0
 };
 
 //returns 0 if greater and 1 if less

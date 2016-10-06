@@ -74,6 +74,7 @@ private:
 
 public:
 	GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game *gameptr, int Index);
+	GameObject::GameObject(b2World *aWorld, Character character, BodyType type, Game *gameptr, int Index);
 	GameObject(b2World *aWorld, sf::Texture &image, BodyType type, float xpos, float ypos);
 	~GameObject();
 	void Init(b2World & world);
@@ -87,6 +88,7 @@ public:
 	void Player1Input();
 	void Player2Input();
 	void SetPlayerIndex(int Index);
+	void LoadCharacterImage(Character character);
 	PhysicsBody * getBody();
 
 	bool	canKill;

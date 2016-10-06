@@ -31,25 +31,43 @@ public:
 	virtual void update(const float dt);
 	virtual void handleInput();
 
+	void SetChoice(sf::Text* text, int choice);
+
 private:
-	sf::Sprite backGround;
-	sf::Font font;
+	sf::Sprite	backGround;
+	sf::Font	font;
 
-	Button lucia;
-	Button gabriel;
-	Button joshua;
-	Button betty;
-	Button matthew;
-	Button satella;
-	Button honda;
+	bool		lucia = false,
+				gabriel = false,
+				joshua = false,
+				betty = false,
+				matthew = false,
+				satella = false,
+				honda = false;
 
-	Button done;
-	Button back;
-	Button quit;
+	int			m_P1Choice = 0,
+				m_P2Choice = 0,
+				m_P3Choice = 0,
+				m_P4Choice = 0;
 
-	sf::Text m_Player4;
+	sf::Text	m_P1Current,
+				m_P2Current,
+				m_P3Current,
+				m_P4Current;
+
+	sf::Text	m_Player1,
+				m_Player2,
+				m_Player3,
+				m_Player4;
+
+	Button		done;
+	Button		back;
+	Button		quit;
 
 	GameObject *GameObject1;
+	GameObject *GameObject2;
+	GameObject *GameObject3;
+	GameObject *GameObject4;
 	std::vector<GameObject *> GameObjectList;
 
 };
