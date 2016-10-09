@@ -8,9 +8,9 @@ NewZealand
 
 File Name	:
 Description	:
-Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
+Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgway
 mail		:	tyrone.mill6438@mediadesign.school.nz
-			,
+			,	dylan.rid6275@mediadesign.school.nz
 			,
 			,
 */
@@ -26,7 +26,7 @@ Scene::Scene()
 }
 
 /*
-* @brief	:Scene copy construnctor for test purposes(dont need to use anymore)
+* @brief	:Scene construnctor for test purposes(dont need to use anymore)
 * @param	:Vector<GameObjects *> objects - Populates the characters ingame
 * @param	:sf::Image image - Sets Background
 * @return	:Scene
@@ -73,11 +73,13 @@ Scene::Scene(std::vector<GameObject*> GameObjects, sf::Image & image)
 	Score.setFillColor(sf::Color::Red);
 	Score.setPosition(sf::Vector2f(800, 50));
 
+	m_FallingObjectSprite.loadFromFile("images/FallingObject.png");
+
 	timer.restart();
 }
 
 /*
-* @brief	:Scene copy construnctor (use this one)
+* @brief	:Scene construnctor (use this one)
 * @param	:Vector<GameObjects *> objects - Populates the characters ingame
 * @param	:sf::Image image - Sets Background
 * @param	:int level - Sets the level index (we can set different values for multiple levels)
@@ -143,6 +145,9 @@ Scene::Scene(b2World * aWorld, std::vector<GameObject *> Players, sf::Texture & 
 	GameOverText3.setCharacterSize(50);
 	GameOverText3.setFillColor(sf::Color::Red);
 	GameOverText3.setPosition(sf::Vector2f(250, 250));
+
+	m_FallingObjectSprite.loadFromFile("images/FallingObject.png");
+
 
 	timer.restart();
 	//std::cout << LevelIndex << endl;
@@ -278,6 +283,35 @@ void Scene::VerticleObstacle(PhysicsBody & body, float _xpos, float ypos, float 
 	body.type = ObstacleV;
 }
 
+void Scene::AddFallingObject()
+{
+	PhysicsBody body;
+	int randx = rand() % 1000 + 1;
+	int y = -10;
+
+	float origin_x = 10.0f;
+	float origin_y = 10.0f;
+
+	body.Image.loadFromImage(m_FallingObjectSprite);
+	body._BodyDef.position.Set(randx / RATIO, y / RATIO);
+	body._BodyDef.type = b2_dynamicBody;
+	body._RECT = sf::RectangleShape(sf::Vector2f(origin_x * 2, origin_y));
+	body._RECT.setOrigin(origin_x, origin_y / 2);
+	body._RECT.setTexture(&body.Image);
+	body._BodyShape.SetAsBox(origin_x / RATIO, (origin_y / 2) / RATIO);
+	body._FixtureDef.shape = &body._BodyShape;
+	body._FixtureDef.density = 5.0f;
+	body._FixtureDef.friction = 1.5f;
+	body._BodyPtr = _World->CreateBody(&body._BodyDef);
+	body._BodyPtr->CreateFixture(&body._BodyShape, 1.0f);
+	body._BodyPtr->SetUserData(&body);
+	//set position
+	body._RECT.setPosition(body._BodyPtr->GetPosition().x*RATIO, body._BodyPtr->GetPosition().y*RATIO);
+	body.type = FallingObject;
+
+	m_FallingObjects.push_back(body);
+}
+
 /*
 * @brief	:Sets the Tiles (ground objects)
 * @notes	:currently sets 400 tiles into 4 rows of 100
@@ -345,12 +379,19 @@ void Scene::draw()
 	currentGame->window.draw(GameOverText);
 	currentGame->window.draw(GameOverText2);
 	currentGame->window.draw(GameOverText3);
+
 	if (!Obstacles.empty())
 	{
-		for (size_t i = 0; i < Obstacles.size(); i++)
+		for (size_t i = 0; i < Obstacles.size(); i++) {
 			currentGame->window.draw(Obstacles[i]._RECT);
+		}
 	}
-
+	if (!m_FallingObjects.empty())
+	{
+		for (size_t i = 0; i < m_FallingObjects.size(); i++) {
+			currentGame->window.draw(m_FallingObjects[i]._RECT);
+		}
+	}
 	for (int i = 0; i < 1; i++)
 	{
 		currentGame->window.draw(Floor[i]._RECT);
@@ -365,8 +406,16 @@ void Scene::draw()
 * @brief	:updates the scene (after the world step process)
 * @return	:void
 */
-void Scene::update()
+void Scene::update(float dt)
 {
+	static float temp = 0;
+	temp += (dt * 10000);
+
+	if (temp > 3.0f) {
+		temp = 0.0f;
+		AddFallingObject();
+	}
+
 	float xpos;
 	float ypos;
 	float rotationAngle;
@@ -399,11 +448,29 @@ void Scene::update()
 			++i;
 		}
 	}
+
+	if (!m_FallingObjects.empty())
+	{
+		for (auto i = m_FallingObjects.begin(); i != m_FallingObjects.end();)
+		{
+			sf::Texture Image;
+			Image.loadFromImage(m_FallingObjectSprite);
+			(*i)._RECT.setTexture(&Image);
+			
+			xpos = (*i)._BodyPtr->GetPosition().x;
+			ypos = (*i)._BodyPtr->GetPosition().y;
+			rotationAngle = (*i)._BodyPtr->GetAngle();
+			(*i)._RECT.setPosition(xpos*RATIO, ypos*RATIO);
+			(*i)._RECT.setRotation(rotationAngle * (float)-57.295);
+
+			++i;
+		}
+	}
+
 	for (size_t i = 0; i < GameObjectList.size(); i++)
 	{
 		GameObjectList[i]->update();
 	}
-	
 }
 
 /*
@@ -495,6 +562,13 @@ void Scene::BeginContact(b2Contact * contact)
 
 	PhysicsBody* bodyDataA = static_cast<PhysicsBody*>(contact->GetFixtureA()->GetBody()->GetUserData());
 	PhysicsBody* bodyDataB = static_cast<PhysicsBody*>(contact->GetFixtureB()->GetBody()->GetUserData());
+
+	if (bodyDataA->type == FallingObject) {
+		m_DeadObjects.push_back(*bodyDataA);
+	}
+	if (bodyDataB->type == FallingObject) {
+		m_DeadObjects.push_back(*bodyDataB);
+	}
 
 	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)
 	{

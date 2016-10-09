@@ -51,6 +51,8 @@ public:
 	sf::RenderWindow window;
 	TextureManager textureManager;
 
+	void SpawnFallingObject();
+
 	//constructor, destructor
 	Game();
 	~Game();
