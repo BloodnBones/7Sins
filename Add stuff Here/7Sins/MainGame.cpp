@@ -50,6 +50,59 @@ MainGame::MainGame(Game* game)
 }
 
 /*
+* @brief	:Contructor that takes int the players choices for charcter
+* @param	:Game Pointer
+* @param	:Enum value of player 1's character choice
+* @param	:Enum value of player 2's character choice
+* @param	:Enum value of player 3's character choice
+* @param	:Enum value of player 4's character choice
+* @return	:
+*/
+MainGame::MainGame(Game* game, int Player1, int Player2, int Player3, int Player4)
+{
+	this->game = game;
+	sf::Vector2f pos = sf::Vector2f(this->game->window.getSize());
+	this->hudView.setSize(pos);
+	this->gameView.setSize(pos);
+	pos *= 0.5f;
+	this->hudView.setCenter(pos);
+	this->gameView.setCenter(pos);
+
+	//_Background.setTexture(this->game->textureManager.getRef("gameBackGround"));
+	//_Background.setPosition(0, 0);
+	//_Background.setScale(sf::Vector2f(0.75f, 0.8f));
+
+	//level settings
+	m_world = new PhysicsWorld();
+	if (Player1 != NONE)
+	{
+		GameObject1 = new GameObject(m_world->GetWorld(), Player1, BodyType::Player, this->game, 0);
+		GameObjectList.push_back(GameObject1);
+	}
+	if (Player2 != NONE)
+	{
+		GameObject2 = new GameObject(m_world->GetWorld(), Player2, BodyType::Player, this->game, 1);
+		GameObjectList.push_back(GameObject2);
+	}
+	if (Player3 != NONE)
+	{
+		GameObject3 = new GameObject(m_world->GetWorld(), Player3, BodyType::Player, this->game, 2);
+		GameObjectList.push_back(GameObject3);
+	}
+	if (Player4 != NONE)
+	{
+		GameObject4 = new GameObject(m_world->GetWorld(), Player4, BodyType::Player, this->game, 3);
+		GameObjectList.push_back(GameObject4);
+	}
+
+
+						//Start the physics world
+
+	CurrentLevel = new Scene(m_world->GetWorld(), GameObjectList, this->game->textureManager.getRef("gameBackGround"), lvlindex, this->game);
+
+}
+
+/*
 * @brief
 * @param
 * @return

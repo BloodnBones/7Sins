@@ -66,7 +66,7 @@ GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game 
 * @param	:Game * gameptr - sets the current gamestate
 * @return	:GameObject
 */
-GameObject::GameObject(b2World *aWorld, Character character, BodyType type, Game *gameptr, int Index)
+GameObject::GameObject(b2World *aWorld, int character, BodyType type, Game *gameptr, int Index)
 {
 	PlayerIndex = Index;
 	currentGame = gameptr;
@@ -389,7 +389,7 @@ void GameObject::SetPlayerIndex(int Index)
 * @brief	:Loades image based on playeres choice of character
 * @param	:Enum value of the chosen character
 */
-void GameObject::LoadCharacterImage(Character character)
+void GameObject::LoadCharacterImage(int character)
 {
 	switch (character)
 	{
