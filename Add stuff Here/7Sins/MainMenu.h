@@ -20,6 +20,7 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #include "include\SFML\Graphics.hpp"
 #include "button.h"
 #include "GameState.h"
+#include "Animation.h"
 
 class MainMenu : public GameState
 {
@@ -32,8 +33,12 @@ public:
 
 
 private:
+	Animation AnimatedLogo;
+	bool reverse = false;
 	sf::View view;
 	sf::Sprite backGround;
+	sf::Clock deltaTime;
+	sf::Sprite Logo;
 	sf::Text test;
 	sf::Font font;
 	Button play;

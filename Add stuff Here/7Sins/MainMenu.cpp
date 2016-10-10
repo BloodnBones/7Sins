@@ -20,6 +20,7 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #include "GameState.h"
 #include "SelectionMenu.h"
 
+
 #include <iostream>
 #include <cmath>
 
@@ -41,22 +42,28 @@ MainMenu::MainMenu(Game* gameState)
 	backGround.setPosition(0, 0);
 	backGround.setScale(0.8f, 0.9f);
 
+	Logo.setTexture(this->game->textureManager.getRef("LogoAnim"));
+	AnimatedLogo.setSprite(&Logo);
+	AnimatedLogo.SetAnim(0, 4);
+	
 	font.loadFromFile("images/contm.ttf");
 
+	Logo.setPosition(350, 0);
+
 	play.SetName("PLAY");
-	play.SetPosition(550, 200);
+	play.SetPosition(550, 300);
 	play.SetScale(1, 1);
 	play.SetFont(font);
 
 	quit.SetName("QUIT");
 	quit.SetFont(font);
-	quit.SetScale(1,1);
+	quit.SetScale(1, 1);
 	quit.SetPosition(550, 400);
 
 	credits.SetName("CREDITS");
 	credits.SetFont(font);
 	credits.SetScale(1, 1);
-	credits.SetPosition(530, 260);
+	credits.SetPosition(530, 360);
 
 	//playerSelect.SetName("PLAYER SELECT");
 	//playerSelect.SetFont(font);
@@ -79,16 +86,16 @@ MainMenu::handleInput()
 	{
 		switch (event.type)
 		{
-			case sf::Event::Closed:
-				game->window.close();
-				break;
+		case sf::Event::Closed:
+			game->window.close();
+			break;
 
-			case sf::Event::KeyPressed:
-				if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Space)
-				{
-					startGame();
-				}
-				break;
+		case sf::Event::KeyPressed:
+			if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Space)
+			{
+				startGame();
+			}
+			break;
 		}
 	}
 }
@@ -109,14 +116,16 @@ MainMenu::update(const float dt)
 	int x = sf::Mouse::getPosition(game->window).x;
 	int y = sf::Mouse::getPosition(game->window).y;
 
-	float scale = 123 +( sin(clock()/1000) * 150);
+	float scale = 123 + (sin(clock() / 1000) * 150);
+	//animate logo
 
+	AnimatedLogo.Animate();
 	//Updates the buttons and calls the desired functions if they are clicked.
 	if (play.CheckButton(game->window))
 	{
 		game->pushState(GAME_SELECT, new SelectionMenu(game));
 		game->setState(GAME_SELECT);
-		
+
 	}
 	if (quit.CheckButton(game->window))
 	{
@@ -142,9 +151,11 @@ void
 MainMenu::draw()
 {
 	game->window.draw(backGround);
+	AnimatedLogo.DrawSpriteAnim(game->window, AnimatedLogo.GetCurrentFrame(), 0, 500, 209);
 	quit.Draw(game);
 	play.Draw(game);
 	credits.Draw(game);
+
 	//playerSelect.Draw(game);
 }
 

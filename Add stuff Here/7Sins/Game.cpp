@@ -59,6 +59,10 @@ Game::loadTextures()
 	textureManager.loadTexture("TileTop", "images//Tile1.png");
 	textureManager.loadTexture("TileBelow", "images//Tile2.png");
 	textureManager.loadTexture("IdleNinja", "images//Idle__000.png");
+	textureManager.loadTexture("Wrath", "images//Wrath.png");
+	textureManager.loadTexture("Logo", "images//Logo.png");
+	textureManager.loadTexture("LogoAnim", "images//Logo_Sheet.png");
+	textureManager.loadTexture("WrathIdle", "images//Wrath_Idle.png");
 }
 
 /*

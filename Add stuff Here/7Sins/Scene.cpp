@@ -371,32 +371,15 @@ void Scene::update()
 	float ypos;
 	float rotationAngle;
 	//update Obstacles
-	//std::cout << Obstacles.size() - 1;
 	if (!Obstacles.empty())
 	{
-		for (auto i = Obstacles.begin(); i != Obstacles.end();)
+		for (size_t i = 0; i < Obstacles.size(); i++)
 		{
-
-
-			if ((*i).HP < 100 && (*i).type == BodyType::ObstacleH)
-			{
-				sf::Texture Image;
-				Image.loadFromImage(ObstacleSprites[0]);
-				(*i)._RECT.setTexture(&Image);
-			}
-			if ((*i).HP < 100 && (*i).type == BodyType::ObstacleV)
-			{
-				sf::Texture Image;
-				Image.loadFromImage(ObstacleSprites[1]);
-				(*i)._RECT.setTexture(&Image);
-			}
-			xpos = (*i)._BodyPtr->GetPosition().x;
-			ypos = (*i)._BodyPtr->GetPosition().y;
-			rotationAngle = (*i)._BodyPtr->GetAngle();
-			(*i)._RECT.setPosition(xpos*RATIO, ypos*RATIO);
-			(*i)._RECT.setRotation(rotationAngle * (float)-57.295);
-
-			++i;
+			xpos = Obstacles[i]._BodyPtr->GetPosition().x;
+			ypos = Obstacles[i]._BodyPtr->GetPosition().y;
+			rotationAngle = Obstacles[i]._BodyPtr->GetAngle();
+			Obstacles[i]._RECT.setPosition(xpos*RATIO, ypos*RATIO);
+			Obstacles[i]._RECT.setRotation(rotationAngle * (float)-57.295);
 		}
 	}
 	for (size_t i = 0; i < GameObjectList.size(); i++)

@@ -31,12 +31,13 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #include "PhysicsWorld.h"
 #include "QueryCallback.h"
 #include "Game.h"
+#include "Animation.h"
 using namespace std;
 
 class GameObject
 {
 private:
-	
+	Animation Animate;
 	PhysicsBody m_body;			//Struct of objects physics body settings
 	PhysicsBody m_Mouse;
 	BodyType m_type;
@@ -55,7 +56,7 @@ private:
 	float p1y;
 
 	sf::Color fill;
-	sf::Texture sprite;
+	sf::Sprite sprite;
 
 	sf::Clock timer;
 	bool canJump;
