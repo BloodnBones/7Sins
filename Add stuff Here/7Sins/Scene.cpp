@@ -296,9 +296,9 @@ void Scene::AddFallingObject()
 	body._BodyDef.position.Set(randx / RATIO, y / RATIO);
 	body._BodyDef.type = b2_dynamicBody;
 	body._RECT = sf::RectangleShape(sf::Vector2f(origin_x, origin_y));
-	body._RECT.setOrigin(origin_x, origin_y / 2);
+	body._RECT.setOrigin(origin_x / 2, origin_y / 2);
 	body._RECT.setTexture(&currentGame->textureManager.getRef("FallingObject"));
-	body._BodyShape.SetAsBox(origin_x / RATIO, (origin_y / 2) / RATIO);
+	body._BodyShape.SetAsBox((origin_x / 2) / RATIO, (origin_y / 2) / RATIO);
 	body._FixtureDef.shape = &body._BodyShape;
 	body._FixtureDef.density = 5.0f;
 	body._FixtureDef.friction = 1.5f;
