@@ -42,7 +42,8 @@ enum BodyType
 	ObstacleH,
 	ObstacleS,
 	Ground,
-	Enemy
+	Enemy,
+	FallingObject
 };
 
 //world object

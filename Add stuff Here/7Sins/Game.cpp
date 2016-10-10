@@ -8,15 +8,24 @@ NewZealand
 
 File Name	:
 Description	:
-Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
+Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgway
 mail		:	tyrone.mill6438@mediadesign.school.nz
 			,	gabriel.mugadza
 			,	mun.houyong
-			,	dylan.ridgeway
+			,	dylan.rid6275@mediadesign.school.nz
 */
 
 #include "Game.h"
 #include "GameState.h"
+
+/*
+* @brief
+* @param
+* @return
+*/
+void Game::SpawnFallingObject()
+{
+}
 
 /*
 * @brief
@@ -118,6 +127,7 @@ Game::gameLoop()
 {
 	sf::Clock clock;
 	float frameRate = 0;
+
 	while (window.isOpen())
 	{
 		sf::Time timeElapsed = clock.restart();
