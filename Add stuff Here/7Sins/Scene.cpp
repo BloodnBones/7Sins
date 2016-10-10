@@ -310,6 +310,7 @@ void Scene::AddFallingObject()
 	body.type = FallingObject;
 
 	m_FallingObjects.push_back(body);
+	m_FallingObjects.back()._BodyPtr->ApplyForceToCenter(b2Vec2(0, 180), true);
 }
 
 /*
@@ -429,6 +430,25 @@ void Scene::update(float dt)
 			rotationAngle = Obstacles[i]._BodyPtr->GetAngle();
 			Obstacles[i]._RECT.setPosition(xpos*RATIO, ypos*RATIO);
 			Obstacles[i]._RECT.setRotation(rotationAngle * (float)-57.295);
+		}
+	}
+
+	if (!m_FallingObjects.empty())
+	{
+		for (auto i = m_FallingObjects.begin(); i != m_FallingObjects.end();)
+		{
+			
+			sf::Texture Image;
+			Image.loadFromImage(m_FallingObjectSprite);
+			(*i)._RECT.setTexture(&Image);
+			
+			xpos = (*i)._BodyPtr->GetPosition().x;
+			ypos = (*i)._BodyPtr->GetPosition().y;
+			rotationAngle = (*i)._BodyPtr->GetAngle();
+			(*i)._RECT.setPosition(xpos*RATIO, ypos*RATIO);
+			(*i)._RECT.setRotation(rotationAngle * (float)-57.295);
+
+			++i;
 		}
 	}
 
