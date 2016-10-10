@@ -289,15 +289,15 @@ void Scene::AddFallingObject()
 	int randx = rand() % 1000 + 1;
 	int y = -10;
 
-	float origin_x = 10.0f;
-	float origin_y = 10.0f;
+	float origin_x = 20.0f;
+	float origin_y = 20.0f;
 
-	body.Image.loadFromImage(m_FallingObjectSprite);
+
 	body._BodyDef.position.Set(randx / RATIO, y / RATIO);
 	body._BodyDef.type = b2_dynamicBody;
-	body._RECT = sf::RectangleShape(sf::Vector2f(origin_x * 2, origin_y));
+	body._RECT = sf::RectangleShape(sf::Vector2f(origin_x, origin_y));
 	body._RECT.setOrigin(origin_x, origin_y / 2);
-	body._RECT.setTexture(&body.Image);
+	body._RECT.setTexture(&currentGame->textureManager.getRef("FallingObject"));
 	body._BodyShape.SetAsBox(origin_x / RATIO, (origin_y / 2) / RATIO);
 	body._FixtureDef.shape = &body._BodyShape;
 	body._FixtureDef.density = 5.0f;
@@ -436,12 +436,7 @@ void Scene::update(float dt)
 	if (!m_FallingObjects.empty())
 	{
 		for (auto i = m_FallingObjects.begin(); i != m_FallingObjects.end();)
-		{
-			
-			sf::Texture Image;
-			Image.loadFromImage(m_FallingObjectSprite);
-			(*i)._RECT.setTexture(&Image);
-			
+		{			
 			xpos = (*i)._BodyPtr->GetPosition().x;
 			ypos = (*i)._BodyPtr->GetPosition().y;
 			rotationAngle = (*i)._BodyPtr->GetAngle();

@@ -72,6 +72,8 @@ Game::loadTextures()
 	textureManager.loadTexture("Logo", "images//Logo.png");
 	textureManager.loadTexture("LogoAnim", "images//Logo_Sheet.png");
 	textureManager.loadTexture("WrathIdle", "images//Wrath_Idle.png");
+	textureManager.loadTexture("FallingObject", "images//FallingObject.png");
+
 }
 
 /*
