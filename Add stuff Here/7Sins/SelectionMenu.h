@@ -45,10 +45,10 @@ private:
 				satella = false,
 				honda = false;
 
-	int			m_P1Choice = NONE,
-				m_P2Choice = NONE,
-				m_P3Choice = NONE,
-				m_P4Choice = NONE;
+	int			m_P1Choice = 0,
+				m_P2Choice = 0,
+				m_P3Choice = 0,
+				m_P4Choice = 0;
 
 	sf::Text	m_P1Current,
 				m_P2Current,

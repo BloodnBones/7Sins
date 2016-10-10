@@ -181,7 +181,6 @@ SelectionMenu::update(const float dt)
 	if (done.CheckButton(game->window))
 	{
 		//GameObject1 = new GameObject()
-		//game->pushState(GAME_PLAY, new MainGame(game, m_P1Choice, m_P2Choice, m_P3Choice, m_P4Choice));
 		game->pushState(GAME_PLAY, new MainGame(game));
 		game->setState(GAME_PLAY);
 		//game->setState(GAME_MENU);

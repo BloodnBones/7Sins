@@ -10,7 +10,7 @@ File Name	:
 Description	:
 Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
 mail		:	tyrone.mill6438@mediadesign.school.nz
-			,
+			,myemail@gmail.email
 			,
 			,
 */
@@ -38,13 +38,13 @@ GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game 
 	{
 		if (Index == 0)
 		{
-			xpos = 200;
-			ypos = 250;
+			xpos = 500;
+			ypos = 00;
 		}
 		else
 		{
-			xpos = 600;
-			ypos = 250;
+			xpos = 668;
+			ypos = 00;
 		}
 	}
 	origin_x = 80;
@@ -66,7 +66,7 @@ GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game 
 * @param	:Game * gameptr - sets the current gamestate
 * @return	:GameObject
 */
-GameObject::GameObject(b2World *aWorld, int character, BodyType type, Game *gameptr, int Index)
+GameObject::GameObject(b2World *aWorld, Character character, BodyType type, Game *gameptr, int Index)
 {
 	PlayerIndex = Index;
 	currentGame = gameptr;
@@ -78,13 +78,13 @@ GameObject::GameObject(b2World *aWorld, int character, BodyType type, Game *game
 	{
 		if (Index == 0)
 		{
-			xpos = 200;
-			ypos = 250;
+			xpos = 500;
+			ypos = 0;
 		}
 		else
 		{
-			xpos = 600;
-			ypos = 250;
+			xpos = 500;
+			ypos = 0;
 		}
 	}
 	origin_x = 20;
@@ -151,6 +151,7 @@ void GameObject::Init(b2World & world)
 */
 void GameObject::SetPhysicsBox()
 {
+	m_body._Sprite = sprite;
 	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x * 2, origin_y));
 	m_body._RECT.setOrigin(origin_x, origin_y / 2);
 	m_body._RECT.setTexture(sprite.getTexture());
@@ -171,9 +172,9 @@ void GameObject::SetPhysicsBox()
 	{
 		m_body.HP = 3;
 	}
-
-	Animate.setSprite(&sprite);
+	Animate.setSprite(&m_body._Sprite);
 	Animate.SetAnim(0, 8);
+
 }
 
 /*
@@ -215,7 +216,14 @@ void GameObject::input(sf::Event events)
 */
 void GameObject::draw()
 {
-	Animate.DrawSpriteAnim(currentGame->window, Animate.GetCurrentFrame(), 0, 166, 192);
+	if (PlayerIndex == 0)
+	{
+		Animate.DrawSpriteAnim(currentGame->window, Animate.GetCurrentFrame(), 0, 165, 198);
+	}
+	else
+	{
+		Animate.DrawSprite(currentGame->window);
+	}
 }
 
 /*
@@ -236,10 +244,7 @@ void GameObject::SetPosition(float x, float y)
 	m_body._BodyPtr->CreateFixture(&m_body._FixtureDef);
 	m_body._RECT.setPosition(m_body._BodyPtr->GetPosition().x*RATIO,
 		m_body._BodyPtr->GetPosition().y*RATIO);
-	if (m_type == BodyType::Player)
-	{
-		m_body._BodyPtr->SetActive(false);
-	}
+
 }
 
 /*
@@ -248,15 +253,15 @@ void GameObject::SetPosition(float x, float y)
 */
 void GameObject::update()
 {
-	
-	xpos = m_body._BodyPtr->GetPosition().x;
-	ypos = m_body._BodyPtr->GetPosition().y;
+	float rotationAngle;
+	Animate.Animate();
+	xpos = (m_body._BodyPtr->GetPosition().x * RATIO);// -sprite.getTextureRect().width;
+	ypos = (m_body._BodyPtr->GetPosition().y * RATIO) - (sprite.getTextureRect().height *0.7f);
+	rotationAngle = m_body._BodyPtr->GetAngle();
+	m_body._Sprite.setRotation(rotationAngle * (float)-57.295);
+	m_body._Sprite.setPosition(xpos , ypos);
 
-	//m_body._RECT.setPosition(xpos*RATIO, ypos*RATIO);
-	sprite.setPosition(xpos*RATIO, ypos*RATIO);
-	Animate.setSprite(&sprite);
 	jumpTimer = timer.getElapsedTime().asSeconds();
-	
 	if (m_body.Touching)
 	{
 		isGrounded = true;
@@ -265,9 +270,6 @@ void GameObject::update()
 	{
 		isGrounded = false;
 	}
-	Animate.Animate();
-
-
 }
 
 /*
@@ -313,17 +315,17 @@ void GameObject::Player1Input()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && current_Velocity.x > -MAX_VELOCITY)
 	{
-		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-5, 0), m_body._BodyPtr->GetWorldCenter(), true);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-10, 0), m_body._BodyPtr->GetWorldCenter(), true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && current_Velocity.x < MAX_VELOCITY)
 	{
-		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(5, 0), m_body._BodyPtr->GetWorldCenter(), true);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(10, 0), m_body._BodyPtr->GetWorldCenter(), true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		if (isGrounded)
 		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -65), m_body._BodyPtr->GetWorldCenter(), true);
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -165), m_body._BodyPtr->GetWorldCenter(), true);
 
 		}
 	}
@@ -357,17 +359,17 @@ void GameObject::Player2Input()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && current_Velocity.x > -MAX_VELOCITY)
 	{
-		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-2, 0), m_body._BodyPtr->GetWorldCenter(), true);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-10, 0), m_body._BodyPtr->GetWorldCenter(), true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && current_Velocity.x < MAX_VELOCITY)
 	{
-		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(2, 0), m_body._BodyPtr->GetWorldCenter(), true);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(10, 0), m_body._BodyPtr->GetWorldCenter(), true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad0))
 	{
 		if (isGrounded)
 		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -15), m_body._BodyPtr->GetWorldCenter(), true);
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -105), m_body._BodyPtr->GetWorldCenter(), true);
 
 		}
 	}
@@ -395,7 +397,7 @@ void GameObject::SetPlayerIndex(int Index)
 * @brief	:Loades image based on playeres choice of character
 * @param	:Enum value of the chosen character
 */
-void GameObject::LoadCharacterImage(int character)
+void GameObject::LoadCharacterImage(Character character)
 {
 	switch (character)
 	{

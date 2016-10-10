@@ -243,7 +243,7 @@ void Scene::HorizontalObstacle(PhysicsBody & body, float _xpos, float ypos, floa
 
 	body.Image.loadFromImage(ObstacleSprites[SpriteIndex]);
 	body._BodyDef.position.Set(_xpos / RATIO, ypos / RATIO);
-	body._BodyDef.type = b2_kinematicBody;
+	body._BodyDef.type = b2_staticBody;
 	body._RECT = sf::RectangleShape(sf::Vector2f(origin_x * 2, origin_y));
 	body._RECT.setOrigin(origin_x, origin_y / 2);
 	body._RECT.setTexture(&body.Image);
@@ -432,24 +432,6 @@ void Scene::update(float dt)
 		}
 	}
 
-	if (!m_FallingObjects.empty())
-	{
-		for (auto i = m_FallingObjects.begin(); i != m_FallingObjects.end();)
-		{
-			sf::Texture Image;
-			Image.loadFromImage(m_FallingObjectSprite);
-			(*i)._RECT.setTexture(&Image);
-			
-			xpos = (*i)._BodyPtr->GetPosition().x;
-			ypos = (*i)._BodyPtr->GetPosition().y;
-			rotationAngle = (*i)._BodyPtr->GetAngle();
-			(*i)._RECT.setPosition(xpos*RATIO, ypos*RATIO);
-			(*i)._RECT.setRotation(rotationAngle * (float)-57.295);
-
-			++i;
-		}
-	}
-
 	for (size_t i = 0; i < GameObjectList.size(); i++)
 	{
 		GameObjectList[i]->update();
@@ -557,13 +539,12 @@ void Scene::BeginContact(b2Contact * contact)
 	{
 		bodyDataA->Touching = true;
 		bodyDataB->Touching = true;
-		std::cout << "touching " << endl;
+		
 	}
 	else if (bodyDataB->type == Player && bodyDataA->type == ObstacleH)
 	{
 		bodyDataA->Touching = true;
 		bodyDataB->Touching = true;
-		std::cout << "touching " << endl;
 	}
 	else
 	{

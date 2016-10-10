@@ -44,7 +44,8 @@ MainMenu::MainMenu(Game* gameState)
 
 	Logo.setTexture(this->game->textureManager.getRef("LogoAnim"));
 	AnimatedLogo.setSprite(&Logo);
-	AnimatedLogo.SetAnim(0, 4);
+	AnimatedLogo.SetAnim(0, 8);
+	AnimatedLogo.SetFrameRate(70);
 	
 	font.loadFromFile("images/contm.ttf");
 

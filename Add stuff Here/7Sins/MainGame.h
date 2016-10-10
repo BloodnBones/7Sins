@@ -28,7 +28,6 @@ class MainGame : public GameState
 {
 public:
 	MainGame(Game* game);
-	MainGame(Game* game, int Player1, int Player2, int Player3, int Player4);
 
 	virtual	void draw();
 	virtual void update(const float dt);
@@ -39,12 +38,8 @@ private:
 	sf::View hudView;
 	sf::Sprite _Background;
 	PhysicsWorld * m_world;
-
-	GameObject	*GameObject1,
-				*GameObject2,
-				*GameObject3,
-				*GameObject4;
-
+	GameObject *GameObject1;
+	GameObject *GameObject2;
 	std::vector<GameObject *> GameObjectList;
 	Scene* CurrentLevel; 
 	int lvlindex = 1;

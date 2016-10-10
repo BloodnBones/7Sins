@@ -23,6 +23,7 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #include "TextureManager.h"
 #include "include\SFML\Audio.hpp"
 
+
 static const int SCREEN_WIDTH = 1024;
 static const int SCREEN_HEIGHT = 768;
 static const int SCREEN_BPP = 32;
@@ -53,7 +54,7 @@ struct PhysicsBody {
 
 	};
 
-
+	sf::Sprite _Sprite;
 	b2BodyDef _BodyDef;
 	b2PolygonShape _BodyShape;
 	b2FixtureDef _FixtureDef;
