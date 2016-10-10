@@ -31,10 +31,15 @@ private:
 	sf::Texture BackgroundTex;
 	sf::RectangleShape _Background;
 	std::vector<sf::Image> ObstacleSprites;
+
+	sf::Image m_FallingObjectSprite;
+
 	sf::Image EnemySprite;
 	b2World *_World;
 	PhysicsBody Floor[1];
 	std::vector<PhysicsBody> Obstacles;
+	std::vector<PhysicsBody> m_FallingObjects;
+	std::vector<PhysicsBody> m_DeadObjects;
 	GameObject * m_currentGameObject;
 	std::vector<PhysicsBody *> m_bodies;
 	std::vector<GameObject *> Enemies;
@@ -71,10 +76,13 @@ public:
 	void HorizontalBorder(PhysicsBody & body, float _xpos, float ypos, float origin_x, float origin_y, sf::Color fill);
 	void HorizontalObstacle(PhysicsBody & body, float _xpos, float ypos, float origin_x, float origin_y, int SpriteIndex);
 	void VerticleObstacle(PhysicsBody & body, float _xpos, float ypos, float origin_x, float origin_y, int SpriteIndex);
+
+	void AddFallingObject();
+
 	void SetObstacles();
 	void SetEnemies();
 	void draw();
-	void update();
+	void update(float dt);
 	void SetObstacleSprites();
 	void AddSceneBodies();
 	void GameOver();

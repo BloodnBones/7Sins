@@ -16,6 +16,9 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 */
 
 #pragma once
+#ifndef MAINGAME_H
+#define MAINGAME_H
+
 
 #include "include\SFML\Graphics.hpp"
 
@@ -27,6 +30,7 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 class MainGame : public GameState
 {
 public:
+	MainGame(Game* game, int Player1, int Player2, int Player3, int Player4);
 	MainGame(Game* game);
 
 	virtual	void draw();
@@ -40,6 +44,8 @@ private:
 	PhysicsWorld * m_world;
 	GameObject *GameObject1;
 	GameObject *GameObject2;
+	GameObject *GameObject3;
+	GameObject *GameObject4;
 	std::vector<GameObject *> GameObjectList;
 	Scene* CurrentLevel; 
 	int lvlindex = 1;
@@ -50,3 +56,4 @@ private:
 
 };
 
+#endif

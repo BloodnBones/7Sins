@@ -147,6 +147,7 @@ MainGame::handleInput()
 				break;
 					
 			case sf::Event::KeyPressed:
+			{
 				if (event.key.code == sf::Keyboard::Escape)
 				{
 					PauseGame();
@@ -156,7 +157,7 @@ MainGame::handleInput()
 					game->pushState(GAME_OVER, new GameOver(game));
 					game->setState(GAME_OVER);
 				}
-				break;
+			}break;
 		}
 	}
 	CurrentLevel->input(event);
