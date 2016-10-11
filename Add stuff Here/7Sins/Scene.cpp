@@ -428,11 +428,22 @@ void Scene::update(float dt)
 	{
 		for (size_t i = 0; i < Obstacles.size(); i++)
 		{
-			xpos = Obstacles[i]._BodyPtr->GetPosition().x;
-			ypos = Obstacles[i]._BodyPtr->GetPosition().y;
-			rotationAngle = Obstacles[i]._BodyPtr->GetAngle();
-			Obstacles[i]._RECT.setPosition(xpos*RATIO, ypos*RATIO);
-			Obstacles[i]._RECT.setRotation(rotationAngle * (float)-57.295);
+			if (Obstacles[i].dead == true) {
+				Obstacles[i]._BodyPtr->DestroyFixture(Obstacles[i]._BodyPtr->GetFixtureList());
+				Obstacles[i]._BodyPtr->GetWorld()->DestroyBody(Obstacles[i]._BodyPtr);
+				Obstacles[i].Zero();
+			}
+			if (Obstacles[i]._BodyPtr != NULL) {
+				xpos = Obstacles[i]._BodyPtr->GetPosition().x;
+				ypos = Obstacles[i]._BodyPtr->GetPosition().y;
+				rotationAngle = Obstacles[i]._BodyPtr->GetAngle();
+				Obstacles[i]._RECT.setPosition(xpos*RATIO, ypos*RATIO);
+				Obstacles[i]._RECT.setRotation(rotationAngle * (float)-57.295);
+			}
+			else {
+				Obstacles.erase(Obstacles.begin() + i);
+				i -= 1;
+			}
 		}
 	}
 
@@ -456,6 +467,8 @@ void Scene::update(float dt)
 	}
 
 	if (m_DeadObjects.size() > 0) {
+		
+		
 		for (unsigned int i = 0; i < m_FallingObjects.size(); ++i) {
 			if (m_FallingObjects[i]->dead == true) {
 				m_FallingObjects.erase(m_FallingObjects.begin() + i);
@@ -463,7 +476,9 @@ void Scene::update(float dt)
 			}
 		}
 		for (unsigned int i = 0; i < m_DeadObjects.size(); ++i) {
+			m_DeadObjects[i]->_BodyPtr->DestroyFixture(m_DeadObjects[i]->_BodyPtr->GetFixtureList());
 			m_DeadObjects[i]->_BodyPtr->GetWorld()->DestroyBody(m_DeadObjects[i]->_BodyPtr);
+			m_DeadObjects[i]->Zero();
 			//delete (m_FallingObjects[i]);
 		}
 		m_DeadObjects.clear();
@@ -568,7 +583,7 @@ void Scene::BeginContact(b2Contact * contact)
 		m_DeadObjects.push_back(bodyDataA);
 
 		bodyDataB->dead = true;
-		m_DeadObjects.push_back(bodyDataB);
+		//m_DeadObjects.push_back(bodyDataB);
 	}
 	if (bodyDataB->type == FallingObject && bodyDataB->dead == false && bodyDataA->type == ObstacleH) {
 		
@@ -576,7 +591,7 @@ void Scene::BeginContact(b2Contact * contact)
 		m_DeadObjects.push_back(bodyDataB);
 
 		bodyDataA->dead = true;
-		m_DeadObjects.push_back(bodyDataA);
+		//m_DeadObjects.push_back(bodyDataA);
 	}
 
 	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)
