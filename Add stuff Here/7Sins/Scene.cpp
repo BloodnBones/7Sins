@@ -286,7 +286,7 @@ void Scene::VerticleObstacle(PhysicsBody & body, float _xpos, float ypos, float 
 void Scene::AddFallingObject()
 {
 	PhysicsBody* body = new PhysicsBody();
-	int randx = rand() % SCREEN_WIDTH + 1;
+	int randx = (rand() % SCREEN_WIDTH) + 10;
 	int y = -10;
 
 	float origin_x = 20.0f;
@@ -454,7 +454,7 @@ void Scene::update(float dt)
 		GameObjectList[i]->update();
 	}
 
-	if (m_DeadObjects.empty() != true) {
+	if (m_DeadObjects.size() > 0) {
 		for (unsigned int i = 0; i < m_FallingObjects.size(); ++i) {
 			if (m_FallingObjects[i]->dead == true) {
 				m_FallingObjects.erase(m_FallingObjects.begin() + i);
@@ -463,6 +463,7 @@ void Scene::update(float dt)
 		}
 		for (unsigned int i = 0; i < m_DeadObjects.size(); ++i) {
 			m_DeadObjects[i]->_BodyPtr->GetWorld()->DestroyBody(m_DeadObjects[i]->_BodyPtr);
+			//delete (m_FallingObjects[i]);
 		}
 		m_DeadObjects.clear();
 	}
@@ -559,25 +560,21 @@ void Scene::BeginContact(b2Contact * contact)
 	PhysicsBody* bodyDataA = static_cast<PhysicsBody*>(contact->GetFixtureA()->GetBody()->GetUserData());
 	PhysicsBody* bodyDataB = static_cast<PhysicsBody*>(contact->GetFixtureB()->GetBody()->GetUserData());
 
-	if (bodyDataA->type == FallingObject && bodyDataA->dead == false) {
+	if (bodyDataA->type == FallingObject && bodyDataA->dead == false && bodyDataB->type == ObstacleH) {
 		printf("Dead");
 		bodyDataA->dead = true;
 		m_DeadObjects.push_back(bodyDataA);
 
-		if (bodyDataB->type == ObstacleH) {
-			bodyDataB->dead = true;
-			m_DeadObjects.push_back(bodyDataB);
-		}
+		bodyDataB->dead = true;
+		m_DeadObjects.push_back(bodyDataB);
 	}
-	if (bodyDataB->type == FallingObject && bodyDataB->dead == false) {
+	if (bodyDataB->type == FallingObject && bodyDataB->dead == false && bodyDataA->type == ObstacleH) {
 		printf("Dead");
 		bodyDataB->dead = true;
 		m_DeadObjects.push_back(bodyDataB);
 
-		if (bodyDataA->type == ObstacleH) {
-			bodyDataA->dead = true;
-			m_DeadObjects.push_back(bodyDataA);
-		}
+		bodyDataA->dead = true;
+		m_DeadObjects.push_back(bodyDataA);
 	}
 
 	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)
