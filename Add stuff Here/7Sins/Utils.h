@@ -51,8 +51,17 @@ enum BodyType
 struct PhysicsBody {
 
 	PhysicsBody() {
-
 	};
+
+	void Zero() {
+		dead = true;
+		HP = 0;
+		Touching = true;
+		_RECT = sf::RectangleShape();
+		Image = sf::Texture();
+		_Sprite = sf::Sprite();
+		_BodyPtr = 0;
+	}
 
 	sf::Sprite _Sprite;
 	b2BodyDef _BodyDef;
