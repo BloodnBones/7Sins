@@ -286,7 +286,7 @@ void Scene::VerticleObstacle(PhysicsBody & body, float _xpos, float ypos, float 
 void Scene::AddFallingObject()
 {
 	PhysicsBody* body = new PhysicsBody();
-	int randx = rand() % 1000 + 1;
+	int randx = rand() % SCREEN_WIDTH + 1;
 	int y = -10;
 
 	float origin_x = 20.0f;
@@ -414,7 +414,7 @@ void Scene::update(float dt)
 	static float temp = 0;
 	temp += (dt * 10000);
 
-	if (temp > 3.0f) {
+	if (temp > 0.1f) {
 		temp = 0.0f;
 		AddFallingObject();
 	}
@@ -563,11 +563,21 @@ void Scene::BeginContact(b2Contact * contact)
 		printf("Dead");
 		bodyDataA->dead = true;
 		m_DeadObjects.push_back(bodyDataA);
+
+		if (bodyDataB->type == ObstacleH) {
+			bodyDataB->dead = true;
+			m_DeadObjects.push_back(bodyDataB);
+		}
 	}
 	if (bodyDataB->type == FallingObject && bodyDataB->dead == false) {
 		printf("Dead");
 		bodyDataB->dead = true;
 		m_DeadObjects.push_back(bodyDataB);
+
+		if (bodyDataA->type == ObstacleH) {
+			bodyDataA->dead = true;
+			m_DeadObjects.push_back(bodyDataA);
+		}
 	}
 
 	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)
