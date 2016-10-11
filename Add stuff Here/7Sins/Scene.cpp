@@ -285,7 +285,7 @@ void Scene::VerticleObstacle(PhysicsBody & body, float _xpos, float ypos, float 
 
 void Scene::AddFallingObject()
 {
-	PhysicsBody body;
+	PhysicsBody* body = new PhysicsBody();
 	int randx = rand() % 1000 + 1;
 	int y = -10;
 
@@ -293,24 +293,26 @@ void Scene::AddFallingObject()
 	float origin_y = 20.0f;
 
 
-	body._BodyDef.position.Set(randx / RATIO, y / RATIO);
-	body._BodyDef.type = b2_dynamicBody;
-	body._RECT = sf::RectangleShape(sf::Vector2f(origin_x, origin_y));
-	body._RECT.setOrigin(origin_x / 2, origin_y / 2);
-	body._RECT.setTexture(&currentGame->textureManager.getRef("FallingObject"));
-	body._BodyShape.SetAsBox((origin_x / 2) / RATIO, (origin_y / 2) / RATIO);
-	body._FixtureDef.shape = &body._BodyShape;
-	body._FixtureDef.density = 5.0f;
-	body._FixtureDef.friction = 1.5f;
-	body._BodyPtr = _World->CreateBody(&body._BodyDef);
-	body._BodyPtr->CreateFixture(&body._BodyShape, 1.0f);
-	body._BodyPtr->SetUserData(&body);
+	body->_BodyDef.position.Set(randx / RATIO, y / RATIO);
+	body->_BodyDef.type = b2_dynamicBody;
+	body->_RECT = sf::RectangleShape(sf::Vector2f(origin_x, origin_y));
+	body->_RECT.setOrigin(origin_x / 2, origin_y / 2);
+	body->_RECT.setTexture(&currentGame->textureManager.getRef("FallingObject"));
+	body->_BodyShape.SetAsBox((origin_x / 2) / RATIO, (origin_y / 2) / RATIO);
+	body->_FixtureDef.shape = &body->_BodyShape;
+	body->_FixtureDef.density = 5.0f;
+	body->_FixtureDef.friction = 1.5f;
+	body->type = BodyType::FallingObject;
+	body->_BodyPtr = _World->CreateBody(&body->_BodyDef);
+	body->_BodyPtr->CreateFixture(&body->_BodyShape, 1.0f);
+	body->_BodyPtr->SetUserData(body);
+	body->dead = false;
 	//set position
-	body._RECT.setPosition(body._BodyPtr->GetPosition().x*RATIO, body._BodyPtr->GetPosition().y*RATIO);
-	body.type = FallingObject;
+	body->_RECT.setPosition(body->_BodyPtr->GetPosition().x*RATIO, body->_BodyPtr->GetPosition().y*RATIO);
+	
+	body->_BodyPtr->ApplyForceToCenter(b2Vec2(0, 180), true);
 
 	m_FallingObjects.push_back(body);
-	m_FallingObjects.back()._BodyPtr->ApplyForceToCenter(b2Vec2(0, 180), true);
 }
 
 /*
@@ -390,7 +392,7 @@ void Scene::draw()
 	if (!m_FallingObjects.empty())
 	{
 		for (size_t i = 0; i < m_FallingObjects.size(); i++) {
-			currentGame->window.draw(m_FallingObjects[i]._RECT);
+			currentGame->window.draw(m_FallingObjects[i]->_RECT);
 		}
 	}
 	for (int i = 0; i < 1; i++)
@@ -436,12 +438,12 @@ void Scene::update(float dt)
 	if (!m_FallingObjects.empty())
 	{
 		for (auto i = m_FallingObjects.begin(); i != m_FallingObjects.end();)
-		{			
-			xpos = (*i)._BodyPtr->GetPosition().x;
-			ypos = (*i)._BodyPtr->GetPosition().y;
-			rotationAngle = (*i)._BodyPtr->GetAngle();
-			(*i)._RECT.setPosition(xpos*RATIO, ypos*RATIO);
-			(*i)._RECT.setRotation(rotationAngle * (float)-57.295);
+		{
+			xpos = (*i)->_BodyPtr->GetPosition().x;
+			ypos = (*i)->_BodyPtr->GetPosition().y;
+			rotationAngle = (*i)->_BodyPtr->GetAngle();
+			(*i)->_RECT.setPosition(xpos*RATIO, ypos*RATIO);
+			(*i)->_RECT.setRotation(rotationAngle * (float)-57.295);
 
 			++i;
 		}
@@ -451,6 +453,20 @@ void Scene::update(float dt)
 	{
 		GameObjectList[i]->update();
 	}
+
+	if (m_DeadObjects.empty() != true) {
+		for (unsigned int i = 0; i < m_FallingObjects.size(); ++i) {
+			if (m_FallingObjects[i]->dead == true) {
+				m_FallingObjects.erase(m_FallingObjects.begin() + i);
+				i = -1;
+			}
+		}
+		for (unsigned int i = 0; i < m_DeadObjects.size(); ++i) {
+			m_DeadObjects[i]->_BodyPtr->GetWorld()->DestroyBody(m_DeadObjects[i]->_BodyPtr);
+		}
+		m_DeadObjects.clear();
+	}
+	//m_FallingObjects[i]->_BodyPtr->GetWorld()->DestroyBody(m_FallingObjects[i]->_BodyPtr);
 }
 
 /*
@@ -543,21 +559,27 @@ void Scene::BeginContact(b2Contact * contact)
 	PhysicsBody* bodyDataA = static_cast<PhysicsBody*>(contact->GetFixtureA()->GetBody()->GetUserData());
 	PhysicsBody* bodyDataB = static_cast<PhysicsBody*>(contact->GetFixtureB()->GetBody()->GetUserData());
 
-	if (bodyDataA->type == FallingObject) {
-		m_DeadObjects.push_back(*bodyDataA);
+	if (bodyDataA->type == FallingObject && bodyDataA->dead == false) {
+		printf("Dead");
+		bodyDataA->dead = true;
+		m_DeadObjects.push_back(bodyDataA);
 	}
-	if (bodyDataB->type == FallingObject) {
-		m_DeadObjects.push_back(*bodyDataB);
+	if (bodyDataB->type == FallingObject && bodyDataB->dead == false) {
+		printf("Dead");
+		bodyDataB->dead = true;
+		m_DeadObjects.push_back(bodyDataB);
 	}
 
 	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)
 	{
+		printf("Touching");
 		bodyDataA->Touching = true;
 		bodyDataB->Touching = true;
 		
 	}
 	else if (bodyDataB->type == Player && bodyDataA->type == ObstacleH)
 	{
+		printf("Touching");
 		bodyDataA->Touching = true;
 		bodyDataB->Touching = true;
 	}

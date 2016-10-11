@@ -57,6 +57,8 @@ public:
 	Game();
 	~Game();
 
+	
+
 private:
 
 	void loadTextures();

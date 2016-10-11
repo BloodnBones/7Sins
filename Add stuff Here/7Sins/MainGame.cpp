@@ -125,6 +125,7 @@ void
 MainGame::update(const float dt)
 {
 	m_world->GetWorld()->Step(StepRate, velIterations, posIterations);
+
 	CurrentLevel->update(dt);
 }
 

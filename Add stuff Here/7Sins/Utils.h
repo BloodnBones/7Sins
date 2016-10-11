@@ -65,6 +65,7 @@ struct PhysicsBody {
 	b2Vec2 velocity;
 	bool Touching;
 	float HP = 100;
+	bool dead;
 };
 
 enum Character

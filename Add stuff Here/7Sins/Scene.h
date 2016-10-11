@@ -38,8 +38,8 @@ private:
 	b2World *_World;
 	PhysicsBody Floor[1];
 	std::vector<PhysicsBody> Obstacles;
-	std::vector<PhysicsBody> m_FallingObjects;
-	std::vector<PhysicsBody> m_DeadObjects;
+	std::vector<PhysicsBody*> m_FallingObjects;
+	std::vector<PhysicsBody*> m_DeadObjects;
 	GameObject * m_currentGameObject;
 	std::vector<PhysicsBody *> m_bodies;
 	std::vector<GameObject *> Enemies;
