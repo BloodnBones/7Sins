@@ -109,22 +109,22 @@ Scene::Scene(b2World * aWorld, std::vector<GameObject *> Players, sf::Texture & 
 
 	// GameObjects Text
 	GameObjectsTitle.setFont(font);
-	GameObjectsTitle.setCharacterSize(50);
+	GameObjectsTitle.setCharacterSize(40);
 	GameObjectsTitle.setFillColor(sf::Color::Red);
 	GameObjectsTitle.setPosition(sf::Vector2f(45, 00));
-	GameObjectsTitle.setString("GameObjects Left");
+	GameObjectsTitle.setString("Players Left");
 
 	GameObjectsLeft.setFont(font);
-	GameObjectsLeft.setCharacterSize(50);
+	GameObjectsLeft.setCharacterSize(40);
 	GameObjectsLeft.setFillColor(sf::Color::Red);
 	GameObjectsLeft.setPosition(sf::Vector2f(50, 50));
 
 	//Score Text
 	ScoreTitle.setFont(font);
-	ScoreTitle.setCharacterSize(50);
+	ScoreTitle.setCharacterSize(40);
 	ScoreTitle.setFillColor(sf::Color::Red);
 	ScoreTitle.setPosition(sf::Vector2f(795, 00));
-	ScoreTitle.setString("Score ");
+	ScoreTitle.setString(" ");
 
 	Score.setFont(font);
 	Score.setCharacterSize(50);
@@ -414,7 +414,8 @@ void Scene::update(float dt)
 	static float temp = 0;
 	temp += (dt * 10000);
 
-	if (temp > 0.1f) {
+
+	if (temp > 3.2f) {
 		temp = 0.0f;
 		AddFallingObject();
 	}
@@ -468,6 +469,7 @@ void Scene::update(float dt)
 		m_DeadObjects.clear();
 	}
 	//m_FallingObjects[i]->_BodyPtr->GetWorld()->DestroyBody(m_FallingObjects[i]->_BodyPtr);
+	GameObjectsLeft.setString(std::to_string(GameObjectList.size()));
 }
 
 /*
@@ -561,7 +563,7 @@ void Scene::BeginContact(b2Contact * contact)
 	PhysicsBody* bodyDataB = static_cast<PhysicsBody*>(contact->GetFixtureB()->GetBody()->GetUserData());
 
 	if (bodyDataA->type == FallingObject && bodyDataA->dead == false && bodyDataB->type == ObstacleH) {
-		printf("Dead");
+		
 		bodyDataA->dead = true;
 		m_DeadObjects.push_back(bodyDataA);
 
@@ -569,7 +571,7 @@ void Scene::BeginContact(b2Contact * contact)
 		m_DeadObjects.push_back(bodyDataB);
 	}
 	if (bodyDataB->type == FallingObject && bodyDataB->dead == false && bodyDataA->type == ObstacleH) {
-		printf("Dead");
+		
 		bodyDataB->dead = true;
 		m_DeadObjects.push_back(bodyDataB);
 
@@ -579,14 +581,14 @@ void Scene::BeginContact(b2Contact * contact)
 
 	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)
 	{
-		printf("Touching");
+		
 		bodyDataA->Touching = true;
 		bodyDataB->Touching = true;
 		
 	}
 	else if (bodyDataB->type == Player && bodyDataA->type == ObstacleH)
 	{
-		printf("Touching");
+		
 		bodyDataA->Touching = true;
 		bodyDataB->Touching = true;
 	}

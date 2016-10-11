@@ -47,7 +47,7 @@ GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game 
 			ypos = 00;
 		}
 	}
-	origin_x = 80;
+	origin_x = 120;
 	origin_y = 120;
 	fill = sf::Color(255, 0, 255, 255);
 	SetPhysicsBox();
@@ -152,19 +152,21 @@ void GameObject::Init(b2World & world)
 void GameObject::SetPhysicsBox()
 {
 	m_body._Sprite = sprite;
-	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x * 2, origin_y));
-	m_body._RECT.setOrigin(origin_x, origin_y / 2);
+	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x *0.5, origin_y));
+	m_body._RECT.setOrigin(origin_x, (origin_y /2));
 	m_body._RECT.setTexture(sprite.getTexture());
 	m_body._BodyDef.position.Set(xpos / RATIO, ypos / RATIO);
 	m_body._BodyDef.type = b2_dynamicBody;
-	m_body._BodyShape.SetAsBox(origin_x / RATIO, (origin_y / 2) / RATIO);
+	m_body._BodyShape.SetAsBox((origin_x / 3)/ RATIO, (origin_y /2) / RATIO);
 	m_body._FixtureDef.shape = &m_body._BodyShape;
-	m_body._FixtureDef.density = 2.0f;
-	m_body._FixtureDef.restitution = 0.1f;
+	m_body._FixtureDef.density = 20.0f;
+	m_body._FixtureDef.restitution = 0.02f;
 	m_body._FixtureDef.friction = 0.9f;
 	m_body._BodyPtr = m_world->CreateBody(&m_body._BodyDef);
 	m_body._BodyPtr->CreateFixture(&m_body._FixtureDef);
 	m_body._BodyPtr->SetUserData(&m_body);
+	m_body._BodyPtr->SetFixedRotation(true);
+	m_body._BodyPtr->SetAngularDamping(100.0f);
 	bodyDef.position.Set(0, 0);
 	groundBody = m_world->CreateBody(&bodyDef);
 	m_body.type = m_type;
@@ -216,14 +218,15 @@ void GameObject::input(sf::Event events)
 */
 void GameObject::draw()
 {
-	if (PlayerIndex == 0)
+	/*if (PlayerIndex == 0)
 	{
 		Animate.DrawSpriteAnim(currentGame->window, Animate.GetCurrentFrame(), 0, 165, 198);
 	}
 	else
 	{
 		Animate.DrawSprite(currentGame->window);
-	}
+	}*/
+	currentGame->window.draw(m_body._RECT);
 }
 
 /*
@@ -255,11 +258,11 @@ void GameObject::update()
 {
 	float rotationAngle;
 	Animate.Animate();
-	xpos = (m_body._BodyPtr->GetPosition().x * RATIO);// -sprite.getTextureRect().width;
-	ypos = (m_body._BodyPtr->GetPosition().y * RATIO) - (sprite.getTextureRect().height *0.7f);
+	xpos = (m_body._BodyPtr->GetPosition().x * RATIO) + (m_body._RECT.getTextureRect().width * 0.6);
+	ypos = (m_body._BodyPtr->GetPosition().y * RATIO);
 	rotationAngle = m_body._BodyPtr->GetAngle();
-	m_body._Sprite.setRotation(rotationAngle * (float)-57.295);
-	m_body._Sprite.setPosition(xpos , ypos);
+	m_body._RECT.setRotation(rotationAngle * (float)-57.295);
+	m_body._RECT.setPosition(xpos, ypos);
 
 	jumpTimer = timer.getElapsedTime().asSeconds();
 	if (m_body.Touching)
@@ -315,17 +318,17 @@ void GameObject::Player1Input()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && current_Velocity.x > -MAX_VELOCITY)
 	{
-		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-10, 0), m_body._BodyPtr->GetWorldCenter(), true);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-100, 0), m_body._BodyPtr->GetWorldCenter(), true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && current_Velocity.x < MAX_VELOCITY)
 	{
-		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(10, 0), m_body._BodyPtr->GetWorldCenter(), true);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(100, 0), m_body._BodyPtr->GetWorldCenter(), true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		if (isGrounded)
 		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -165), m_body._BodyPtr->GetWorldCenter(), true);
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -665), m_body._BodyPtr->GetWorldCenter(), true);
 
 		}
 	}
@@ -359,17 +362,17 @@ void GameObject::Player2Input()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && current_Velocity.x > -MAX_VELOCITY)
 	{
-		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-10, 0), m_body._BodyPtr->GetWorldCenter(), true);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-170, 0), m_body._BodyPtr->GetWorldCenter(), true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && current_Velocity.x < MAX_VELOCITY)
 	{
-		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(10, 0), m_body._BodyPtr->GetWorldCenter(), true);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(170, 0), m_body._BodyPtr->GetWorldCenter(), true);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad0))
 	{
 		if (isGrounded)
 		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -105), m_body._BodyPtr->GetWorldCenter(), true);
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -1900), m_body._BodyPtr->GetWorldCenter(), true);
 
 		}
 	}
