@@ -27,7 +27,7 @@ public:
 	virtual void handleInput();
 
 	void SetChoice(sf::Text* text, int choice);
-	void Taken(int choice);
+	bool Taken(int choice);
 	void Reset();
 
 private:

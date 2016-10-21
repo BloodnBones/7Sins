@@ -128,9 +128,12 @@ SelectionMenu::handleInput()
 				break;
 			case sf::Keyboard::Space:
 			{
-				m_Player1Chosen = true;
-				m_Player1.setFillColor(sf::Color::Green);
-				Taken(m_P1Choice);
+				if (Taken(m_P1Choice))
+				{
+					m_Player1Chosen = true;
+					m_Player1.setFillColor(sf::Color::Green);
+				}
+				
 			}break;
 			case sf::Keyboard::Right:
 			{
@@ -147,9 +150,12 @@ SelectionMenu::handleInput()
 			}	break;
 			case sf::Keyboard::Return:
 			{
-				m_Player2Chosen = true;
-				m_Player2.setFillColor(sf::Color::Green);
-				Taken(m_P2Choice);
+				if (Taken(m_P2Choice))
+				{
+					m_Player2Chosen = true;
+					m_Player2.setFillColor(sf::Color::Green);
+				}
+				
 			}break;
 			}
 			break;
@@ -173,7 +179,7 @@ SelectionMenu::update(const float dt)
 	int x = sf::Mouse::getPosition(game->window).x;
 	int y = sf::Mouse::getPosition(game->window).y;
 
-	float scale = 123 + (sin(clock() / 1000) * 150);
+	float scale = (float)(123 + (sin(clock() / 1000) * 150));
 
 	SetChoice(&m_P1Current, m_P1Choice);
 	SetChoice(&m_P2Current, m_P2Choice);
@@ -280,36 +286,100 @@ void SelectionMenu::SetChoice(sf::Text* text, int choice)
 * @param	:
 * @return	:
 */
-void SelectionMenu::Taken(int choice)
+bool SelectionMenu::Taken(int choice)
 {
 	switch (choice)
 	{
 	case Lucia:
-	{lucia = true; }
+	{
+		if (!lucia)
+		{
+			lucia = true;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	break;
 	case Gabriel:
-	{gabriel = true; }
+	{
+		if (!gabriel)
+		{
+			gabriel = true;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	break;
 	case Joshua:
-	{joshua = true; }
+	{
+		if(!joshua)
+		{
+			joshua = true;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	break;
 	case Betty:
-	{betty = true; }
+	{
+		if(!betty)
+		{
+		betty = true;
+		return true;
+		}
+		else {
+			return false;
+		}
+	}
 	break;
 	case Matthew:
-	{matthew = true; }
+	{
+		if (!matthew)
+		{
+			matthew = true;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	break;
 	case Satella:
-	{satella = true; }
+	{
+		if(!satella)
+		{
+		satella = true;
+		return true;
+		}
+		else {
+			return false;
+		}
+	}
 	break;
 	case Honda:
-	{honda = true; }
+	{
+		if(!honda)
+		{
+			honda = true;
+			return true;
+		}
+		else {
+			return false;
+		}
+		}
 	break;
 	case NONE:
 	{ }break;
 	default:
 	{}
 	}
+	return false;
 }
 
 void SelectionMenu::Reset()

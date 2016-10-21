@@ -152,7 +152,7 @@ void GameObject::Init(b2World & world)
 void GameObject::SetPhysicsBox()
 {
 	m_body._Sprite = sprite;
-	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x *0.5, origin_y));
+	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x *0.5f, origin_y));
 	m_body._RECT.setOrigin(origin_x, (origin_y /2));
 	m_body._RECT.setTexture(sprite.getTexture());
 	m_body._BodyDef.position.Set(xpos / RATIO, ypos / RATIO);
@@ -258,7 +258,7 @@ void GameObject::update()
 {
 	float rotationAngle;
 	Animate.Animate();
-	xpos = (m_body._BodyPtr->GetPosition().x * RATIO) + (m_body._RECT.getTextureRect().width * 0.6);
+	xpos = (float)((m_body._BodyPtr->GetPosition().x * RATIO) + (m_body._RECT.getTextureRect().width * 0.6));
 	ypos = (m_body._BodyPtr->GetPosition().y * RATIO);
 	rotationAngle = m_body._BodyPtr->GetAngle();
 	m_body._RECT.setRotation(rotationAngle * (float)-57.295);

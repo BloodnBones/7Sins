@@ -117,7 +117,7 @@ MainMenu::update(const float dt)
 	int x = sf::Mouse::getPosition(game->window).x;
 	int y = sf::Mouse::getPosition(game->window).y;
 
-	float scale = 123 + (sin(clock() / 1000) * 150);
+	float scale = (float)(123 + (sin(clock() / 1000) * 150));
 	//animate logo
 
 	AnimatedLogo.Animate();
