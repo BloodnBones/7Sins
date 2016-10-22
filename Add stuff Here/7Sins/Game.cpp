@@ -62,7 +62,7 @@ Game::~Game()
 void
 Game::loadTextures()
 {
-	textureManager.loadTexture("startPrompt", "images//startPrompt.png");
+//	textureManager.loadTexture("startPrompt", "images//startPrompt.png");
 	textureManager.loadTexture("gameBackGround", "images//Background.png");
 	textureManager.loadTexture("Lava", "images//Lava_00.png");
 	textureManager.loadTexture("TileTop", "images//Tile1.png");
