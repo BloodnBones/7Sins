@@ -47,24 +47,42 @@ MainMenu::MainMenu(Game* gameState)
 	AnimatedLogo.SetAnim(0, 8);
 	AnimatedLogo.SetFrameRate(70);
 	
-	font.loadFromFile("images/contm.ttf");
+	font.loadFromFile("images/Bad Coma.ttf");
 
 	Logo.setPosition(350, 0);
 
 	play.SetName("PLAY");
-	play.SetPosition(550, 300);
-	play.SetScale(1, 1);
+	play.SetPosition(500, 300);
+	play.SetScale(2, 2);
 	play.SetFont(font);
 
-	quit.SetName("QUIT");
-	quit.SetFont(font);
-	quit.SetScale(1, 1);
-	quit.SetPosition(550, 400);
+	_play.setString("PLAY");
+	_play.setPosition(500, 300);
+	_play.setScale(2.1, 2.1);
+	_play.setFont(font);
+	_play.setFillColor(sf::Color::Black);
 
 	credits.SetName("CREDITS");
 	credits.SetFont(font);
-	credits.SetScale(1, 1);
-	credits.SetPosition(530, 360);
+	credits.SetScale(2, 2);
+	credits.SetPosition(435, 360);
+
+	_credits.setString("CREDITS");
+	_credits.setPosition(435, 360);
+	_credits.setFont(font);
+	_credits.setScale(2.1, 2.1);
+	_credits.setFillColor(sf::Color::Black);
+
+	quit.SetName("QUIT");
+	quit.SetFont(font);
+	quit.SetScale(2, 2);
+	quit.SetPosition(500, 420);
+	
+	_quit.setString("QUIT");
+	_quit.setPosition(500, 420);
+	_quit.setScale(2.1, 2.1);
+	_quit.setFont(font);
+	_quit.setFillColor(sf::Color::Black);
 
 	//playerSelect.SetName("PLAYER SELECT");
 	//playerSelect.SetFont(font);
@@ -153,8 +171,14 @@ MainMenu::draw()
 {
 	game->window.draw(backGround);
 	AnimatedLogo.DrawSpriteAnim(game->window, AnimatedLogo.GetCurrentFrame(), 0, 500, 209);
-	quit.Draw(game);
+
+
+	game->window.draw(_play);
+	game->window.draw(_credits);
+	game->window.draw(_quit);
+
 	play.Draw(game);
+	quit.Draw(game);
 	credits.Draw(game);
 
 	//playerSelect.Draw(game);

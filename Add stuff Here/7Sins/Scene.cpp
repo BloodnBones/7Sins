@@ -43,6 +43,12 @@ Scene::Scene(std::vector<GameObject*> GameObjects, sf::Image & image)
 	BackgroundTex.loadFromImage(image);
 	_Background = sf::RectangleShape(sf::Vector2f((float)BackgroundTex.getSize().x, (float)BackgroundTex.getSize().y));
 	_Background.setTexture(&BackgroundTex);
+
+	backGround.setTexture(BackgroundTex);
+	backGround.setScale(5, 5);
+	AnimatedBack.setSprite(&backGround);
+	AnimatedBack.SetAnim(0, 8);
+	AnimatedBack.SetFrameRate(70);
 	SetFloor();
 	SetObstacleSprites();
 	SetObstacles();
@@ -101,6 +107,12 @@ Scene::Scene(b2World * aWorld, std::vector<GameObject *> Players, sf::Texture & 
 	BackgroundTex = image;
 	_Background = sf::RectangleShape(sf::Vector2f((float)BackgroundTex.getSize().x, (float)BackgroundTex.getSize().y));
 	_Background.setTexture(&BackgroundTex);
+
+	backGround.setTexture(BackgroundTex);
+	backGround.setScale(2, 2);
+	AnimatedBack.setSprite(&backGround);
+	AnimatedBack.SetAnim(0, 8);
+	AnimatedBack.SetFrameRate(70);
 	SetFloor();
 	SetObstacleSprites();
 	SetObstacles();
@@ -374,7 +386,8 @@ void Scene::SetEnemies()
 */
 void Scene::draw()
 {
-	currentGame->window.draw(_Background);
+	AnimatedBack.DrawSpriteAnim(currentGame->window, AnimatedBack.GetCurrentFrame(), 0, 828, 358);
+	//currentGame->window.draw(_Background);
 	currentGame->window.draw(ScoreTitle);
 	currentGame->window.draw(GameObjectsTitle);
 	currentGame->window.draw(GameObjectsLeft);
@@ -411,6 +424,7 @@ void Scene::draw()
 */
 void Scene::update(float dt)
 {
+	AnimatedBack.Animate();
 	static float temp = 0;
 	temp += (dt * 10000);
 

@@ -46,7 +46,7 @@ MainGame::MainGame(Game* game)
 	GameObjectList.push_back(GameObject1);
 	GameObjectList.push_back(GameObject2);							//Start the physics world
 
-	CurrentLevel =  new Scene(m_world->GetWorld(), GameObjectList, this->game->textureManager.getRef("gameBackGround"), lvlindex, this->game);
+	CurrentLevel =  new Scene(m_world->GetWorld(), GameObjectList, this->game->textureManager.getRef("AnimBackGround"), lvlindex, this->game);
 
 }
 

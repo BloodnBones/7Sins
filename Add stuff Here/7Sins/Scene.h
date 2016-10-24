@@ -35,6 +35,7 @@ private:
 	sf::Image m_FallingObjectSprite;
 
 	sf::Image EnemySprite;
+	sf::Sprite backGround;
 	b2World *_World;
 	PhysicsBody Floor[1];
 	std::vector<PhysicsBody> Obstacles;
@@ -44,7 +45,7 @@ private:
 	std::vector<PhysicsBody *> m_bodies;
 	std::vector<GameObject *> Enemies;
 	std::vector<GameObject *> GameObjectList;
-
+	Animation AnimatedBack;
 	int LevelIndex;
 	
 	sf::Text GameObjectsLeft;

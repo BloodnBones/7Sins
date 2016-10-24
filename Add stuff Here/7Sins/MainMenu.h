@@ -39,7 +39,9 @@ private:
 	sf::Sprite backGround;
 	sf::Clock deltaTime;
 	sf::Sprite Logo;
-	sf::Text test;
+	sf::Text _play;
+	sf::Text _quit;
+	sf::Text _credits;
 	sf::Font font;
 	Button play;
 	Button quit;
