@@ -78,9 +78,9 @@ Game::loadTextures()
 }
 
 /*
-* @brief
-* @param
-* @return
+* @brief	:
+* @param	:
+* @return	:
 */
 void
 Game::pushState(State statevalue, GameState* state)

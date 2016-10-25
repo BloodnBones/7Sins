@@ -53,24 +53,24 @@ MainMenu::MainMenu(Game* gameState)
 
 	play.SetName("PLAY");
 	play.SetPosition(500, 300);
-	play.SetScale(2, 2);
+	play.SetScale(2.0f, 2.0f);
 	play.SetFont(font);
 
 	_play.setString("PLAY");
 	_play.setPosition(500, 300);
-	_play.setScale(2.1, 2.1);
+	_play.setScale(2.1f, 2.1f);
 	_play.setFont(font);
 	_play.setFillColor(sf::Color::Black);
 
 	credits.SetName("CREDITS");
 	credits.SetFont(font);
-	credits.SetScale(2, 2);
+	credits.SetScale(2.0f, 2.0f);
 	credits.SetPosition(435, 360);
 
 	_credits.setString("CREDITS");
 	_credits.setPosition(435, 360);
 	_credits.setFont(font);
-	_credits.setScale(2.1, 2.1);
+	_credits.setScale(2.1f, 2.1f);
 	_credits.setFillColor(sf::Color::Black);
 
 	quit.SetName("QUIT");
@@ -80,7 +80,7 @@ MainMenu::MainMenu(Game* gameState)
 	
 	_quit.setString("QUIT");
 	_quit.setPosition(500, 420);
-	_quit.setScale(2.1, 2.1);
+	_quit.setScale(2.1f, 2.1f);
 	_quit.setFont(font);
 	_quit.setFillColor(sf::Color::Black);
 
@@ -92,9 +92,9 @@ MainMenu::MainMenu(Game* gameState)
 }
 
 /*
-* @brief
-* @param
-* @return
+* @brief	:
+* @param	:
+* @return	:
 */
 void
 MainMenu::handleInput()
@@ -120,9 +120,9 @@ MainMenu::handleInput()
 }
 
 /*
-* @brief
-* @param
-* @return
+* @brief	:
+* @param	:
+* @return	:
 */
 void
 MainMenu::update(const float dt)
@@ -162,9 +162,9 @@ MainMenu::update(const float dt)
 }
 
 /*
-* @brief
-* @param
-* @return
+* @brief	:
+* @param	:
+* @return	:
 */
 void
 MainMenu::draw()
@@ -185,9 +185,9 @@ MainMenu::draw()
 }
 
 /*
-* @brief
-* @param
-* @return
+* @brief	:
+* @param	:
+* @return	:
 */
 void
 MainMenu::startGame()

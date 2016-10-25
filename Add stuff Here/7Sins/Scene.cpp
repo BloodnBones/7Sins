@@ -256,10 +256,10 @@ void Scene::HorizontalObstacle(PhysicsBody & body, float _xpos, float ypos, floa
 	body.Image.loadFromImage(ObstacleSprites[SpriteIndex]);
 	body._BodyDef.position.Set(_xpos / RATIO, ypos / RATIO);
 	body._BodyDef.type = b2_staticBody;
-	body._RECT = sf::RectangleShape(sf::Vector2f(origin_x * 2, origin_y));
-	body._RECT.setOrigin(origin_x, origin_y / 2);
+	body._RECT = sf::RectangleShape(sf::Vector2f(origin_x, origin_y));
+	body._RECT.setOrigin(origin_x / 2, origin_y / 2);
 	body._RECT.setTexture(&body.Image);
-	body._BodyShape.SetAsBox(origin_x / RATIO, (origin_y / 2) / RATIO);
+	body._BodyShape.SetAsBox((origin_x / 2) / RATIO, (origin_y / 2) / RATIO);
 	body._FixtureDef.shape = &body._BodyShape;
 	body._FixtureDef.density = 5.0f;
 	body._FixtureDef.friction = 1.5f;
@@ -280,10 +280,10 @@ void Scene::VerticleObstacle(PhysicsBody & body, float _xpos, float ypos, float 
 	body.Image.loadFromImage(ObstacleSprites[SpriteIndex]);
 	body._BodyDef.position.Set(_xpos / RATIO, ypos / RATIO);
 	body._BodyDef.type = b2_dynamicBody;
-	body._RECT = sf::RectangleShape(sf::Vector2f(origin_x, origin_y * 2));
-	body._RECT.setOrigin(origin_x / 2, origin_y);
+	body._RECT = sf::RectangleShape(sf::Vector2f(origin_x, origin_y));
+	body._RECT.setOrigin(origin_x / 2, origin_y / 2);
 	body._RECT.setTexture(&body.Image);
-	body._BodyShape.SetAsBox((origin_x / 2) / RATIO, origin_y / RATIO);
+	body._BodyShape.SetAsBox((origin_x / 2) / RATIO, (origin_y / 2) / RATIO);
 	body._FixtureDef.shape = &body._BodyShape;
 	body._FixtureDef.density = 5.0f;
 	body._FixtureDef.friction = 0.5f;
@@ -352,15 +352,15 @@ void Scene::SetObstacles()
 			{
 				if (y != 3)
 				{
-					HorizontalObstacle(Obstacles[z], (float)Xpos, (float)Ypos, (float)20, (float)40,
+					HorizontalObstacle(Obstacles[z], (float)Xpos, (float)Ypos, (float)40, (float)40,
 						1);
 				}
 				else
 				{
-					HorizontalObstacle(Obstacles[z], (float)Xpos, (float)Ypos, (float)20, (float)40,
+					HorizontalObstacle(Obstacles[z], (float)Xpos, (float)Ypos, (float)40, (float)40,
 						0);
 				}
-				Xpos += 20;
+				Xpos += 40;
 				z++;
 			}
 			Ypos -= 40;
@@ -442,11 +442,11 @@ void Scene::update(float dt)
 	{
 		for (size_t i = 0; i < Obstacles.size(); i++)
 		{
-			if (Obstacles[i].dead == true) {
+			/*if (Obstacles[i].dead == true) {
 				Obstacles[i]._BodyPtr->DestroyFixture(Obstacles[i]._BodyPtr->GetFixtureList());
 				Obstacles[i]._BodyPtr->GetWorld()->DestroyBody(Obstacles[i]._BodyPtr);
 				Obstacles[i].Zero();
-			}
+			}*/
 			if (Obstacles[i]._BodyPtr != NULL) {
 				xpos = Obstacles[i]._BodyPtr->GetPosition().x;
 				ypos = Obstacles[i]._BodyPtr->GetPosition().y;
@@ -454,10 +454,10 @@ void Scene::update(float dt)
 				Obstacles[i]._RECT.setPosition(xpos*RATIO, ypos*RATIO);
 				Obstacles[i]._RECT.setRotation(rotationAngle * (float)-57.295);
 			}
-			else {
+			/*else {
 				Obstacles.erase(Obstacles.begin() + i);
 				i -= 1;
-			}
+			}*/
 		}
 	}
 
@@ -597,7 +597,7 @@ void Scene::BeginContact(b2Contact * contact)
 		m_DeadObjects.push_back(bodyDataA);
 
 		bodyDataB->dead = true;
-		//m_DeadObjects.push_back(bodyDataB);
+		m_DeadObjects.push_back(bodyDataB);
 	}
 	if (bodyDataB->type == FallingObject && bodyDataB->dead == false && bodyDataA->type == ObstacleH) {
 		
@@ -605,7 +605,7 @@ void Scene::BeginContact(b2Contact * contact)
 		m_DeadObjects.push_back(bodyDataB);
 
 		bodyDataA->dead = true;
-		//m_DeadObjects.push_back(bodyDataA);
+		m_DeadObjects.push_back(bodyDataA);
 	}
 
 	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)

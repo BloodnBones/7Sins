@@ -1,7 +1,7 @@
 /*
 c) 2005 - 2016 Media Design School
 
-File Name	:
+File Name	:	SelectionMenu.h
 Description	:
 Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
 mail		:	tyrone.mill6438@mediadesign.school.nz
@@ -51,6 +51,8 @@ private:
 				m_Player2Chosen = false,
 				m_Player3Chosen = false,
 				m_Player4Chosen = false;
+
+	int			m_PlayersChosen = 0;
 
 	sf::Text	m_P1Current,
 				m_P2Current,

@@ -132,6 +132,7 @@ SelectionMenu::handleInput()
 				{
 					m_Player1Chosen = true;
 					m_Player1.setFillColor(sf::Color::Green);
+					m_PlayersChosen++;
 				}
 				
 			}break;
@@ -154,6 +155,7 @@ SelectionMenu::handleInput()
 				{
 					m_Player2Chosen = true;
 					m_Player2.setFillColor(sf::Color::Green);
+					m_PlayersChosen++;
 				}
 				
 			}break;
@@ -199,12 +201,18 @@ SelectionMenu::update(const float dt)
 
 	if (done.CheckButton(game->window))
 	{
-		//GameObject1 = new GameObject()
-		//game->pushState(GAME_PLAY, new MainGame(game, m_P1Choice, m_P2Choice, m_P3Choice, m_P4Choice));
-		game->pushState(GAME_PLAY, new MainGame(game));
-		game->setState(GAME_PLAY);
-		//game->setState(GAME_MENU);
-		Reset();
+		if (m_PlayersChosen > 1)
+		{
+			//GameObject1 = new GameObject()
+			//game->pushState(GAME_PLAY, new MainGame(game, m_P1Choice, m_P2Choice, m_P3Choice, m_P4Choice));
+			game->pushState(GAME_PLAY, new MainGame(game));
+			game->setState(GAME_PLAY);
+			//game->setState(GAME_MENU);
+			Reset();
+		}
+		else {
+			std::cout << "You need to have at least two players" << std::endl;
+		}
 	}
 	if (back.CheckButton(game->window))
 	{
@@ -282,9 +290,9 @@ void SelectionMenu::SetChoice(sf::Text* text, int choice)
 }
 
 /*
-* @brief	:
-* @param	:
-* @return	:
+* @brief	:Check if the chice the player is trying to make is taken
+* @param	:int -  value of the players choice to check against character enum
+* @return	:bool - true if the character is fre false i not
 */
 bool SelectionMenu::Taken(int choice)
 {
@@ -382,6 +390,11 @@ bool SelectionMenu::Taken(int choice)
 	return false;
 }
 
+/*
+* @brief	:Resets the choices made when the game 
+* @param	:None
+* @return	:None
+*/
 void SelectionMenu::Reset()
 {
 	lucia = false;
@@ -406,4 +419,6 @@ void SelectionMenu::Reset()
 	m_Player2.setFillColor(sf::Color::Black);
 	m_Player3.setFillColor(sf::Color::Black);
 	m_Player4.setFillColor(sf::Color::Black);
+
+	m_PlayersChosen = 0;
 }
