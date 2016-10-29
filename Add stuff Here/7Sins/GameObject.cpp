@@ -10,7 +10,7 @@ File Name	:
 Description	:
 Authors		:	Tyrone Mills, Gabriel Mugadza, Mun Hou Yong, Dylan Ridgeway
 mail		:	tyrone.mill6438@mediadesign.school.nz
-			,myemail@gmail.email
+			,	myemail@gmail.email
 			,
 			,
 */
@@ -209,6 +209,16 @@ void GameObject::input(sf::Event events)
 		{
 			Player2Input();
 		}
+		//Player 3
+		else if (PlayerIndex == 2)
+		{
+			Player3Input();
+		}
+		//Player 4
+		else if (PlayerIndex == 3)
+		{
+			Player4Input();
+		}
 	}
 }
 
@@ -346,6 +356,11 @@ void GameObject::Player1Input()
 	}
 }
 
+/*
+* @brief	:Process the iputs for each player
+* @param
+* @return
+*/
 void GameObject::Player2Input()
 {
 	b2Vec2 current_Velocity = m_body._BodyPtr->GetLinearVelocity();
@@ -377,6 +392,54 @@ void GameObject::Player2Input()
 		}
 	}
 	if (sf::Joystick::isConnected(1))			//Checks if a joystick(controller) is plugged in 
+	{
+		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);
+
+		//Checks for button on controller being pressed
+		if (sf::Joystick::isButtonPressed(0, 1) && isGrounded)
+		{
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
+
+		}
+
+	}
+}
+
+/*
+* @brief	:Process the iputs for each player
+* @param
+* @return
+*/
+void GameObject::Player3Input()
+{
+	b2Vec2 current_Velocity = m_body._BodyPtr->GetLinearVelocity();
+	//Damp the velocity when not moving
+	if (sf::Joystick::isConnected(2))			//Checks if a joystick(controller) is plugged in 
+	{
+		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);
+
+		//Checks for button on controller being pressed
+		if (sf::Joystick::isButtonPressed(0, 1) && isGrounded)
+		{
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
+
+		}
+
+	}
+}
+
+/*
+* @brief	:Process the iputs for each player
+* @param
+* @return
+*/
+void GameObject::Player4Input()
+{
+	b2Vec2 current_Velocity = m_body._BodyPtr->GetLinearVelocity();
+	//Damp the velocity when not moving
+	if (sf::Joystick::isConnected(3))			//Checks if a joystick(controller) is plugged in 
 	{
 		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);

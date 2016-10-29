@@ -88,6 +88,8 @@ public:
 	void Shoot(float x, float y);
 	void Player1Input();
 	void Player2Input();
+	void Player3Input();
+	void Player4Input();
 	void SetPlayerIndex(int Index);
 	void LoadCharacterImage(int character);
 	PhysicsBody * getBody();

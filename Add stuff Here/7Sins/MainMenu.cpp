@@ -19,6 +19,7 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #include "MainGame.h"
 #include "GameState.h"
 #include "SelectionMenu.h"
+#include "CreditsMenu.h"
 
 
 #include <iostream>
@@ -144,7 +145,6 @@ MainMenu::update(const float dt)
 	{
 		game->pushState(GAME_SELECT, new SelectionMenu(game));
 		game->setState(GAME_SELECT);
-
 	}
 	if (quit.CheckButton(game->window))
 	{
@@ -152,13 +152,9 @@ MainMenu::update(const float dt)
 	}
 	if (credits.CheckButton(game->window))
 	{
-		std::cout << "Sorry I don't do anything" << std::endl;
+		game->pushState(GAME_CREDITS, new CreditsMenu(game));
+		game->setState(GAME_CREDITS);
 	}
-	//if (playerSelect.CheckButton(game->window))
-	//{
-	//	game->pushState(GAME_SELECT, new SelectionMenu(game));
-	//	game->setState(GAME_SELECT);
-	//}
 }
 
 /*

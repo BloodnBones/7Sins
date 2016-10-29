@@ -40,6 +40,7 @@
     <ClCompile Include="GameOver.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="CreditsMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="button.h">
@@ -84,6 +85,7 @@
     <ClInclude Include="GameOver.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="CreditsMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
