@@ -327,6 +327,21 @@ SelectionMenu::update(const float dt)
 	{
 		buttonDelayP1 -= dt * 1000;
 	}
+
+	if (buttonDelayP2 > -1)
+	{
+		buttonDelayP2 -= dt * 1000;
+	}
+
+	if (buttonDelayP3 > -1)
+	{
+		buttonDelayP3 -= dt * 1000;
+	}
+
+	if (buttonDelayP4 > -1)
+	{
+		buttonDelayP4 -= dt * 1000;
+	}
 	
 
 	sf::Event events;
