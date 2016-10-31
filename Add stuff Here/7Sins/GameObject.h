@@ -94,6 +94,9 @@ public:
 	void LoadCharacterImage(int character);
 	PhysicsBody * getBody();
 
+	float m_fChargeCooldown;
+	float m_fJumpCooldown;
+
 	bool	canKill;
 	float	KillTime = 2;
 };

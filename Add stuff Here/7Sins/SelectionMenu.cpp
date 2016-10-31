@@ -14,7 +14,7 @@ SelectionMenu::SelectionMenu(Game* gameState)
 	backGround.setPosition(0, 0);
 	backGround.setScale(0.8f, 0.9f);
 
-	font.loadFromFile("images/contm.ttf");
+	font.loadFromFile("images/Bad Coma.ttf");
 
 	//Character Buttons
 	m_P1Current.setString("LUCIA");
@@ -306,8 +306,8 @@ SelectionMenu::update(const float dt)
 		if (m_PlayersChosen > 1)
 		{
 			//GameObject1 = new GameObject()
-			//game->pushState(GAME_PLAY, new MainGame(game, m_P1Choice, m_P2Choice, m_P3Choice, m_P4Choice));
-			game->pushState(GAME_PLAY, new MainGame(game));
+			game->pushState(GAME_PLAY, new MainGame(game, m_P1Choice, m_P2Choice, m_P3Choice, m_P4Choice));
+			//game->pushState(GAME_PLAY, new MainGame(game));
 			game->setState(GAME_PLAY);
 			//game->setState(GAME_MENU);
 			Reset();
