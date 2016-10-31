@@ -117,14 +117,14 @@ Scene::Scene(b2World * aWorld, std::vector<GameObject *> Players, sf::Texture & 
 	SetObstacleSprites();
 	SetObstacles();
 	AddSceneBodies();
-	font.loadFromFile("images/contm.ttf");
+	font.loadFromFile("images/Bad Coma.ttf");
 
 	// GameObjects Text
 	GameObjectsTitle.setFont(font);
 	GameObjectsTitle.setCharacterSize(40);
 	GameObjectsTitle.setFillColor(sf::Color::Red);
 	GameObjectsTitle.setPosition(sf::Vector2f(45, 00));
-	GameObjectsTitle.setString("Players Left");
+	GameObjectsTitle.setString("PLAYERS LEFT");
 
 	GameObjectsLeft.setFont(font);
 	GameObjectsLeft.setCharacterSize(40);

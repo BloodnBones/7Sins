@@ -73,7 +73,7 @@ Game::loadTextures()
 	textureManager.loadTexture("Sloth", "images//Sloth.png");
 	textureManager.loadTexture("Envy", "images//Envy.png");
 	textureManager.loadTexture("Pride", "images//Pride.png");
-	textureManager.loadTexture("Gluttony", "images//Wrath.png");
+	textureManager.loadTexture("Gluttony", "images//Gluttony.png");
 	textureManager.loadTexture("Wrath", "images//Wrath.png");
 	textureManager.loadTexture("Lust", "images//Lust.png");
 	textureManager.loadTexture("Logo", "images//Logo.png");

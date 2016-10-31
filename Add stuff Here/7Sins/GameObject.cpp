@@ -74,21 +74,73 @@ GameObject::GameObject(b2World *aWorld, int character, BodyType type, Game *game
 	m_type = type;
 	LoadCharacterImage(character);
 	offset = gameTime * 0.3f;
-	if (m_type == BodyType::Player)
+	
+	switch (character)
 	{
-		if (Index == 0)
-		{
-			xpos = 500;
-			ypos = 0;
-		}
-		else
-		{
-			xpos = 500;
-			ypos = 0;
-		}
+	case Lucia:
+	{
+		xpos = 100;
+		ypos = 0;
+		origin_x = 125 /2;
+		origin_y = 198/2;
 	}
-	origin_x = 20;
-	origin_y = 40;
+	break;
+	case Gabriel:
+	{
+		xpos = 280;
+		ypos = 0;
+		origin_x = 125/2;
+		origin_y = 198/2;
+	}
+	break;
+	case Joshua:
+	{
+		xpos = 390;
+		ypos = 0;
+		origin_x = 125/2;
+		origin_y = 198/2;
+	}
+	break;
+	case Betty:
+	{
+		xpos = 400;
+		ypos = 0;
+		origin_x = 20;
+		origin_y = 40;
+	}
+	break;
+	case Matthew:
+	{
+		xpos = 510;
+		ypos = 0;
+		origin_x = 125 / 2;
+		origin_y = 198 / 2;
+	}
+	break;
+	case Satella:
+	{
+		xpos = 620;
+		ypos = 0;
+		origin_x = 125;
+		origin_y = 198;
+	}
+	break;
+	case Honda:
+	{
+		xpos = 730;
+		ypos = 0;
+		origin_x = 125;
+		origin_y = 198;
+	}
+	break;
+	default:
+	{
+		xpos = 130;
+		ypos = 0;
+		origin_x = 125;
+		origin_y = 198;
+	}
+	}
 	fill = sf::Color(255, 0, 255, 255);
 	SetPhysicsBox();
 	if (m_type == BodyType::Player)
@@ -207,12 +259,12 @@ void GameObject::Init(b2World & world)
 void GameObject::SetPhysicsBox()
 {
 	m_body._Sprite = sprite;
-	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x *0.5f, origin_y));
-	m_body._RECT.setOrigin(origin_x, (origin_y / 2));
+	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x , origin_y));
+	m_body._RECT.setOrigin(origin_x * 0.9f, origin_y / 2);
 	m_body._RECT.setTexture(sprite.getTexture());
 	m_body._BodyDef.position.Set(xpos / RATIO, ypos / RATIO);
 	m_body._BodyDef.type = b2_dynamicBody;
-	m_body._BodyShape.SetAsBox((origin_x / 3) / RATIO, (origin_y / 2) / RATIO);
+	m_body._BodyShape.SetAsBox((origin_x * 0.4f) / RATIO, (origin_y / 2) / RATIO);
 	m_body._FixtureDef.shape = &m_body._BodyShape;
 	m_body._FixtureDef.density = 20.0f;
 	m_body._FixtureDef.restitution = 0.02f;
@@ -393,7 +445,7 @@ void GameObject::Player1Input()
 	{
 		if (isGrounded)
 		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -665), m_body._BodyPtr->GetWorldCenter(), true);
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -600), m_body._BodyPtr->GetWorldCenter(), true);
 
 		}
 	}
@@ -520,10 +572,10 @@ void GameObject::LoadCharacterImage(int character)
 	switch (character)
 	{
 	case Lucia:
-		sprite.setTexture(this->currentGame->textureManager.getRef("Lucia"));
+		sprite.setTexture(this->currentGame->textureManager.getRef("Lust"));
 		break;
 	case Gabriel:
-		sprite.setTexture(this->currentGame->textureManager.getRef("Gabriel"));
+		sprite.setTexture(this->currentGame->textureManager.getRef("Gluttony"));
 		break;
 	case Joshua:
 		sprite.setTexture(this->currentGame->textureManager.getRef("Joshua"));
@@ -532,7 +584,7 @@ void GameObject::LoadCharacterImage(int character)
 		sprite.setTexture(this->currentGame->textureManager.getRef("Betty"));
 		break;
 	case Matthew:
-		sprite.setTexture(this->currentGame->textureManager.getRef("Matthew"));
+		sprite.setTexture(this->currentGame->textureManager.getRef("Wrath"));
 		break;
 	case Satella:
 		sprite.setTexture(this->currentGame->textureManager.getRef("Satella"));
