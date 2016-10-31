@@ -54,6 +54,12 @@ private:
 
 	int			m_PlayersChosen = 0;
 
+	float		buttonDelayP1 = 0.0f;
+	float		buttonDelayP2 = 0.0f;
+	float		buttonDelayP3 = 0.0f;
+	float		buttonDelayP4 = 0.0f;
+
+
 	sf::Text	m_P1Current,
 				m_P2Current,
 				m_P3Current,

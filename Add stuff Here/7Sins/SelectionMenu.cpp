@@ -168,18 +168,33 @@ SelectionMenu::handleInput()
 			break;
 		}
 	}
+	//std::cout << "P1:" << m_P1Choice << "  P2: " << m_P2Choice <<"\n";
+	//std::cout << " Delay : " << buttonDelayP1 << "\n";
+
 	//Player 1 menu input
-	if (sf::Joystick::isConnected(0))			//Checks if a joystick(controller) is plugged in 
+	if (sf::Joystick::isConnected(0) && buttonDelayP1 < 0)			//Checks if a joystick(controller) is plugged in 
 	{
 		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		std::cout << "x: " << x << "\n";
 
-		if (m_P1Choice < 7 && !m_Player1Chosen && x > 0.0f)
+		if (x > 50.0f)
 		{
+			buttonDelayP1 = 0.05f;
 			m_P1Choice++;
+			if (m_P1Choice > 7)
+			{
+				m_P1Choice = 0;
+			}
 		}
-		if (m_P1Choice < 7 && !m_Player1Chosen && x < 0.0f)
+
+		if (x < -50.0f)
 		{
+			buttonDelayP1 = 0.05f;
 			m_P1Choice--;
+			if (m_P1Choice < 0)
+			{
+				m_P1Choice = 7;
+			}
 		}
 
 	}
@@ -194,17 +209,28 @@ SelectionMenu::handleInput()
 	}
 
 	//Player 2 Menu input
-	if (sf::Joystick::isConnected(1))			//Checks if a joystick(controller) is plugged in 
+	if (sf::Joystick::isConnected(1) && buttonDelayP2 < 0.0f)			//Checks if a joystick(controller) is plugged in 
 	{
 		float x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
 
-		if (m_P2Choice < 7 && !m_Player2Chosen && x > 0.0f)
+		if (x > 50.0f)
 		{
+			buttonDelayP2 = 0.05f;
 			m_P2Choice++;
+			if (m_P2Choice > 7)
+			{
+				m_P2Choice = 0;
+			}
 		}
-		if (m_P2Choice < 7 && !m_Player2Chosen && x < 0.0f)
+
+		if (x < -50.0f)
 		{
+			buttonDelayP2 = 0.05f;
 			m_P2Choice--;
+			if (m_P2Choice < 0)
+			{
+				m_P2Choice = 7;
+			}
 		}
 
 	}
@@ -222,13 +248,24 @@ SelectionMenu::handleInput()
 	{
 		float x = sf::Joystick::getAxisPosition(2, sf::Joystick::X);
 
-		if (m_P3Choice < 7 && !m_Player3Chosen && x > 0.0f)
+		if (x > 50.0f)
 		{
+			buttonDelayP3 = 0.05f;
 			m_P3Choice++;
+			if (m_P3Choice > 7)
+			{
+				m_P3Choice = 0;
+			}
 		}
-		if (m_P3Choice < 7 && !m_Player3Chosen && x < 0.0f)
+
+		if (x < -50.0f)
 		{
-			m_P3Choice;
+			buttonDelayP3 = 0.05f;
+			m_P3Choice--;
+			if (m_P3Choice < 0)
+			{
+				m_P3Choice = 7;
+			}
 		}
 
 	}
@@ -246,13 +283,24 @@ SelectionMenu::handleInput()
 	{
 		float x = sf::Joystick::getAxisPosition(3, sf::Joystick::X);
 
-		if (m_P4Choice < 7 && !m_Player4Chosen && x > 0.0f)
+		if (x > 50.0f)
 		{
+			buttonDelayP4 = 0.05f;
 			m_P4Choice++;
+			if (m_P4Choice > 7)
+			{
+				m_P4Choice = 0;
+			}
 		}
-		if (m_P4Choice < 7 && !m_Player4Chosen && x < 0.0f)
+
+		if (x < -50.0f)
 		{
-			m_P4Choice;
+			buttonDelayP4 = 0.05f;
+			m_P4Choice--;
+			if (m_P4Choice < 0)
+			{
+				m_P4Choice = 7;
+			}
 		}
 
 	}
@@ -275,7 +323,12 @@ SelectionMenu::handleInput()
 void
 SelectionMenu::update(const float dt)
 {
-	int i = 0;
+	if (buttonDelayP1 > -1)
+	{
+		buttonDelayP1 -= dt * 1000;
+	}
+	
+
 	sf::Event events;
 
 	game->window.pollEvent(events);
