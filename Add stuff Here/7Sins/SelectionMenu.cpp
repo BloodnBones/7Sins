@@ -268,7 +268,7 @@ SelectionMenu::handleInput()
 }
 
 /*
-* @brief	:Updates the menubased on player input and selection
+* @brief	:Updates the menu based on player input and selection
 * @param	:delta time
 * @return	:None
 */
@@ -424,7 +424,7 @@ void SelectionMenu::SetChoice(sf::Sprite* sprite, sf::Text* text, int choice)
 }
 
 /*
-* @brief	:Check if the chice the player is trying to make is taken
+* @brief	:Check if the choice the player is trying to make is taken
 * @param	:int -  value of the players choice to check against character enum
 * @return	:bool - true if the character is fre false i not
 */
