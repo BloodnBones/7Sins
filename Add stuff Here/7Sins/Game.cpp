@@ -69,11 +69,18 @@ Game::loadTextures()
 	textureManager.loadTexture("TileTop", "images//Tile1.png");
 	textureManager.loadTexture("TileBelow", "images//Tile2.png");
 	textureManager.loadTexture("IdleNinja", "images//Idle__000.png");
+	textureManager.loadTexture("Greed", "images//Greed.png");
+	textureManager.loadTexture("Sloth", "images//Sloth.png");
+	textureManager.loadTexture("Envy", "images//Envy.png");
+	textureManager.loadTexture("Pride", "images//Pride.png");
+	textureManager.loadTexture("Gluttony", "images//Wrath.png");
 	textureManager.loadTexture("Wrath", "images//Wrath.png");
+	textureManager.loadTexture("Lust", "images//Lust.png");
 	textureManager.loadTexture("Logo", "images//Logo.png");
 	textureManager.loadTexture("LogoAnim", "images//Logo_Sheet.png");
 	textureManager.loadTexture("WrathIdle", "images//Wrath_Idle.png");
 	textureManager.loadTexture("FallingObject", "images//FallingObject.png");
+	textureManager.loadTexture("None", "images//Blank.png");
 
 }
 

@@ -26,7 +26,7 @@ public:
 	virtual void update(const float dt);
 	virtual void handleInput();
 
-	void SetChoice(sf::Text* text, int choice);
+	void SetChoice(sf::Sprite* sprite, sf::Text* text, int choice);
 	bool Taken(int choice);
 	void Reset();
 
@@ -63,6 +63,11 @@ private:
 				m_Player2,
 				m_Player3,
 				m_Player4;
+
+	sf::Sprite	m_Player1Spr,
+				m_Player2Spr,
+				m_Player3Spr,
+				m_Player4Spr;
 
 	Button		done;
 	Button		back;

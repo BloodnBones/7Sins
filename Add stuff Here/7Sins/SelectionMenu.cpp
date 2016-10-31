@@ -91,6 +91,11 @@ SelectionMenu::SelectionMenu(Game* gameState)
 	quit.SetScale(1, 1);
 	quit.SetFont(font);
 	quit.SetFillColor(sf::Color::White);
+
+	m_Player1Spr.setPosition(190, 180);
+	m_Player2Spr.setPosition(390, 180);
+	m_Player3Spr.setPosition(590, 180);
+	m_Player4Spr.setPosition(790, 180);
 }
 
 
@@ -134,7 +139,7 @@ SelectionMenu::handleInput()
 					m_Player1.setFillColor(sf::Color::Green);
 					m_PlayersChosen++;
 				}
-				
+
 			}break;
 			case sf::Keyboard::Right:
 			{
@@ -157,10 +162,107 @@ SelectionMenu::handleInput()
 					m_Player2.setFillColor(sf::Color::Green);
 					m_PlayersChosen++;
 				}
-				
+
 			}break;
 			}
 			break;
+		}
+	}
+	//Player 1 menu input
+	if (sf::Joystick::isConnected(0))			//Checks if a joystick(controller) is plugged in 
+	{
+		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+
+		if (m_P1Choice < 7 && !m_Player1Chosen && x > 0.0f)
+		{
+			m_P1Choice++;
+		}
+		if (m_P1Choice < 7 && !m_Player1Chosen && x < 0.0f)
+		{
+			m_P1Choice--;
+		}
+
+	}
+	if (sf::Joystick::isButtonPressed(0, 1))		//Checks for button on controller being pressed
+	{
+		if (Taken(m_P1Choice))
+		{
+			m_Player1Chosen = true;
+			m_Player1.setFillColor(sf::Color::Green);
+			m_PlayersChosen++;
+		}
+	}
+
+	//Player 2 Menu input
+	if (sf::Joystick::isConnected(1))			//Checks if a joystick(controller) is plugged in 
+	{
+		float x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
+
+		if (m_P2Choice < 7 && !m_Player2Chosen && x > 0.0f)
+		{
+			m_P2Choice++;
+		}
+		if (m_P2Choice < 7 && !m_Player2Chosen && x < 0.0f)
+		{
+			m_P2Choice--;
+		}
+
+	}
+	if (sf::Joystick::isButtonPressed(1, 1))		//Checks for button on controller being pressed
+	{
+		if (Taken(m_P2Choice))
+		{
+			m_Player2Chosen = true;
+			m_Player2.setFillColor(sf::Color::Green);
+			m_PlayersChosen++;
+		}
+	}
+	//Player 3 Menu input
+	if (sf::Joystick::isConnected(2))			//Checks if a joystick(controller) is plugged in 
+	{
+		float x = sf::Joystick::getAxisPosition(2, sf::Joystick::X);
+
+		if (m_P3Choice < 7 && !m_Player3Chosen && x > 0.0f)
+		{
+			m_P3Choice++;
+		}
+		if (m_P3Choice < 7 && !m_Player3Chosen && x < 0.0f)
+		{
+			m_P3Choice;
+		}
+
+	}
+	if (sf::Joystick::isButtonPressed(2, 1))		//Checks for button on controller being pressed
+	{
+		if (Taken(m_P3Choice))
+		{
+			m_Player3Chosen = true;
+			m_Player3.setFillColor(sf::Color::Green);
+			m_PlayersChosen++;
+		}
+	}
+	//Player 4 Menu input
+	if (sf::Joystick::isConnected(3))			//Checks if a joystick(controller) is plugged in 
+	{
+		float x = sf::Joystick::getAxisPosition(3, sf::Joystick::X);
+
+		if (m_P4Choice < 7 && !m_Player4Chosen && x > 0.0f)
+		{
+			m_P4Choice++;
+		}
+		if (m_P4Choice < 7 && !m_Player4Chosen && x < 0.0f)
+		{
+			m_P4Choice;
+		}
+
+	}
+	if (sf::Joystick::isButtonPressed(3, 1))		//Checks for button on controller being pressed
+	{
+		if (Taken(m_P4Choice))
+		{
+			m_Player4Chosen = true;
+			m_Player4.setFillColor(sf::Color::Green);
+			m_PlayersChosen++;
 		}
 	}
 }
@@ -183,10 +285,10 @@ SelectionMenu::update(const float dt)
 
 	float scale = (float)(123 + (sin(clock() / 1000) * 150));
 
-	SetChoice(&m_P1Current, m_P1Choice);
-	SetChoice(&m_P2Current, m_P2Choice);
-	SetChoice(&m_P3Current, m_P3Choice);
-	SetChoice(&m_P4Current, m_P4Choice);
+	SetChoice(&m_Player1Spr, &m_P1Current, m_P1Choice);
+	SetChoice(&m_Player2Spr, &m_P2Current, m_P2Choice);
+	SetChoice(&m_Player3Spr, &m_P3Current, m_P3Choice);
+	SetChoice(&m_Player4Spr, &m_P4Current, m_P4Choice);
 
 	//Updates the buttons and calls the desired functions if they are clicked.
 	//if (lucia.CheckButton(game->window))
@@ -235,6 +337,11 @@ SelectionMenu::draw()
 {
 	game->window.draw(backGround);
 
+	game->window.draw(m_Player1Spr);
+	game->window.draw(m_Player2Spr);
+	game->window.draw(m_Player3Spr);
+	game->window.draw(m_Player4Spr);
+
 	game->window.draw(m_Player1);
 	game->window.draw(m_Player2);
 	game->window.draw(m_Player3);
@@ -256,36 +363,63 @@ SelectionMenu::draw()
 * @param	:int - th numeric value of the currently selected player
 * @return	:None
 */
-void SelectionMenu::SetChoice(sf::Text* text, int choice)
+void SelectionMenu::SetChoice(sf::Sprite* sprite, sf::Text* text, int choice)
 {
 	switch (choice)
 	{
 	case Lucia:
-	{	text->setString("LUCIA"); }
+	{
+		text->setString("LUCIA");
+		sprite->setTexture(this->game->textureManager.getRef("Lust"));
+	}
 	break;
 	case Gabriel:
-	{	text->setString("GABRIEL"); }
+	{
+		text->setString("GABRIEL");
+		sprite->setTexture(this->game->textureManager.getRef("Gluttony"));
+	}
 	break;
 	case Joshua:
-	{text->setString("JOSHUA"); }
+	{
+		text->setString("JOSHUA");
+		sprite->setTexture(this->game->textureManager.getRef("Greed"));
+	}
 	break;
 	case Betty:
-	{	text->setString("BETTY"); }
+	{
+		text->setString("BETTY");
+		sprite->setTexture(this->game->textureManager.getRef("Sloth"));
+	}
 	break;
 	case Matthew:
-	{text->setString("MATTHEW"); }
+	{
+		text->setString("MATTHEW");
+		sprite->setTexture(this->game->textureManager.getRef("Wrath"));
+	}
 	break;
 	case Satella:
-	{text->setString("SATELLA"); }
+	{
+		text->setString("SATELLA");
+		sprite->setTexture(this->game->textureManager.getRef("Envy"));
+	}
 	break;
 	case Honda:
-	{text->setString("HONDA"); }
+	{
+		text->setString("HONDA");
+		sprite->setTexture(this->game->textureManager.getRef("Pride"));
+	}
 	break;
 	case NONE:
-	{text->setString(""); }
+	{
+
+		text->setString("");
+		sprite->setTexture(this->game->textureManager.getRef("None"));
+	}
 	break;
 	default:
-	{text->setString("Error"); }
+	{
+		text->setString("Error"); 
+	}
 	}
 }
 
@@ -324,7 +458,7 @@ bool SelectionMenu::Taken(int choice)
 	break;
 	case Joshua:
 	{
-		if(!joshua)
+		if (!joshua)
 		{
 			joshua = true;
 			return true;
@@ -336,10 +470,10 @@ bool SelectionMenu::Taken(int choice)
 	break;
 	case Betty:
 	{
-		if(!betty)
+		if (!betty)
 		{
-		betty = true;
-		return true;
+			betty = true;
+			return true;
 		}
 		else {
 			return false;
@@ -360,10 +494,10 @@ bool SelectionMenu::Taken(int choice)
 	break;
 	case Satella:
 	{
-		if(!satella)
+		if (!satella)
 		{
-		satella = true;
-		return true;
+			satella = true;
+			return true;
 		}
 		else {
 			return false;
@@ -372,7 +506,7 @@ bool SelectionMenu::Taken(int choice)
 	break;
 	case Honda:
 	{
-		if(!honda)
+		if (!honda)
 		{
 			honda = true;
 			return true;
@@ -380,7 +514,7 @@ bool SelectionMenu::Taken(int choice)
 		else {
 			return false;
 		}
-		}
+	}
 	break;
 	case NONE:
 	{ }break;
@@ -391,7 +525,7 @@ bool SelectionMenu::Taken(int choice)
 }
 
 /*
-* @brief	:Resets the choices made when the game 
+* @brief	:Resets the choices made when the game
 * @param	:None
 * @return	:None
 */
