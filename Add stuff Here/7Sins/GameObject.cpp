@@ -95,6 +95,61 @@ GameObject::GameObject(b2World *aWorld, int character, BodyType type, Game *game
 	{
 		m_body._BodyPtr->SetActive(true);
 	}
+
+	//TO DO finalise values for character max speed and density
+	//Dylan set unique charge amounts here
+#pragma region CharacterStats
+	switch (character)		
+	{						
+	case Lucia:
+	{
+		MAX_VELOCITY = 10.0f;
+		m_body._FixtureDef.density = 16.0f;
+	}
+	break;
+	case Gabriel:
+	{
+		MAX_VELOCITY = 7.0f;
+		m_body._FixtureDef.density = 25.0f;
+	}
+	break;
+	case Joshua:
+	{
+		MAX_VELOCITY = 7.5f;
+		m_body._FixtureDef.density = 22.0f;
+	}
+	break;
+	case Betty:
+	{
+		MAX_VELOCITY = 5.0f;
+		m_body._FixtureDef.density = 20.0f;
+	}
+	break;
+	case Matthew:
+	{
+		MAX_VELOCITY = 8.0f;
+		m_body._FixtureDef.density = 20.0f;
+	}
+	break;
+	case Satella:
+	{
+		MAX_VELOCITY = 7.0f;
+		m_body._FixtureDef.density = 20.0f;
+	}
+	break;
+	case Honda:
+	{
+		MAX_VELOCITY = 9.0f;
+		m_body._FixtureDef.density = 18.0f;
+	}
+	break;
+	default:
+	{
+		MAX_VELOCITY = 7.0f;
+		m_body._FixtureDef.density = 20.0f;
+	}
+	}
+#pragma endregion
 }
 
 /*
@@ -153,11 +208,11 @@ void GameObject::SetPhysicsBox()
 {
 	m_body._Sprite = sprite;
 	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x *0.5f, origin_y));
-	m_body._RECT.setOrigin(origin_x, (origin_y /2));
+	m_body._RECT.setOrigin(origin_x, (origin_y / 2));
 	m_body._RECT.setTexture(sprite.getTexture());
 	m_body._BodyDef.position.Set(xpos / RATIO, ypos / RATIO);
 	m_body._BodyDef.type = b2_dynamicBody;
-	m_body._BodyShape.SetAsBox((origin_x / 3)/ RATIO, (origin_y /2) / RATIO);
+	m_body._BodyShape.SetAsBox((origin_x / 3) / RATIO, (origin_y / 2) / RATIO);
 	m_body._FixtureDef.shape = &m_body._BodyShape;
 	m_body._FixtureDef.density = 20.0f;
 	m_body._FixtureDef.restitution = 0.02f;
@@ -346,13 +401,12 @@ void GameObject::Player1Input()
 	{
 		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);
+	}
+	//Checks for button on controller being pressed
+	if (sf::Joystick::isButtonPressed(0, 1) && isGrounded)
+	{
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
 
-		//Checks for button on controller being pressed
-		if (sf::Joystick::isButtonPressed(0, 1) && isGrounded)
-		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
-
-		}
 	}
 }
 
@@ -393,15 +447,13 @@ void GameObject::Player2Input()
 	}
 	if (sf::Joystick::isConnected(1))			//Checks if a joystick(controller) is plugged in 
 	{
-		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		float x = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
 		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);
-
-		//Checks for button on controller being pressed
-		if (sf::Joystick::isButtonPressed(0, 1) && isGrounded)
-		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
-
-		}
+	}
+	//Checks for button on controller being pressed
+	if (sf::Joystick::isButtonPressed(1, 1) && isGrounded)
+	{
+		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
 
 	}
 }
@@ -417,11 +469,11 @@ void GameObject::Player3Input()
 	//Damp the velocity when not moving
 	if (sf::Joystick::isConnected(2))			//Checks if a joystick(controller) is plugged in 
 	{
-		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		float x = sf::Joystick::getAxisPosition(2, sf::Joystick::X);
 		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);
 
 		//Checks for button on controller being pressed
-		if (sf::Joystick::isButtonPressed(0, 1) && isGrounded)
+		if (sf::Joystick::isButtonPressed(2, 1) && isGrounded)
 		{
 			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
 
@@ -441,11 +493,11 @@ void GameObject::Player4Input()
 	//Damp the velocity when not moving
 	if (sf::Joystick::isConnected(3))			//Checks if a joystick(controller) is plugged in 
 	{
-		float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		float x = sf::Joystick::getAxisPosition(3, sf::Joystick::X);
 		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(x, 0), m_body._BodyPtr->GetWorldCenter(), true);
 
 		//Checks for button on controller being pressed
-		if (sf::Joystick::isButtonPressed(0, 1) && isGrounded)
+		if (sf::Joystick::isButtonPressed(3, 1) && isGrounded)
 		{
 			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -5), m_body._BodyPtr->GetWorldCenter(), true);
 

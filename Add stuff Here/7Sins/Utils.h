@@ -93,27 +93,3 @@ enum Character
 template <typename T> int sgn(T val) {
 	return (T(0) < val) - (val < T(0));
 }
-
-//TO DO
-//create defined physics body for each character to be assingned on player selection
-
-//Lucia
-//PhysicsBody LuciaPhys;
-
-//Gabriel
-//PhysicsBody GabrielPhys;
-
-//Joshua
-//PhysicsBody JoshuaPhys;
-
-//Betty
-//PhysicsBody BettyPhys;
-
-//Matthew
-//PhysicsBody MatthewPhys;
-
-//Satella
-//PhysicsBody SatellaPhys;
-
-//Honda
-//PhysicsBody HondaPhys;
