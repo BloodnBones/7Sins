@@ -267,11 +267,11 @@ void GameObject::SetPhysicsBox()
 {
 	m_body._Sprite = sprite;
 	m_body._RECT = sf::RectangleShape(sf::Vector2f(origin_x , origin_y));
-	m_body._RECT.setOrigin(origin_x * 0.9f, origin_y / 2);
+	m_body._RECT.setOrigin(origin_x / 2, origin_y / 2);
 	m_body._RECT.setTexture(sprite.getTexture());
 	m_body._BodyDef.position.Set(xpos / RATIO, ypos / RATIO);
 	m_body._BodyDef.type = b2_dynamicBody;
-	m_body._BodyShape.SetAsBox((origin_x * 0.4f) / RATIO, (origin_y / 2) / RATIO);
+	m_body._BodyShape.SetAsBox((origin_x/2) / RATIO, (origin_y / 2) / RATIO);
 	m_body._FixtureDef.shape = &m_body._BodyShape;
 	m_body._FixtureDef.density = 20.0f;
 	m_body._FixtureDef.restitution = 0.02f;
@@ -384,7 +384,7 @@ void GameObject::update()
 	m_fJumpCooldown += deltaTime.asSeconds();
 	float rotationAngle;
 	Animate.Animate();
-	xpos = (float)((m_body._BodyPtr->GetPosition().x * RATIO) + (m_body._RECT.getTextureRect().width * 0.6));
+	xpos = (float)((m_body._BodyPtr->GetPosition().x * RATIO));
 	ypos = (m_body._BodyPtr->GetPosition().y * RATIO);
 	rotationAngle = m_body._BodyPtr->GetAngle();
 	m_body._RECT.setRotation(rotationAngle * (float)-57.295);
