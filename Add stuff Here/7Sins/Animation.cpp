@@ -126,4 +126,5 @@ void Animation::setSprite(sf::Sprite * sprite)
 */
 Animation::~Animation()
 {
+	delete m_sprite;
 }

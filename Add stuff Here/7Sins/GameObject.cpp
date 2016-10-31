@@ -248,6 +248,7 @@ GameObject::~GameObject()
 {
 	m_body._BodyPtr->DestroyFixture(m_body._BodyPtr->GetFixtureList());
 	m_world->DestroyBody(m_body._BodyPtr);
+	currentGame = nullptr;
 }
 
 /*
@@ -617,19 +618,19 @@ void GameObject::LoadCharacterImage(int character)
 		sprite.setTexture(this->currentGame->textureManager.getRef("Gluttony"));
 		break;
 	case Joshua:
-		sprite.setTexture(this->currentGame->textureManager.getRef("Joshua"));
+		sprite.setTexture(this->currentGame->textureManager.getRef("Greed"));
 		break;
 	case Betty:
-		sprite.setTexture(this->currentGame->textureManager.getRef("Betty"));
+		sprite.setTexture(this->currentGame->textureManager.getRef("Sloth"));
 		break;
 	case Matthew:
 		sprite.setTexture(this->currentGame->textureManager.getRef("Wrath"));
 		break;
 	case Satella:
-		sprite.setTexture(this->currentGame->textureManager.getRef("Satella"));
+		sprite.setTexture(this->currentGame->textureManager.getRef("Envy"));
 		break;
 	case Honda:
-		sprite.setTexture(this->currentGame->textureManager.getRef("Honda"));
+		sprite.setTexture(this->currentGame->textureManager.getRef("Pride"));
 		break;
 	case NONE:
 		sprite;
