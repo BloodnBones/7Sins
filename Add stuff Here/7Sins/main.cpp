@@ -8,7 +8,7 @@
 
 int main()
 {
-
+	srand(static_cast<unsigned int>(time(NULL)));
 	Game game;
 	game.pushState(GAME_MENU, new MainMenu(&game));
 	//game.pushState(GAME_PAUSE, new )

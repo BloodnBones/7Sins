@@ -28,6 +28,9 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 */
 GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game *gameptr, int Index)
 {
+	m_fJumpCooldown = 10.0f;
+	m_fChargeCooldown = 0.0f;
+
 	PlayerIndex = Index;
 	currentGame = gameptr;
 	m_world = aWorld;
@@ -68,6 +71,8 @@ GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game 
 */
 GameObject::GameObject(b2World *aWorld, int character, BodyType type, Game *gameptr, int Index)
 {
+	m_fJumpCooldown = 10.0f;
+	m_fChargeCooldown = 0.0f;
 	PlayerIndex = Index;
 	currentGame = gameptr;
 	m_world = aWorld;
@@ -163,6 +168,8 @@ GameObject::GameObject(b2World *aWorld, int character, BodyType type, Game *game
 */
 GameObject::GameObject(b2World * aWorld, sf::Texture& image, BodyType type, float _xpos, float _ypos)
 {
+	m_fJumpCooldown = 10.0f;
+	m_fChargeCooldown = 0.0f;
 	m_world = aWorld;
 	m_type = type;
 	sprite.setTexture(image);
@@ -321,6 +328,8 @@ void GameObject::SetPosition(float x, float y)
 */
 void GameObject::update()
 {
+	m_fChargeCooldown += deltaTime.asSeconds();
+	m_fJumpCooldown += deltaTime.asSeconds();
 	float rotationAngle;
 	Animate.Animate();
 	xpos = (float)((m_body._BodyPtr->GetPosition().x * RATIO) + (m_body._RECT.getTextureRect().width * 0.6));
@@ -380,6 +389,18 @@ void GameObject::Player1Input()
 	{
 		stillTime = 0;
 	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) )
+	{
+		float a = (m_fChargeCooldown * 10000);
+		if (a > 1.0f) {
+			//m_body._BodyPtr->SetLinearVelocity(b2Vec2(m_body._BodyPtr->GetLinearVelocity().x * 5.0f, 1.0f));
+			int b = 1; if (current_Velocity.x < 0) { b = -1; }
+			m_body._BodyPtr->ApplyLinearImpulseToCenter(b2Vec2(b * (std::abs(current_Velocity.x) + 1200 * 50), current_Velocity.y), true);
+			m_fChargeCooldown = 0.0f;
+		}
+		
+	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && current_Velocity.x > -MAX_VELOCITY)
 	{
@@ -391,11 +412,14 @@ void GameObject::Player1Input()
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		if (isGrounded)
-		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -665), m_body._BodyPtr->GetWorldCenter(), true);
-
+		//if (isGrounded)
+		//{
+		float a = (m_fJumpCooldown * 10000);
+		if (m_body.Touching == true) {
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(current_Velocity.x, -1200), m_body._BodyPtr->GetWorldCenter(), true);
+			m_fJumpCooldown = 0.0f;
 		}
+		//}
 	}
 	if (sf::Joystick::isConnected(0))			//Checks if a joystick(controller) is plugged in 
 	{
@@ -429,6 +453,18 @@ void GameObject::Player2Input()
 		stillTime = 0;
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+	{
+		float a = (m_fChargeCooldown * 10000);
+		if (a > 1.0f) {
+			//m_body._BodyPtr->SetLinearVelocity(b2Vec2(m_body._BodyPtr->GetLinearVelocity().x * 5.0f, 1.0f));
+			int b = 1; if (current_Velocity.x < 0) { b = -1; }
+			m_body._BodyPtr->ApplyLinearImpulseToCenter(b2Vec2(b * (std::abs(current_Velocity.x) + 1200 * 50), current_Velocity.y), true);
+			m_fChargeCooldown = 0.0f;
+		}
+
+	}
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && current_Velocity.x > -MAX_VELOCITY)
 	{
 		m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(-170, 0), m_body._BodyPtr->GetWorldCenter(), true);
@@ -439,11 +475,14 @@ void GameObject::Player2Input()
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad0))
 	{
-		if (isGrounded)
-		{
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(0, -1900), m_body._BodyPtr->GetWorldCenter(), true);
-
+		//if (isGrounded)
+		//{
+		float a = (m_fJumpCooldown * 10000);
+		if (m_body.Touching == true) {
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(current_Velocity.x, -1200), m_body._BodyPtr->GetWorldCenter(), true);
+			m_fJumpCooldown = 0.0f;
 		}
+		//}
 	}
 	if (sf::Joystick::isConnected(1))			//Checks if a joystick(controller) is plugged in 
 	{

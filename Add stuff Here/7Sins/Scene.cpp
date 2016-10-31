@@ -33,7 +33,6 @@ Scene::Scene()
 */
 Scene::Scene(std::vector<GameObject*> GameObjects, sf::Image & image)
 {
-
 	for (size_t i = 0; i < GameObjects.size(); i++)
 	{
 		
@@ -159,7 +158,6 @@ Scene::Scene(b2World * aWorld, std::vector<GameObject *> Players, sf::Texture & 
 	GameOverText3.setPosition(sf::Vector2f(250, 250));
 
 	m_FallingObjectSprite.loadFromFile("images/FallingObject.png");
-
 
 	timer.restart();
 	//std::cout << LevelIndex << endl;
@@ -606,6 +604,33 @@ void Scene::BeginContact(b2Contact * contact)
 
 		bodyDataA->dead = true;
 		m_DeadObjects.push_back(bodyDataA);
+	}
+
+	if (bodyDataB->type == FallingObject && bodyDataB->dead == false && bodyDataA->type == Player) {
+
+		bodyDataB->dead = true;
+		m_DeadObjects.push_back(bodyDataB);
+
+		int a = 1;
+
+		if (bodyDataA->_BodyPtr->GetWorldCenter().x < bodyDataB->_BodyPtr->GetWorldCenter().x) {
+			a *= -1;
+		}
+		bodyDataA->_BodyPtr->ApplyLinearImpulse(b2Vec2(a * 55500, 100), bodyDataA->_BodyPtr->GetWorldCenter(), true);
+		
+	}
+	if (bodyDataA->type == FallingObject && bodyDataA->dead == false && bodyDataB->type == Player) {
+
+		bodyDataA->dead = true;
+		m_DeadObjects.push_back(bodyDataA);
+
+		int a = 1;
+
+		if (bodyDataB->_BodyPtr->GetWorldCenter().x < bodyDataA->_BodyPtr->GetWorldCenter().x) {
+			a *= -1;
+		}
+		bodyDataB->_BodyPtr->ApplyLinearImpulse(b2Vec2(a * 55500, 100), bodyDataB->_BodyPtr->GetWorldCenter(), true);
+
 	}
 
 	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)
