@@ -476,6 +476,12 @@ void Scene::update(float dt)
 	for (size_t i = 0; i < GameObjectList.size(); i++)
 	{
 		GameObjectList[i]->update();
+	/*	for (unsigned int i = 0; i < GameObjectList.size(); ++i) 
+		{
+			GameObjectList[i]->getBody()->_BodyPtr->DestroyFixture(GameObjectList[i]->getBody()->_BodyPtr->GetFixtureList());
+			GameObjectList[i]->getBody()->_BodyPtr->GetWorld()->DestroyBody(GameObjectList[i]->getBody()->_BodyPtr);
+			GameObjectList[i]->getBody()->Zero();
+		}*/
 	}
 
 	if (m_DeadObjects.size() > 0) {
@@ -495,6 +501,20 @@ void Scene::update(float dt)
 		}
 		m_DeadObjects.clear();
 	}
+
+
+	for (auto i : GameObjectList)
+	{
+		int index = 0;
+		if (i->getBody()->dead)
+		{
+			GameObjectList.erase(GameObjectList.begin() + index);
+		}
+		index++;
+	}
+
+
+
 	//m_FallingObjects[i]->_BodyPtr->GetWorld()->DestroyBody(m_FallingObjects[i]->_BodyPtr);
 	GameObjectsLeft.setString(std::to_string(GameObjectList.size()));
 }
@@ -632,6 +652,20 @@ void Scene::BeginContact(b2Contact * contact)
 		bodyDataB->_BodyPtr->ApplyLinearImpulse(b2Vec2(a * 55500, 100), bodyDataB->_BodyPtr->GetWorldCenter(), true);
 
 	}
+
+	//Death
+	if (bodyDataA->type == Player && bodyDataB->type == Ground)
+	{
+		std::cout << "ded";
+		bodyDataA->dead = true;
+	}
+	
+	if (bodyDataA->type == Ground && bodyDataA->type == Player)
+	{
+		std::cout << "ded";
+		bodyDataA->dead = true;
+	}
+
 
 	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)
 	{

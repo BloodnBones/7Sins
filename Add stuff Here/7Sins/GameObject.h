@@ -69,8 +69,7 @@ private:
 	sf::Clock deltaClock;
 	sf::Time deltaTime = deltaClock.restart();
 
-	//multiplayer things
-	int PlayerIndex;  //player 1,2 etc...
+	
 
 
 public:
@@ -99,6 +98,9 @@ public:
 
 	bool	canKill;
 	float	KillTime = 2;
+
+	//multiplayer things
+	int PlayerIndex;  //player 1,2 etc...
 };
 
 #endif
