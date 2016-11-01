@@ -296,7 +296,7 @@ void Scene::VerticleObstacle(PhysicsBody & body, float _xpos, float ypos, float 
 void Scene::AddFallingObject()
 {
 	PhysicsBody* body = new PhysicsBody();
-	int randx = (rand() % SCREEN_WIDTH) + 10;
+	int randx = (rand() % (SCREEN_WIDTH + 200)) + 10;
 	int y = -10;
 
 	float origin_x = 20.0f;
@@ -427,7 +427,7 @@ void Scene::update(float dt)
 	temp += (dt * 10000);
 
 
-	if (temp > 3.2f) {
+	if (temp > 1.2f) {
 		temp = 0.0f;
 		AddFallingObject();
 	}
@@ -673,14 +673,14 @@ void Scene::BeginContact(b2Contact * contact)
 	//}
 
 
-	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)
+	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH && bodyDataA->_BodyPtr->GetWorldCenter().y < bodyDataB->_BodyPtr->GetWorldCenter().y)
 	{
 		
 		bodyDataA->Touching = true;
 		bodyDataB->Touching = true;
 		
 	}
-	else if (bodyDataB->type == Player && bodyDataA->type == ObstacleH)
+	else if (bodyDataB->type == Player && bodyDataA->type == ObstacleH && bodyDataB->_BodyPtr->GetWorldCenter().y < bodyDataA->_BodyPtr->GetWorldCenter().y)
 	{
 		
 		bodyDataA->Touching = true;
@@ -688,8 +688,8 @@ void Scene::BeginContact(b2Contact * contact)
 	}
 	else
 	{
-		bodyDataA->Touching = false;
-		bodyDataB->Touching = false;
+		/*bodyDataA->Touching = false;
+		bodyDataB->Touching = false;*/
 	}
 
 }
