@@ -99,6 +99,8 @@ public:
 	bool	canKill;
 	float	KillTime = 2;
 
+	float m_JumpPower;
+
 	//multiplayer things
 	int PlayerIndex;  //player 1,2 etc...
 };

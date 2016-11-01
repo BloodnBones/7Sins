@@ -476,12 +476,6 @@ void Scene::update(float dt)
 	for (size_t i = 0; i < GameObjectList.size(); i++)
 	{
 		GameObjectList[i]->update();
-	/*	for (unsigned int i = 0; i < GameObjectList.size(); ++i) 
-		{
-			GameObjectList[i]->getBody()->_BodyPtr->DestroyFixture(GameObjectList[i]->getBody()->_BodyPtr->GetFixtureList());
-			GameObjectList[i]->getBody()->_BodyPtr->GetWorld()->DestroyBody(GameObjectList[i]->getBody()->_BodyPtr);
-			GameObjectList[i]->getBody()->Zero();
-		}*/
 	}
 
 	if (m_DeadObjects.size() > 0) {
@@ -637,12 +631,15 @@ void Scene::BeginContact(b2Contact * contact)
 		m_DeadObjects.push_back(bodyDataB);
 
 		int a = 1;
-
+		int b = -1;
+		if (bodyDataA->_BodyPtr->GetWorldCenter().y > bodyDataB->_BodyPtr->GetWorldCenter().y) {
+			b *= -1;
+		}
 		if (bodyDataA->_BodyPtr->GetWorldCenter().x < bodyDataB->_BodyPtr->GetWorldCenter().x) {
 			a *= -1;
 		}
-		bodyDataA->_BodyPtr->ApplyLinearImpulse(b2Vec2(a * 55500, 100), bodyDataA->_BodyPtr->GetWorldCenter(), true);
-		
+		bodyDataA->_BodyPtr->ApplyLinearImpulse(b2Vec2(a * 55500, b * 5500), bodyDataA->_BodyPtr->GetWorldCenter(), true);
+
 	}
 	if (bodyDataA->type == FallingObject && bodyDataA->dead == false && bodyDataB->type == Player) {
 
@@ -650,11 +647,15 @@ void Scene::BeginContact(b2Contact * contact)
 		m_DeadObjects.push_back(bodyDataA);
 
 		int a = 1;
-
+		int b = -1;
+		if (bodyDataB->_BodyPtr->GetWorldCenter().y > bodyDataA->_BodyPtr->GetWorldCenter().y) {
+			b *= -1;
+		}
 		if (bodyDataB->_BodyPtr->GetWorldCenter().x < bodyDataA->_BodyPtr->GetWorldCenter().x) {
 			a *= -1;
 		}
-		bodyDataB->_BodyPtr->ApplyLinearImpulse(b2Vec2(a * 55500, 100), bodyDataB->_BodyPtr->GetWorldCenter(), true);
+
+		bodyDataB->_BodyPtr->ApplyLinearImpulse(b2Vec2(a * 55500, b * 5500), bodyDataB->_BodyPtr->GetWorldCenter(), true);
 
 	}
 

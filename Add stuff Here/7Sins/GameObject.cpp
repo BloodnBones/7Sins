@@ -18,6 +18,7 @@ mail		:	tyrone.mill6438@mediadesign.school.nz
 #include "GameObject.h"
 
 
+#define TEMPJUMP 700.0f
 /*
 * @brief	:GameObject constructor
 * @param	:b2World * aworld - a pointer to the box2d world
@@ -30,6 +31,7 @@ GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game 
 {
 	m_fJumpCooldown = 10.0f;
 	m_fChargeCooldown = 0.0f;
+	m_JumpPower = TEMPJUMP;
 
 	PlayerIndex = Index;
 	currentGame = gameptr;
@@ -71,6 +73,7 @@ GameObject::GameObject(b2World *aWorld, sf::Texture& image, BodyType type, Game 
 */
 GameObject::GameObject(b2World *aWorld, int character, BodyType type, Game *gameptr, int Index)
 {
+	m_JumpPower = TEMPJUMP;
 	m_fJumpCooldown = 10.0f;
 	m_fChargeCooldown = 0.0f;
 	PlayerIndex = Index;
@@ -220,6 +223,7 @@ GameObject::GameObject(b2World *aWorld, int character, BodyType type, Game *game
 */
 GameObject::GameObject(b2World * aWorld, sf::Texture& image, BodyType type, float _xpos, float _ypos)
 {
+	m_JumpPower = TEMPJUMP;
 	m_fJumpCooldown = 10.0f;
 	m_fChargeCooldown = 0.0f;
 	m_world = aWorld;
@@ -470,7 +474,7 @@ void GameObject::Player1Input()
 		//{
 		float a = (m_fJumpCooldown * 10000);
 		if (m_body.Touching == true) {
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(current_Velocity.x, -1200), m_body._BodyPtr->GetWorldCenter(), true);
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(current_Velocity.x, -m_JumpPower), m_body._BodyPtr->GetWorldCenter(), true);
 			m_fJumpCooldown = 0.0f;
 		}
 		//}
@@ -533,7 +537,7 @@ void GameObject::Player2Input()
 		//{
 		float a = (m_fJumpCooldown * 10000);
 		if (m_body.Touching == true) {
-			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(current_Velocity.x, -1200), m_body._BodyPtr->GetWorldCenter(), true);
+			m_body._BodyPtr->ApplyLinearImpulse(b2Vec2(current_Velocity.x, -m_JumpPower), m_body._BodyPtr->GetWorldCenter(), true);
 			m_fJumpCooldown = 0.0f;
 		}
 		//}
