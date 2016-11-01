@@ -502,7 +502,7 @@ void Scene::update(float dt)
 		m_DeadObjects.clear();
 	}
 
-
+	//Check for dead players
 	for (auto i : GameObjectList)
 	{
 		int index = 0;
@@ -510,10 +510,15 @@ void Scene::update(float dt)
 		{
 			GameObjectList.erase(GameObjectList.begin() + index);
 		}
+
 		index++;
 	}
 
-
+	//Check for only survivor
+	if (GameObjectList.size() <= 1)
+	{
+		isWon = true;
+	}
 
 	//m_FallingObjects[i]->_BodyPtr->GetWorld()->DestroyBody(m_FallingObjects[i]->_BodyPtr);
 	GameObjectsLeft.setString(std::to_string(GameObjectList.size()));
@@ -660,11 +665,11 @@ void Scene::BeginContact(b2Contact * contact)
 		bodyDataA->dead = true;
 	}
 	
-	if (bodyDataA->type == Ground && bodyDataA->type == Player)
-	{
-		std::cout << "ded";
-		bodyDataA->dead = true;
-	}
+	//if (bodyDataA->type == Ground && bodyDataB->type == Player)
+	//{
+	//	std::cout << "ded";
+	//	bodyDataB->dead = true;
+	//}
 
 
 	if (bodyDataA->type == Player && bodyDataB->type == ObstacleH)

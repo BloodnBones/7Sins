@@ -50,7 +50,7 @@ private:
 	Scene* CurrentLevel; 
 	int lvlindex = 1;
 
-
+	float gameOverDelay = 0.25f;
 
 	void PauseGame();
 

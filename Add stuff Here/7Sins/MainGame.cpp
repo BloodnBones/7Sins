@@ -126,6 +126,19 @@ MainGame::update(const float dt)
 {
 	m_world->GetWorld()->Step(StepRate, velIterations, posIterations);
 
+	if (CurrentLevel->isWon)
+	{
+		if (gameOverDelay < 0)
+		{
+			game->pushState(GAME_OVER, new GameOver(game));
+			game->setState(GAME_OVER);
+		}
+		
+		std::cout << gameOverDelay << endl;
+		gameOverDelay -= dt * 1000;
+	}
+
+
 	CurrentLevel->update(dt);
 }
 

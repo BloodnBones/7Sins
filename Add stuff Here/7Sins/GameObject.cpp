@@ -391,6 +391,7 @@ void GameObject::update()
 	m_body._RECT.setRotation(rotationAngle * (float)-57.295);
 	m_body._RECT.setPosition(xpos, ypos);
 
+
 	jumpTimer = timer.getElapsedTime().asSeconds();
 	if (m_body.Touching)
 	{
