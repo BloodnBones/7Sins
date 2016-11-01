@@ -113,7 +113,7 @@ MainMenu::handleInput()
 		case sf::Event::KeyPressed:
 			if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Space)
 			{
-				startGame();
+				//startGame();
 			}
 			break;
 		}
