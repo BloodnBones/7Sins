@@ -92,7 +92,8 @@ Game::loadTextures()
 void
 Game::pushState(State statevalue, GameState* state)
 {
-	m_states.insert(std::pair<State, GameState*>( statevalue, state));
+	//m_states.insert(std::pair<State, GameState*>( statevalue, state));
+	m_states[statevalue] = state;
 }
 
 /*

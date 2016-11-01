@@ -508,7 +508,7 @@ void Scene::update(float dt)
 		index++;
 	}
 
-	//Check for only survivor
+	/*Check for only survivor*/
 	if (GameObjectList.size() <= 1)
 	{
 		isWon = true;

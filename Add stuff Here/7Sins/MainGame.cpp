@@ -98,7 +98,10 @@ MainGame::MainGame(Game* game, int Player1, int Player2, int Player3, int Player
 
 
 						//Start the physics world
-
+	if (CurrentLevel != nullptr)
+	{
+		delete CurrentLevel;
+	}
 	CurrentLevel = new Scene(m_world->GetWorld(), GameObjectList, this->game->textureManager.getRef("AnimBackGround"), lvlindex, this->game);
 
 }
